@@ -83,152 +83,246 @@ function BioPulseAnimation() {
 }
 
 /* ── Service Data ───────────────────────────────────────── */
-const ALL_SERVICES = [
+const SERVICE_CATEGORIES = [
   {
-    number: '01',
-    id: 'research',
-    catLabel: 'Bio & Health AI',
-    catColor: '#FFC72C',
-    catLight: 'rgba(255, 199, 44, 0.15)',
-    emoji: '📚',
-    icon: <FileText size={20} />,
-    title: 'AI Research Intelligence',
-    desc: 'Transform complex scientific literature into actionable insights using AI-powered research analysis and knowledge extraction.',
-    details: [
-      'Research paper summarization',
-      'Literature trend analysis',
-      'Research gap identification',
-      'Citation intelligence',
-      'Grant-aligned recommendations'
-    ],
+    id: 'bio',
+    letter: 'A',
+    subtitle: 'Bio & Health AI',
+    tagline: 'High Trust, High Value',
+    title: 'A. BIO & HEALTH AI SERVICES',
+    subtitle_orig: 'High Trust, High Value',
+    services: [
+      {
+        number: '1️⃣',
+        id: 'research',
+        catColor: '#FFC72C',
+        catLight: 'rgba(255, 199, 44, 0.15)',
+        emoji: '📚',
+        icon: <FileText size={20} />,
+        title: 'AI Literature & Research Intelligence',
+        target: 'For: Researchers, students, clinics, biotech startups',
+        desc: 'Transform complex scientific literature into actionable insights using AI-powered research analysis and knowledge extraction.',
+        details: [
+          'AI-based paper summaries',
+          'Trend analysis',
+          'Grant-aligned research mapping'
+        ],
+      },
+      {
+        number: '2️⃣',
+        id: 'data',
+        catColor: '#FFC72C',
+        catLight: 'rgba(255, 199, 44, 0.15)',
+        emoji: '🧬',
+        icon: <FlaskConical size={20} />,
+        title: 'AI-Based Data Analysis (NO Lab Needed)',
+        target: 'For: Small labs, clinics, students',
+        desc: 'Advanced biological and healthcare data interpretation without requiring expensive laboratory infrastructure.',
+        details: [
+          'Gene expression analysis',
+          'Microbiome data interpretation',
+          'Cancer dataset insights (non-diagnostic)'
+        ],
+      },
+      {
+        number: '3️⃣',
+        id: 'proposal',
+        catColor: '#FFC72C',
+        catLight: 'rgba(255, 199, 44, 0.15)',
+        emoji: '📝',
+        icon: <TrendingUp size={20} />,
+        title: 'Grant & Proposal AI Support (🔥 HUGE DEMAND)',
+        target: 'For: Startups, professors, nonprofits, farmers',
+        desc: 'Increase funding opportunities with AI-assisted proposal generation and impact-focused grant documentation.',
+        details: [
+          'AI-assisted grant writing',
+          'Data justification',
+          'Impact modeling'
+        ],
+      }
+    ]
   },
   {
-    number: '02',
-    id: 'data',
-    catLabel: 'Bio & Health AI',
-    catColor: '#FFC72C',
-    catLight: 'rgba(255, 199, 44, 0.15)',
-    emoji: '🧬',
-    icon: <FlaskConical size={20} />,
-    title: 'AI Data Analysis for Bio & Health',
-    desc: 'Advanced biological and healthcare data interpretation without requiring expensive laboratory infrastructure.',
-    details: [
-      'Gene expression interpretation',
-      'Cancer dataset analytics',
-      'Microbiome insight reports',
-      'Statistical AI visualization',
-      'Research-ready reporting'
-    ],
+    id: 'agri',
+    letter: 'B',
+    subtitle: 'Agriculture AI',
+    tagline: 'Cash Cow',
+    title: 'B. AGRICULTURE AI SERVICES',
+    subtitle_orig: 'CASH COW',
+    services: [
+      {
+        number: '4️⃣',
+        id: 'soil',
+        catColor: '#FFC72C',
+        catLight: 'rgba(255, 199, 44, 0.15)',
+        emoji: '🌱',
+        icon: <Leaf size={20} />,
+        title: 'AI Soil & Crop Insight Reports',
+        target: 'For: Farmers, agri-consultants',
+        desc: 'Smart agricultural analytics designed to improve soil health, crop productivity, and farming profitability.',
+        details: [
+          'AI-generated soil health insights',
+          'Fertilizer optimization (cost reduction)',
+          'Microbial impact explanation'
+        ],
+      },
+      {
+        number: '5️⃣',
+        id: 'dashboard',
+        catColor: '#FFC72C',
+        catLight: 'rgba(255, 199, 44, 0.15)',
+        emoji: '📊',
+        icon: <TrendingUp size={20} />,
+        title: 'AI Farm Decision Dashboard (Simple Version)',
+        target: 'For: Farmers, agri-consultants',
+        desc: 'An intelligent dashboard helping farmers make data-driven decisions for higher productivity and lower operational costs.',
+        details: [
+          'Weather + soil + yield prediction (basic)',
+          'Crop rotation advice',
+          'Expense optimization'
+        ],
+      },
+      {
+        number: '6️⃣',
+        id: 'subsidy',
+        catColor: '#FFC72C',
+        catLight: 'rgba(255, 199, 44, 0.15)',
+        emoji: '💰',
+        icon: <FileText size={20} />,
+        title: 'Agri-Grant & Subsidy Finder (Unbeatable)',
+        target: 'For: Farmers, agricultural businesses',
+        desc: 'Helping farmers and agricultural businesses identify and apply for eligible government grants and subsidy programs.',
+        details: [
+          'AI finds eligible grants for each farmer',
+          'Application checklist + draft'
+        ],
+      }
+    ]
   },
   {
-    number: '03',
-    id: 'proposal',
-    catLabel: 'Bio & Health AI',
-    catColor: '#FFC72C',
-    catLight: 'rgba(255, 199, 44, 0.15)',
-    emoji: '📝',
-    icon: <TrendingUp size={20} />,
-    title: 'AI Grant & Proposal Support',
-    desc: 'Increase funding opportunities with AI-assisted proposal generation and impact-focused grant documentation.',
-    details: [
-      'Grant opportunity matching',
-      'Proposal drafting',
-      'Impact modeling',
-      'Research justification',
-      'Technical documentation support'
-    ],
+    id: 'smallbiz',
+    letter: 'C',
+    subtitle: 'AI for Small Business',
+    tagline: 'Fastest Cash',
+    title: 'C. AI FOR SMALL BUSINESSES',
+    subtitle_orig: 'FASTEST CASH',
+    services: [
+      {
+        number: '7️⃣',
+        id: 'chatbot',
+        catColor: '#FFC72C',
+        catLight: 'rgba(255, 199, 44, 0.15)',
+        emoji: '🤖',
+        icon: <Bot size={20} />,
+        title: 'AI Chatbots for Local Businesses',
+        target: 'For: Clinics, salons, realtors, restaurants',
+        desc: 'Custom AI assistants designed for local businesses to automate communication, customer support, and bookings.',
+        details: [
+          'Website chatbot',
+          'WhatsApp / Facebook AI assistant',
+          'Appointment booking'
+        ],
+      },
+      {
+        number: '8️⃣',
+        id: 'marketing',
+        catColor: '#FFC72C',
+        catLight: 'rgba(255, 199, 44, 0.15)',
+        emoji: '📱',
+        icon: <TrendingUp size={20} />,
+        title: 'AI Marketing Content (Subscription)',
+        target: 'For: Small businesses, agencies',
+        desc: 'AI-driven content generation for continuous engagement and brand building.',
+        details: [
+          'Social media posts',
+          'Email campaigns',
+          'Google review responses'
+        ],
+      }
+    ]
   },
   {
-    number: '04',
-    id: 'soil',
-    catLabel: 'Agriculture AI',
-    catColor: '#FFC72C',
-    catLight: 'rgba(255, 199, 44, 0.15)',
-    emoji: '🌱',
-    icon: <Leaf size={20} />,
-    title: 'AI Soil & Crop Intelligence',
-    desc: 'Smart agricultural analytics designed to improve soil health, crop productivity, and farming profitability.',
-    details: [
-      'Soil health reports',
-      'Fertilizer optimization',
-      'Crop risk analysis',
-      'Microbial activity insights',
-      'Yield improvement recommendations'
-    ],
-  },
-  {
-    number: '05',
-    id: 'dashboard',
-    catLabel: 'Agriculture AI',
-    catColor: '#FFC72C',
-    catLight: 'rgba(255, 199, 44, 0.15)',
-    emoji: '📊',
-    icon: <TrendingUp size={20} />,
-    title: 'AI Farm Decision Dashboard',
-    desc: 'An intelligent dashboard helping farmers make data-driven decisions for higher productivity and lower operational costs.',
-    details: [
-      'Weather forecasting',
-      'Crop rotation guidance',
-      'Yield prediction',
-      'Expense optimization',
-      'Farm performance tracking'
-    ],
-  },
-  {
-    number: '06',
-    id: 'subsidy',
-    catLabel: 'Agriculture AI',
-    catColor: '#FFC72C',
-    catLight: 'rgba(255, 199, 44, 0.15)',
-    emoji: '💰',
-    icon: <FileText size={20} />,
-    title: 'AI Grant & Subsidy Finder',
-    desc: 'Helping farmers and agricultural businesses identify and apply for eligible government grants and subsidy programs.',
-    details: [
-      'Subsidy eligibility detection',
-      'Automated document checklist',
-      'Application assistance',
-      'Funding opportunity tracking',
-      'AI-generated drafts'
-    ],
-  },
-  {
-    number: '07',
-    id: 'chatbot',
-    catLabel: 'Small Business AI',
-    catColor: '#FFC72C',
-    catLight: 'rgba(255, 199, 44, 0.15)',
-    emoji: '🤖',
-    icon: <Bot size={20} />,
-    title: 'AI Chatbots for Businesses',
-    desc: 'Custom AI assistants designed for local businesses to automate communication, customer support, and bookings.',
-    details: [
-      'Website chatbot integration',
-      'WhatsApp AI assistant',
-      'Appointment booking',
-      'FAQ automation',
-      'Lead collection system'
-    ],
-  },
-  {
-    number: '08',
-    id: 'training',
-    catLabel: 'AI Training',
-    catColor: '#FFC72C',
-    catLight: 'rgba(255, 199, 44, 0.15)',
-    emoji: '🎓',
-    icon: <BookOpen size={20} />,
-    title: 'AI Training Programs',
-    desc: 'Practical AI workshops and training sessions designed for non-technical professionals and organizations.',
-    details: [
-      'AI for Farmers',
-      'AI for Healthcare Workers',
-      'AI for Small Businesses',
-      'AI Productivity Workshops',
-      'Beginner-Friendly AI Adoption'
-    ],
-  },
+    id: 'education',
+    letter: 'D',
+    subtitle: 'Education & Knowledge',
+    tagline: 'Passive Income',
+    title: 'D. EDUCATION & KNOWLEDGE PRODUCTS',
+    subtitle_orig: 'PASSIVE INCOME',
+    services: [
+      {
+        number: '🔟',
+        id: 'training',
+        catColor: '#FFC72C',
+        catLight: 'rgba(255, 199, 44, 0.15)',
+        emoji: '🎓',
+        icon: <BookOpen size={20} />,
+        title: 'AI Training for Non-Tech People',
+        target: 'For: Non-technical professionals and organizations',
+        desc: 'Practical AI workshops and training sessions designed for non-technical professionals and organizations.',
+        details: [
+          'AI for Farmers',
+          'AI for Healthcare Workers',
+          'AI for Small Business Owners'
+        ],
+      }
+    ]
+  }
 ]
+
+/* ── Category Accordion ─────────────────────────────────── */
+function CategoryAccordion({ cat, idx }) {
+  const [isOpen, setIsOpen] = useState(true);
+
+  return (
+    <div className={s.catAccordion}>
+      <div className={s.catHeaderBig} onClick={() => setIsOpen(!isOpen)}>
+        {/* Giant letter badge */}
+        <div className={s.catLetterBadge}>
+          <span className={s.catBigLetter}>{cat.letter}</span>
+        </div>
+
+        {/* Text info */}
+        <div className={s.catHeaderLeft}>
+          <h2 className={s.catTitleBig}>{cat.subtitle}</h2>
+          <span className={s.catTaglineBig}>{cat.tagline}</span>
+        </div>
+
+        {/* Service count pill */}
+        <div className={s.catCountPill}>
+          {cat.services.length} service{cat.services.length !== 1 ? 's' : ''}
+        </div>
+
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+          className={s.catChevron}
+        >
+          <ChevronDown size={28} />
+        </motion.div>
+      </div>
+
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            style={{ overflow: 'hidden' }}
+          >
+            <div className={s.treeBranch}>
+              <div className={s.detailedServiceList}>
+                {cat.services.map((svc, i) => (
+                  <DetailedServiceCard key={svc.id} svc={svc} index={i} />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 /* ── Detailed Service Card ──────────────────────────────── */
 function DetailedServiceCard({ svc, index }) {
@@ -248,11 +342,12 @@ function DetailedServiceCard({ svc, index }) {
           <span style={{ fontSize: '24px' }}>{svc.emoji}</span>
         </div>
         <div className={s.dcTitleWrap}>
-          <span className={s.dcCategory}>{svc.catLabel}</span>
+          <span className={s.dcCategory}>{svc.number}</span>
           <h3 className={s.dcTitle}>{svc.title}</h3>
         </div>
       </div>
       
+      {svc.target && <p className={s.dcTarget}><strong>{svc.target}</strong></p>}
       <p className={s.dcDesc}>{svc.desc}</p>
       
       <AnimatePresence initial={false}>
@@ -364,9 +459,9 @@ export default function ServicesPage() {
             <h2 className={s.h2}>Our AI Services</h2>
           </div>
 
-          <div className={s.detailedServiceGrid}>
-            {ALL_SERVICES.map((svc, i) => (
-              <DetailedServiceCard key={svc.id} svc={svc} index={i} />
+          <div className={s.categoriesWrap}>
+            {SERVICE_CATEGORIES.map((cat, idx) => (
+              <CategoryAccordion key={cat.id} cat={cat} idx={idx} />
             ))}
           </div>
         </div>

@@ -607,33 +607,52 @@ export default function HomePage() {
       {/* ── SERVICES ──────────────────────────────────── */}
       <section className={s.svcSection} id="services-main" aria-labelledby="services-h">
         <div className={s.inner}>
-          <div className={`${s.sectionHeaderCenter} ${s.svcDarkHeader}`}>
-            <div className={s.sectionLabel}>Our Services</div>
-            <h2 id="services-h" className={s.sectionH2}>Advanced Analytical Capabilities</h2>
-            <p className={s.sectionP}>
-              We process massive multi-omics datasets to uncover patterns invisible to traditional methods.
-            </p>
+          <div className={s.svcHeaderRow}>
+            <div className={s.svcHeaderLeft}>
+              <div className={s.svcEyebrow}>Our Services</div>
+              <h2 id="services-h" className={s.svcMainH2}>Advanced Analytical<br />Capabilities</h2>
+            </div>
+            <div className={s.svcHeaderRight}>
+              <p className={s.svcHeaderDesc}>
+                We process massive multi-omics datasets to uncover patterns invisible to traditional methods — delivering clinical-grade results at scale.
+              </p>
+            </div>
           </div>
-          <div className={s.svcCardGrid}>
-            {SERVICES.map(svc => (
-              <article key={svc.id} className={s.svcGlassCard} style={{ '--svc-accent': svc.dotColor }}>
-                <div className={s.svcCanvasWrap}>
-                  <SvcCanvas type={svc.id === 'ngs' ? 'ngs' : svc.id === 'proteomics' ? 'proteomics' : 'drug'} />
-                </div>
-                <div className={s.svcCardBody}>
-                  <div className={s.svcCardBadge} style={{ color: svc.badgeColor }}>
-                    <span className={s.svcBadgeDot} style={{ background: svc.dotColor }} />
-                    {svc.id.replace('-', ' ').toUpperCase()}
+
+          <div className={s.svcListWrap}>
+            {SERVICES.map((svc, idx) => {
+              const letter = String.fromCharCode(65 + idx)  // A, B, C
+              const canvasType = svc.id === 'ngs' ? 'ngs' : svc.id === 'proteomics' ? 'proteomics' : 'drug'
+              return (
+                <article key={svc.id} className={s.svcListItem} style={{ '--svc-accent': svc.dotColor }}>
+                  {/* Giant letter label */}
+                  <div className={s.svcLetterCol}>
+                    <span className={s.svcLetter}>{letter}</span>
+                    {idx < SERVICES.length - 1 && <span className={s.svcLetterLine} />}
                   </div>
-                  <h3 className={s.svcCardH3}>{svc.title}</h3>
-                  <p className={s.svcCardP}>{svc.desc}</p>
-                  <div className={s.svcTags}>
-                    {svc.tags.map(t => <span key={t} className={s.svcTag}>{t}</span>)}
+
+                  {/* Canvas visual */}
+                  <div className={s.svcItemCanvas}>
+                    <div className={s.svcCanvasRing}>
+                      <SvcCanvas type={canvasType} />
+                    </div>
                   </div>
-                  <a href={`/${svc.id}`} className={s.svcCardLink}>Explore →</a>
-                </div>
-              </article>
-            ))}
+
+                  {/* Content */}
+                  <div className={s.svcItemContent}>
+                    <h3 className={s.svcItemH3}>{svc.title}</h3>
+                    <p className={s.svcItemDesc}>{svc.desc}</p>
+                    <div className={s.svcTagsRow}>
+                      {svc.tags.map(t => <span key={t} className={s.svcTag}>{t}</span>)}
+                    </div>
+                    <a href={`/${svc.id}`} className={s.svcItemLink} id={`service-${letter.toLowerCase()}-link`}>
+                      <span>Explore</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                  </div>
+                </article>
+              )
+            })}
           </div>
         </div>
       </section>
