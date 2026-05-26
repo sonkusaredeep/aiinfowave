@@ -88,9 +88,9 @@ const SERVICE_CATEGORIES = [
     id: 'bio',
     letter: 'A',
     subtitle: 'Bio & Health AI',
-    tagline: 'High Trust, High Value',
+    tagline: 'Precision & Care',
     title: 'A. BIO & HEALTH AI SERVICES',
-    subtitle_orig: 'High Trust, High Value',
+    subtitle_orig: 'Precision & Care',
     services: [
       {
         number: '1️⃣',
@@ -146,9 +146,9 @@ const SERVICE_CATEGORIES = [
     id: 'agri',
     letter: 'B',
     subtitle: 'Agriculture AI',
-    tagline: 'Cash Cow',
+    tagline: 'Sustainable Growth',
     title: 'B. AGRICULTURE AI SERVICES',
-    subtitle_orig: 'CASH COW',
+    subtitle_orig: 'Sustainable Growth',
     services: [
       {
         number: '4️⃣',
@@ -178,8 +178,7 @@ const SERVICE_CATEGORIES = [
         desc: 'An intelligent dashboard helping farmers make data-driven decisions for higher productivity and lower operational costs.',
         details: [
           'Weather + soil + yield prediction (basic)',
-          'Crop rotation advice',
-          'Expense optimization'
+          'Crop rotation advice'
         ],
       },
       {
@@ -203,9 +202,9 @@ const SERVICE_CATEGORIES = [
     id: 'smallbiz',
     letter: 'C',
     subtitle: 'AI for Small Business',
-    tagline: 'Fastest Cash',
+    tagline: 'Accelerated Scaling',
     title: 'C. AI FOR SMALL BUSINESSES',
-    subtitle_orig: 'FASTEST CASH',
+    subtitle_orig: 'Accelerated Scaling',
     services: [
       {
         number: '7️⃣',
@@ -245,9 +244,9 @@ const SERVICE_CATEGORIES = [
     id: 'education',
     letter: 'D',
     subtitle: 'Education & Knowledge',
-    tagline: 'Passive Income',
+    tagline: 'Digital Assets',
     title: 'D. EDUCATION & KNOWLEDGE PRODUCTS',
-    subtitle_orig: 'PASSIVE INCOME',
+    subtitle_orig: 'Digital Assets',
     services: [
       {
         number: '🔟',
@@ -269,13 +268,11 @@ const SERVICE_CATEGORIES = [
   }
 ]
 
-/* ── Category Accordion ─────────────────────────────────── */
-function CategoryAccordion({ cat, idx }) {
-  const [isOpen, setIsOpen] = useState(true);
-
+/* ── Category Block ─────────────────────────────────── */
+function CategoryBlock({ cat, idx }) {
   return (
-    <div className={s.catAccordion}>
-      <div className={s.catHeaderBig} onClick={() => setIsOpen(!isOpen)}>
+    <div className={s.categoryBlock}>
+      <div className={s.catHeaderBig}>
         {/* Giant letter badge */}
         <div className={s.catLetterBadge}>
           <span className={s.catBigLetter}>{cat.letter}</span>
@@ -291,43 +288,19 @@ function CategoryAccordion({ cat, idx }) {
         <div className={s.catCountPill}>
           {cat.services.length} service{cat.services.length !== 1 ? 's' : ''}
         </div>
-
-        <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.3 }}
-          className={s.catChevron}
-        >
-          <ChevronDown size={28} />
-        </motion.div>
       </div>
 
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            style={{ overflow: 'hidden' }}
-          >
-            <div className={s.treeBranch}>
-              <div className={s.detailedServiceList}>
-                {cat.services.map((svc, i) => (
-                  <DetailedServiceCard key={svc.id} svc={svc} index={i} />
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div className={s.detailedServiceGrid}>
+        {cat.services.map((svc, i) => (
+          <DetailedServiceCard key={svc.id} svc={svc} index={i} />
+        ))}
+      </div>
     </div>
   );
 }
 
 /* ── Detailed Service Card ──────────────────────────────── */
 function DetailedServiceCard({ svc, index }) {
-  const [isExpanded, setIsExpanded] = useState(false)
-
   return (
     <motion.div
       className={s.detailedCard}
@@ -342,51 +315,26 @@ function DetailedServiceCard({ svc, index }) {
           <span style={{ fontSize: '24px' }}>{svc.emoji}</span>
         </div>
         <div className={s.dcTitleWrap}>
-          <span className={s.dcCategory}>{svc.number}</span>
           <h3 className={s.dcTitle}>{svc.title}</h3>
         </div>
       </div>
       
-      {svc.target && <p className={s.dcTarget}><strong>{svc.target}</strong></p>}
+      {svc.target && <p className={s.dcTarget}>{svc.target}</p>}
       <p className={s.dcDesc}>{svc.desc}</p>
       
-      <AnimatePresence initial={false}>
-        {isExpanded && (
-          <motion.div
-            key="features"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            style={{ overflow: 'hidden' }}
-          >
-            <div className={s.dcFeaturesInner}>
-              <div className={s.dcFeaturesTitle}>Key Features</div>
-              <ul className={s.dcList}>
-                {svc.details.map((d, i) => (
-                  <li key={i} className={s.dcListItem}>
-                    <div className={s.dcListDot}>✓</div>
-                    {d}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      
-      <button 
-        className={s.dcViewMoreBtn}
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        {isExpanded ? 'View less' : 'View more'}
-        <motion.div
-          animate={{ rotate: isExpanded ? 180 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <ChevronDown size={16} />
-        </motion.div>
-      </button>
+      <div className={s.dcFeaturesInner}>
+        <div className={s.dcFeaturesTitle}>Capabilities</div>
+        <ul className={s.dcList}>
+          {svc.details.map((d, i) => (
+            <li key={i} className={s.dcListItem}>
+              <div className={s.dcListDot}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              {d}
+            </li>
+          ))}
+        </ul>
+      </div>
     </motion.div>
   )
 }
@@ -461,7 +409,7 @@ export default function ServicesPage() {
 
           <div className={s.categoriesWrap}>
             {SERVICE_CATEGORIES.map((cat, idx) => (
-              <CategoryAccordion key={cat.id} cat={cat} idx={idx} />
+              <CategoryBlock key={cat.id} cat={cat} idx={idx} />
             ))}
           </div>
         </div>

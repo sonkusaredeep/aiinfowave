@@ -308,21 +308,20 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .detailedCard {
   background: #ffffff;
   border: 1px solid #E2E8F0;
   border-radius: 20px;
-  padding: 40px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
   position: relative;
   overflow: hidden;
-  min-height: 360px;
 }
 
 .detailedCard:hover {
@@ -339,16 +338,16 @@
 }
 
 .dcIconWrap {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #1e3a8a;
   flex-shrink: 0;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  background: var(--accent);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(145deg, var(--accent), var(--accent-light));
 }
 
 .dcTitleWrap {
@@ -399,24 +398,26 @@
 .dcList {
   list-style: none;
   padding: 0;
-  margin: 0 0 32px;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .dcListItem {
   display: flex;
   align-items: flex-start;
   gap: 12px;
+  font-family: 'DM Sans', sans-serif;
   font-size: 14px;
-  color: #475569;
+  font-weight: 500;
+  color: #334155;
   line-height: 1.5;
 }
 
 .dcListDot {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: var(--accent-light);
   color: var(--accent);
@@ -424,51 +425,16 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.dcCta {
-  margin-top: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--accent);
-  text-decoration: none;
-  transition: opacity 0.2s;
-}
-
-.dcCta:hover {
-  opacity: 0.8;
+  margin-top: 1px;
 }
 
 .dcFeaturesInner {
-  padding-top: 16px;
-  margin-top: 16px;
-  border-top: 1px solid #E2E8F0;
-}
-
-.dcViewMoreBtn {
+  padding-top: 24px;
   margin-top: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: var(--accent-light);
-  color: var(--accent);
-  border: none;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: opacity 0.2s;
-  align-self: flex-start;
+  border-top: 1px solid #F1F5F9;
 }
 
-.dcViewMoreBtn:hover {
-  opacity: 0.8;
-}
+
 
 /* ── LEGACY (keep for fallback) ───────────────── */
 .svcDesc {
@@ -835,7 +801,7 @@
 .categoriesWrap {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 120px;
 }
 
 .categorySection {
@@ -879,23 +845,18 @@
   border-radius: 6px;
 }
 
-.catAccordion {
+.categoryBlock {
   display: flex;
   flex-direction: column;
+  gap: 40px;
 }
 
 .catHeaderBig {
   display: flex;
   align-items: center;
   gap: 28px;
-  padding: 28px 0;
-  cursor: pointer;
+  padding-bottom: 24px;
   border-bottom: 1px solid #E2E8F0;
-  transition: all 0.3s ease;
-}
-
-.catHeaderBig:hover {
-  border-bottom-color: #FFC72C;
 }
 
 /* Giant letter badge */
@@ -909,12 +870,6 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background 0.3s ease, border-color 0.3s ease;
-}
-
-.catHeaderBig:hover .catLetterBadge {
-  background: rgba(255, 199, 44, 0.14);
-  border-color: rgba(255, 199, 44, 0.5);
 }
 
 .catBigLetter {
@@ -942,11 +897,6 @@
   font-weight: 700;
   color: #0F172A;
   margin: 0;
-  transition: color 0.3s ease;
-}
-
-.catHeaderBig:hover .catTitleBig {
-  color: #d97706;
 }
 
 .catTaglineBig {
@@ -972,36 +922,10 @@
   flex-shrink: 0;
 }
 
-.catChevron {
-  color: #94A3B8;
-  transition: color 0.3s ease;
-}
 
-.catHeaderBig:hover .catChevron {
-  color: #d97706;
-}
-
-.treeBranch {
-  padding-left: 32px;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  margin-left: 20px;
-  border-left: 2px dashed #E2E8F0;
-}
-
-.detailedServiceList {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
 
 @media (max-width: 768px) {
   .catTitleBig {
     font-size: 24px;
-  }
-  
-  .treeBranch {
-    padding-left: 16px;
-    margin-left: 10px;
   }
 }
