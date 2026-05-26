@@ -22,20 +22,20 @@ export default function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index                  element={<HomePage />} />
-          <Route path="login"           element={<LoginPage />} />
-          <Route path="register"        element={<RegisterPage />} />
-          <Route path="verify-email"    element={<VerifyEmailPage />} />
+          <Route index element={<HomePage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+          <Route path="verify-email" element={<VerifyEmailPage />} />
           <Route path="forgot-password" element={<ForgotPasswordPage />} />
           {/* Google OAuth callback — no Layout wrapper needed */}
           <Route path="auth/google/callback" element={<GoogleCallbackPage />} />
-          <Route path="ngs"             element={<NgsPage />} />
-          <Route path="proteomics"      element={<ProteomicsPage />} />
-          <Route path="contact"         element={<ContactPage />} />
-          <Route path="career"          element={<CareerPage />} />
-          <Route path="services"        element={<ServicesPage />} />
+          <Route path="ngs" element={<NgsPage />} />
+          <Route path="proteomics" element={<ProteomicsPage />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="career" element={<CareerPage />} />
+          <Route path="services" element={<ServicesPage />} />
           <Route path="open-project-call" element={<OpenProjectCallPage />} />
-          <Route path="internship"      element={<InternshipPage />} />
+          <Route path="internship" element={<InternshipPage />} />
           <Route path="admin/internships" element={<InternshipAdminPage />} />
         </Route>
       </Routes>

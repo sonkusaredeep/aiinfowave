@@ -115,7 +115,7 @@ const SERVICE_CATEGORIES = [
         catLight: 'rgba(255, 199, 44, 0.15)',
         emoji: '🧬',
         icon: <FlaskConical size={20} />,
-        title: 'AI-Based Data Analysis (NO Lab Needed)',
+        title: 'AI-Based Data Analysis',
         target: 'For: Small labs, clinics, students',
         desc: 'Advanced biological and healthcare data interpretation without requiring expensive laboratory infrastructure.',
         details: [
@@ -131,7 +131,7 @@ const SERVICE_CATEGORIES = [
         catLight: 'rgba(255, 199, 44, 0.15)',
         emoji: '📝',
         icon: <TrendingUp size={20} />,
-        title: 'Grant & Proposal AI Support (🔥 HUGE DEMAND)',
+        title: 'Grant & Proposal AI Support',
         target: 'For: Startups, professors, nonprofits, farmers',
         desc: 'Increase funding opportunities with AI-assisted proposal generation and impact-focused grant documentation.',
         details: [
@@ -173,7 +173,7 @@ const SERVICE_CATEGORIES = [
         catLight: 'rgba(255, 199, 44, 0.15)',
         emoji: '📊',
         icon: <TrendingUp size={20} />,
-        title: 'AI Farm Decision Dashboard (Simple Version)',
+        title: 'AI Farm Decision Dashboard',
         target: 'For: Farmers, agri-consultants',
         desc: 'An intelligent dashboard helping farmers make data-driven decisions for higher productivity and lower operational costs.',
         details: [
@@ -188,7 +188,7 @@ const SERVICE_CATEGORIES = [
         catLight: 'rgba(255, 199, 44, 0.15)',
         emoji: '💰',
         icon: <FileText size={20} />,
-        title: 'Agri-Grant & Subsidy Finder (Unbeatable)',
+        title: 'Agri-Grant & Subsidy Finder',
         target: 'For: Farmers, agricultural businesses',
         desc: 'Helping farmers and agricultural businesses identify and apply for eligible government grants and subsidy programs.',
         details: [
@@ -220,22 +220,6 @@ const SERVICE_CATEGORIES = [
           'Website chatbot',
           'WhatsApp / Facebook AI assistant',
           'Appointment booking'
-        ],
-      },
-      {
-        number: '8️⃣',
-        id: 'marketing',
-        catColor: '#FFC72C',
-        catLight: 'rgba(255, 199, 44, 0.15)',
-        emoji: '📱',
-        icon: <TrendingUp size={20} />,
-        title: 'AI Marketing Content (Subscription)',
-        target: 'For: Small businesses, agencies',
-        desc: 'AI-driven content generation for continuous engagement and brand building.',
-        details: [
-          'Social media posts',
-          'Email campaigns',
-          'Google review responses'
         ],
       }
     ]
