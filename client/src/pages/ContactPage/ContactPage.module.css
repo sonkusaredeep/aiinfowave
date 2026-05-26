@@ -1,0 +1,500 @@
+/* ================================================================
+   BASE
+================================================================ */
+.page {
+  font-family: 'Inter', 'Poppins', sans-serif;
+  color: #0f172a;
+  overflow-x: hidden;
+}
+
+/* ================================================================
+   GRADIENT TEXT
+================================================================ */
+.gradientText {
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ================================================================
+   BLOBS
+================================================================ */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+.blob1 {
+  width: 520px; height: 520px;
+  background: rgba(37, 99, 235, 0.12);
+  top: -140px; left: -140px;
+}
+.blob2 {
+  width: 420px; height: 420px;
+  background: rgba(124, 58, 237, 0.1);
+  top: 60px; right: -100px;
+}
+
+/* ================================================================
+   BACK LINK
+================================================================ */
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  text-decoration: none;
+  margin-bottom: 28px;
+  transition: color 0.2s;
+}
+.backLink:hover { color: #2563eb; }
+
+/* ================================================================
+   PILL
+================================================================ */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 199, 44, 0.08);
+  border: 1px solid rgba(255, 199, 44, 0.35);
+  color: #c48c00;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 100px;
+  width: fit-content;
+}
+.pillDot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #FFC72C;
+  box-shadow: 0 0 8px #FFC72C;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* ================================================================
+   HERO
+================================================================ */
+.hero {
+  position: relative;
+  padding: 120px 0 100px;
+  background: linear-gradient(to bottom, #f0f7ff, #e8f2ff);
+  overflow: hidden;
+  border-bottom: 3px solid #FFC72C;
+}
+
+.heroInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.h1 {
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  color: #0f172a;
+  margin: 0;
+}
+
+.heroLead {
+  font-size: 16px;
+  color: #475569;
+  line-height: 1.8;
+  max-width: 460px;
+  margin: 0;
+}
+
+/* ================================================================
+   CONTACT INFO CARDS
+================================================================ */
+.infoCards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.infoCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  border-radius: 16px;
+  padding: 16px;
+  text-decoration: none;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+.infoCard:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--accent) 15%, transparent);
+}
+
+.infoIconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent) 12%, #fff);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.infoText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.infoLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+.infoValue {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.infoSub {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* ================================================================
+   FORM CARD
+================================================================ */
+.formWrap {
+  position: relative;
+}
+.formGlow {
+  position: absolute;
+  inset: -40px;
+  background: radial-gradient(circle at center, rgba(37, 99, 235, 0.14) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.formCard {
+  position: relative;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 36px;
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.6) inset,
+    0 24px 64px rgba(37, 99, 235, 0.10);
+}
+
+.formHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.formHeaderIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+}
+
+.formTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 2px;
+  letter-spacing: -0.4px;
+}
+.formSub {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* ================================================================
+   FORM FIELDS
+================================================================ */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  letter-spacing: 0.01em;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  color: #0f172a;
+  background: #fafafa;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  border-color: #2563eb;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #94a3b8;
+}
+
+.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ================================================================
+   BUTTONS
+================================================================ */
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 24px rgba(37, 99, 235, 0.3);
+  width: 100%;
+}
+.btnPrimary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.45);
+}
+.btnPrimary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ================================================================
+   SUCCESS STATE
+================================================================ */
+.successState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  padding: 40px 20px;
+}
+.successIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(37,99,235,0.12), rgba(124,58,237,0.12));
+  border: 1px solid rgba(37,99,235,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2563eb;
+}
+.successH3 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+.successP {
+  font-size: 15px;
+  color: #64748b;
+  line-height: 1.7;
+  max-width: 340px;
+  margin: 0;
+}
+
+/* ================================================================
+   FAQ SECTION
+================================================================ */
+.faqSection {
+  padding: 100px 0;
+  background: #f8faff;
+  position: relative;
+  overflow: hidden;
+}
+.faqSection::before {
+  content: '';
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.faqInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.faqCard {
+  background: #fff;
+  border: 1px solid rgba(37, 99, 235, 0.1);
+  border-radius: 20px;
+  padding: 32px;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.faqCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #2563eb, #7c3aed);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.faqCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.1);
+  border-color: rgba(37, 99, 235, 0.2);
+}
+.faqCard:hover::before { opacity: 1; }
+
+.faqQ {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 10px;
+  letter-spacing: -0.3px;
+}
+.faqA {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* ================================================================
+   RESPONSIVE
+================================================================ */
+@media (max-width: 1024px) {
+  .heroInner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .h1 { font-size: 44px; }
+  .faqGrid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .hero { padding: 100px 0 64px; }
+  .heroInner { padding: 0 20px; }
+  .h1 { font-size: 34px; letter-spacing: -1px; }
+  .formRow { grid-template-columns: 1fr; }
+  .infoCards { grid-template-columns: 1fr; }
+  .formCard { padding: 24px; }
+  .faqInner { padding: 0 20px; }
+  .faqSection { padding: 72px 0; }
+}

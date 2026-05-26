@@ -1,0 +1,498 @@
+/* ================================================================
+   DESIGN TOKENS - CLINICAL ENTERPRISE
+================================================================ */
+:root {
+  --blue: #2563eb;
+  --blue-hover: #1d4ed8;
+  --navy: #0f172a;
+  --navy-light: #1e293b;
+  --slate: #64748b;
+  --slate-light: #94a3b8;
+  --border: #e2e8f0;
+  --bg-page: #f8fafc;
+  --white: #ffffff;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+}
+
+/* ================================================================
+   BASE
+================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.page {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--navy);
+  overflow-x: hidden;
+  background: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* Typography */
+.h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(48px, 6vw, 72px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -2.5px;
+  color: var(--navy);
+  margin: 0;
+}
+
+.h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  color: var(--navy);
+  margin: 0;
+}
+
+.textHighlight {
+  color: var(--blue);
+  background: linear-gradient(120deg, #2563eb, #7c3aed);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Buttons */
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--navy);
+  color: #fff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 16px 32px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.2);
+}
+
+.btnPrimary:hover:not(:disabled) {
+  background: var(--blue);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.4);
+}
+
+.btnPrimary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ================================================================
+   1. HERO SECTION (STARK MINIMALISM)
+================================================================ */
+.heroSection {
+  padding: 200px 0 140px;
+  background: var(--white);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.networkCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 100%);
+  z-index: 2;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 800px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 199, 44, 0.08);
+  color: #c48c00;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 8px 16px;
+  border-radius: 100px;
+  width: fit-content;
+  border: 1px solid rgba(255, 199, 44, 0.35);
+}
+
+.pillDot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #FFC72C;
+  box-shadow: 0 0 10px #FFC72C;
+}
+
+.heroLead {
+  font-size: 21px;
+  color: var(--slate);
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 400;
+  max-width: 640px;
+}
+
+/* Solid Stats Bar */
+.statsBar {
+  background: var(--navy);
+  padding: 32px 0;
+  width: 100%;
+  border-top: 3px solid #FFC72C;
+}
+
+.statsInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statNum {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -1px;
+}
+
+.statLabel {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--slate-light);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.statDivider {
+  width: 1px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ================================================================
+   2. APPLICATION PORTAL (PRISTINE WHITE CARD)
+================================================================ */
+.formSection {
+  padding: 80px 0 140px;
+  background: var(--bg-page);
+}
+
+.formContainer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.formCard {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 64px;
+  box-shadow: 0 40px 100px -20px rgba(15, 23, 42, 0.1);
+}
+
+.formCardHeader {
+  margin-bottom: 56px;
+  text-align: center;
+}
+
+.formCardTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0 0 12px;
+  letter-spacing: -1px;
+}
+
+.formCardSub {
+  font-size: 16px;
+  color: var(--slate);
+  margin: 0;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.formSectionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sectionLabel {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sectionLabel::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.2), transparent);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* Clean Input Fields */
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--navy-light);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  background: #fcfdfe;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 15px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--navy);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--slate-light);
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px #eff6ff; /* soft blue focus ring */
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.timelineNote {
+  margin-top: 10px;
+  font-size: 13.5px;
+  color: var(--slate);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(37, 99, 235, 0.04);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 8px 8px 0;
+  font-weight: 500;
+}
+
+/* Crisp Area Grid */
+.areaGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.areaCard {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: center;
+}
+
+.areaCard:hover {
+  border-color: var(--blue);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.1);
+}
+
+.areaCardActive {
+  background: rgba(37, 99, 235, 0.04);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 1px var(--blue);
+}
+
+.areaIconWrap {
+  color: var(--slate);
+  transition: color 0.2s;
+}
+
+.areaCardActive .areaIconWrap {
+  color: var(--blue);
+}
+
+.areaLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--navy);
+}
+
+.submitFooter {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+/* ================================================================
+   SUCCESS / LOADING (Clinical Theme)
+================================================================ */
+.successState {
+  text-align: center;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.successIcon {
+  color: #059669; /* emerald 600 */
+  margin-bottom: 12px;
+}
+
+.successH3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.successP {
+  font-size: 15px;
+  color: var(--slate);
+  line-height: 1.6;
+  margin: 0 0 24px;
+  max-width: 400px;
+}
+
+.spinner {
+  width: 20px; height: 20px;
+  border: 2px solid var(--border);
+  border-top-color: var(--navy);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ================================================================
+   RESPONSIVE
+================================================================ */
+@media (max-width: 1024px) {
+  .heroContent {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .h1 { font-size: 40px; }
+  .h2 { font-size: 28px; }
+  
+  .inner,
+  .statsInner {
+    padding: 0 24px;
+  }
+  
+  .statsInner {
+    flex-direction: column;
+    gap: 32px;
+  }
+  
+  .statDivider {
+    width: 48px;
+    height: 1px;
+  }
+  
+  .formRow,
+  .areaGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .formCard {
+    padding: 32px 24px;
+    border-radius: 12px;
+  }
+  
+  .heroSection {
+    padding: 120px 0 80px;
+  }
+  
+  .heroSection::before {
+    display: none; /* Hide grid on mobile */
+  }
+}
