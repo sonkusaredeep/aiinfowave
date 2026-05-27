@@ -58,10 +58,10 @@ export default function Navbar() {
 
         {/* Logo */}
         <Link to="/" className={styles.logo} onClick={closeMenu}
-          aria-label="AI Infowaves home">
-          <img src={logo} alt="AI Infowaves Logo" style={{ height: 48, width: 'auto', objectFit: 'contain', maxHeight: '100%' }} />
+          aria-label="AI Infowave home">
+          <img src={logo} alt="AI Infowave Logo" style={{ height: 48, width: 'auto', objectFit: 'contain', maxHeight: '100%' }} />
           <span className={styles.logoText}>
-            AI <span>Infowaves</span>
+            AI <span>Infowave</span>
           </span>
         </Link>
 

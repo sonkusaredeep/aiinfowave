@@ -113,9 +113,9 @@ export default function RegisterPage() {
         {/* Left Side: Form */}
         <div className={styles.formSection}>
           <div className={styles.logo}>
-            <img src={logo} alt="AI Infowaves Logo" style={{ height: 48, width: 'auto', objectFit: 'contain' }} />
+            <img src={logo} alt="AI Infowave Logo" style={{ height: 48, width: 'auto', objectFit: 'contain' }} />
             <span className={styles.logoText}>
-              AI <span>Infowaves</span>
+              AI <span>Infowave</span>
             </span>
           </div>
 
@@ -262,9 +262,9 @@ export default function RegisterPage() {
             {/* Widget 1: Top task badge */}
             <div className={styles.taskBadge} style={{ display: 'flex', alignItems: 'center', gap: '10px', backgroundColor: '#ffffff', border: '1px solid rgba(32, 84, 212, 0.15)', boxShadow: '0 12px 30px rgba(15, 23, 42, 0.1)' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f0f4ff', width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', padding: '3px', border: '1px solid rgba(32, 84, 212, 0.1)' }}>
-                <img src={logo} alt="AI Infowaves Logo" style={{ height: '100%', width: '100%', objectFit: 'contain', borderRadius: '50%' }} />
+                <img src={logo} alt="AI Infowave Logo" style={{ height: '100%', width: '100%', objectFit: 'contain', borderRadius: '50%' }} />
               </div>
-              <div className={styles.taskBadgeTitle} style={{ fontSize: '13px', fontWeight: '700', letterSpacing: '0.3px', color: '#2054D4' }}>Welcome to AI Infowaves</div>
+              <div className={styles.taskBadgeTitle} style={{ fontSize: '13px', fontWeight: '700', letterSpacing: '0.3px', color: '#2054D4' }}>Welcome to AI Infowave</div>
             </div>
 
             {/* Widget 2: Calendar Widget (Today's Date Card at the bottom) */}

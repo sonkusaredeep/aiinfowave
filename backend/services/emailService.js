@@ -1,7 +1,7 @@
 /**
  * emailService.js
  * ─────────────────────────────────────────────────────────────
- * Centralised Resend email service for AI InfoWaves.
+ * Centralised Resend email service for AI InfoWave.
  * All emails in the app go through this file.
  * ─────────────────────────────────────────────────────────────
  */
@@ -12,7 +12,7 @@ const { Resend } = require('resend');
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Who emails are sent FROM (set in .env)
-const FROM = process.env.RESEND_FROM || 'AI InfoWaves <onboarding@resend.dev>';
+const FROM = process.env.RESEND_FROM || 'AI InfoWave <onboarding@resend.dev>';
 
 // ─────────────────────────────────────────────────────────────
 // HELPER: send a single email via Resend
@@ -58,13 +58,13 @@ const sendOTPEmail = async (email, name, otp) => {
   <body>
     <div class="wrap">
       <div class="header">
-        <h1>AI InfoWaves</h1>
+        <h1>AI InfoWave</h1>
         <p>Verify your email address</p>
       </div>
       <div class="body">
         <p class="hi">Hello, ${name}! 👋</p>
         <p class="text">
-          Thanks for signing up with <strong>AI InfoWaves</strong>. To activate your account, 
+          Thanks for signing up with <strong>AI InfoWave</strong>. To activate your account, 
           please enter the verification code below on the verification page.
         </p>
         <div class="otp-box">
@@ -72,11 +72,11 @@ const sendOTPEmail = async (email, name, otp) => {
           <div class="expires">⏱ This code expires in <strong>5 minutes</strong></div>
         </div>
         <div class="note">
-          🔒 If you didn't create an account with AI InfoWaves, you can safely ignore this email.
+          🔒 If you didn't create an account with AI InfoWave, you can safely ignore this email.
         </div>
       </div>
       <div class="footer">
-        &copy; ${new Date().getFullYear()} AI InfoWaves. All rights reserved.<br/>
+        &copy; ${new Date().getFullYear()} AI InfoWave. All rights reserved.<br/>
         This is an automated email — please do not reply.
       </div>
     </div>
@@ -85,7 +85,7 @@ const sendOTPEmail = async (email, name, otp) => {
 
   await sendMail({
     to: email,
-    subject: 'Your AI InfoWaves Verification Code',
+    subject: 'Your AI InfoWave Verification Code',
     html,
   });
 };
@@ -118,13 +118,13 @@ const sendForgotPasswordOTP = async (email, name, otp) => {
   <body>
     <div class="wrap">
       <div class="header">
-        <h1>AI InfoWaves</h1>
+        <h1>AI InfoWave</h1>
         <p>Password Reset Request</p>
       </div>
       <div class="body">
         <p class="hi">Hello, ${name}! 🔑</p>
         <p class="text">
-          We received a request to reset your <strong>AI InfoWaves</strong> password. 
+          We received a request to reset your <strong>AI InfoWave</strong> password. 
           Use the code below on the password reset page. This is only valid for <strong>5 minutes</strong>.
         </p>
         <div class="otp-box">
@@ -137,7 +137,7 @@ const sendForgotPasswordOTP = async (email, name, otp) => {
         </div>
       </div>
       <div class="footer">
-        &copy; ${new Date().getFullYear()} AI InfoWaves. All rights reserved.<br/>
+        &copy; ${new Date().getFullYear()} AI InfoWave. All rights reserved.<br/>
         This is an automated email — please do not reply.
       </div>
     </div>
@@ -146,7 +146,7 @@ const sendForgotPasswordOTP = async (email, name, otp) => {
 
   await sendMail({
     to: email,
-    subject: 'AI InfoWaves — Password Reset Code',
+    subject: 'AI InfoWave — Password Reset Code',
     html,
   });
 };
@@ -180,7 +180,7 @@ const sendContactEmail = async ({ name, email, subject, message }) => {
     <div class="wrap">
       <div class="header">
         <h1>📬 New Contact Form Submission</h1>
-        <p>AI InfoWaves Website · ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST</p>
+        <p>AI InfoWave Website · ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST</p>
       </div>
       <div class="body">
         <div style="margin-bottom:20px;">
@@ -241,13 +241,13 @@ const sendInternshipConfirmation = async ({ email, name, role }) => {
     <div class="wrap">
       <div class="header">
         <h1>Application Received! 🎉</h1>
-        <p>AI InfoWaves Internship Program</p>
+        <p>AI InfoWave Internship Program</p>
       </div>
       <div class="body">
         <p class="hi">Dear ${name},</p>
         <p class="text">
           Congratulations! We've successfully received your application for the 
-          <strong>${role}</strong> internship at AI InfoWaves. 
+          <strong>${role}</strong> internship at AI InfoWave. 
           Our team will review your profile and reach out to you shortly.
         </p>
         <div>
@@ -272,8 +272,8 @@ const sendInternshipConfirmation = async ({ email, name, role }) => {
         </p>
       </div>
       <div class="footer">
-        &copy; ${new Date().getFullYear()} AI InfoWaves · Questions? Reply to this email.<br/>
-        AI InfoWaves, Saskatoon, SK, Canada
+        &copy; ${new Date().getFullYear()} AI InfoWave · Questions? Reply to this email.<br/>
+        AI InfoWave, Saskatoon, SK, Canada
       </div>
     </div>
   </body>
@@ -281,7 +281,7 @@ const sendInternshipConfirmation = async ({ email, name, role }) => {
 
   await sendMail({
     to: email,
-    subject: `Application Received — ${role} Internship | AI InfoWaves`,
+    subject: `Application Received — ${role} Internship | AI InfoWave`,
     html,
   });
 };
@@ -317,7 +317,7 @@ const sendInternshipNotification = async ({ fullName, email, phone, internshipRo
         <div class="field"><div class="label">Applied For</div><div class="value">${internshipRole}</div></div>
         <a href="${resumeUrl}" class="btn">📄 View Resume</a>
       </div>
-      <div class="footer">&copy; ${new Date().getFullYear()} AI InfoWaves Admin Portal</div>
+      <div class="footer">&copy; ${new Date().getFullYear()} AI InfoWave Admin Portal</div>
     </div>
   </body>
   </html>`;
@@ -353,25 +353,25 @@ const sendJobConfirmation = async ({ email, name, jobTitle }) => {
     <div class="wrap">
       <div class="header">
         <h1>Application Received! 🎉</h1>
-        <p>AI InfoWaves Careers</p>
+        <p>AI InfoWave Careers</p>
       </div>
       <div class="body">
         <p class="text"><strong>Dear ${name},</strong></p>
         <p class="text">
-          Thank you for applying for the <strong>${jobTitle}</strong> position at AI InfoWaves. 
+          Thank you for applying for the <strong>${jobTitle}</strong> position at AI InfoWave. 
           Our hiring team will review your application and reach out within 5–7 business days.
         </p>
         <span class="badge">💼 ${jobTitle}</span>
         <p class="text">Best of luck — we're looking forward to learning more about you!</p>
       </div>
-      <div class="footer">&copy; ${new Date().getFullYear()} AI InfoWaves · Saskatoon, SK, Canada</div>
+      <div class="footer">&copy; ${new Date().getFullYear()} AI InfoWave · Saskatoon, SK, Canada</div>
     </div>
   </body>
   </html>`;
 
   await sendMail({
     to: email,
-    subject: `Application Received — ${jobTitle} | AI InfoWaves`,
+    subject: `Application Received — ${jobTitle} | AI InfoWave`,
     html,
   });
 };
@@ -410,7 +410,7 @@ const sendJobNotification = async ({ fullName, email, phone, jobTitle, departmen
         <div class="field"><div class="label">Cover Letter</div><div class="cover">${coverLetter}</div></div>
         <a href="${resumeUrl}" class="btn">📄 View Resume</a>
       </div>
-      <div class="footer">&copy; ${new Date().getFullYear()} AI InfoWaves Admin Portal</div>
+      <div class="footer">&copy; ${new Date().getFullYear()} AI InfoWave Admin Portal</div>
     </div>
   </body>
   </html>`;

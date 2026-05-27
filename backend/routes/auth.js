@@ -1,7 +1,7 @@
 /**
  * auth.js (routes)
  * ─────────────────────────────────────────────────────────────
- * All authentication routes for AI InfoWaves.
+ * All authentication routes for AI InfoWave.
  * ─────────────────────────────────────────────────────────────
  */
 

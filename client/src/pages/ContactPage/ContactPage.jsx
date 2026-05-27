@@ -29,10 +29,10 @@ const CONTACT_INFO = [
   {
     icon: <Phone size={22} />,
     label: 'Call Us',
-    value: '+1 (800) 123-4567',
+    value: '+1 (639) 470-1043',
     sub: 'Mon–Fri, 9 AM – 6 PM EST',
     accent: '#7c3aed',
-    href: 'tel:+18001234567',
+    href: 'tel:+16394701043',
   },
   {
     icon: <MapPin size={22} />,

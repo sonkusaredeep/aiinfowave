@@ -56,6 +56,7 @@
 .pill {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   padding: 8px 18px;
   background: rgba(255, 199, 44, 0.08);
   color: #FFC72C;

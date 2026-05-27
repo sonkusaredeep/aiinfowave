@@ -171,7 +171,7 @@ exports.verifyOTP = async (req, res) => {
     const token = signToken(user._id);
 
     res.status(200).json({
-      message: 'Email verified successfully! Welcome to AI InfoWaves.',
+      message: 'Email verified successfully! Welcome to AI InfoWave.',
       token,
       user: { id: user._id, name: user.name, email: user.email, phone: user.phone },
     });

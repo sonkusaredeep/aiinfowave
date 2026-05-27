@@ -279,7 +279,7 @@ export default function InternshipPage() {
             
             <motion.p variants={fadeUp} className={styles.heroLeadCenter}>
               Dive into real-world projects. Work alongside elite engineers. 
-              Build the future of biological intelligence with AI InfoWaves.
+              Build the future of biological intelligence with AI InfoWave.
             </motion.p>
             
 

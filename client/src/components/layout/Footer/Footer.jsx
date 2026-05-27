@@ -44,8 +44,8 @@ export default function Footer() {
         </div>
 
         {[
-          { head: 'Platform', links: [['Home', '/'], ['AI News', '/news'], ['NGS Analysis', '/ngs'], ['Proteomics', '/proteomics']] },
-          { head: 'Company', links: [['About', '/about'], ['Research', '/research'], ['Careers', '/career'], ['Contact', '/contact']] },
+          { head: 'Platform', links: [['Home', '/'], ['AI News', '/news'], ['Services', '/services'], ['Open Projects', '/open-project-call']] },
+          { head: 'Company', links: [['About', '/about'], ['Internships', '/internship'], ['Careers', '/career'], ['Contact', '/contact']] },
           { head: 'Legal', links: [['Privacy Policy', '/privacy'], ['Terms of Service', '/terms'], ['Cookies', '/cookies']] },
         ].map(col => (
           <div key={col.head} className={s.footerCol}>

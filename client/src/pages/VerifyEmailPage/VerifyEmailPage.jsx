@@ -101,7 +101,7 @@ export default function VerifyEmailPage() {
       // Store token and user
       localStorage.setItem('token', data.token)
       localStorage.setItem('user', JSON.stringify(data.user))
-      setSuccess('Email verified! Welcome to AI InfoWaves 🎉')
+      setSuccess('Email verified! Welcome to AI InfoWave 🎉')
       setTimeout(() => navigate('/'), 1800)
     } catch {
       setError('Unable to connect to the server. Please try again.')
@@ -155,8 +155,8 @@ export default function VerifyEmailPage() {
       >
         {/* Logo */}
         <div className={styles.logo}>
-          <img src={logo} alt="AI Infowaves Logo" style={{ height: 56, width: 'auto', objectFit: 'contain' }} />
-          <span className={styles.logoText}>AI <span>Infowaves</span></span>
+          <img src={logo} alt="AI Infowave Logo" style={{ height: 56, width: 'auto', objectFit: 'contain' }} />
+          <span className={styles.logoText}>AI <span>Infowave</span></span>
         </div>
 
         {/* Icon */}

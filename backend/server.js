@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Session — required by Passport even when using JWT (for OAuth flow)
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'aiinfowaves_session_fallback',
+  secret: process.env.SESSION_SECRET || 'aiinfowave_session_fallback',
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false }, // set to true in production with HTTPS
@@ -89,7 +89,7 @@ app.use(passport.session());
 
 // ── Health check ──────────────────────────────────────────────
 app.get('/', (req, res) => {
-  res.json({ message: '✅ AI InfoWaves API is running', status: 'OK' });
+  res.json({ message: '✅ AI InfoWave API is running', status: 'OK' });
 });
 
 // ── Routes ────────────────────────────────────────────────────
@@ -106,7 +106,7 @@ app.use('/api/jobs', jobRoutes);
 // ── MongoDB Atlas connection ───────────────────────────────────
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log('✅ Connected to MongoDB Atlas (ai-infowaves)'))
+  .then(() => console.log('✅ Connected to MongoDB Atlas (ai-infowave)'))
   .catch((err) => {
     console.error('❌ MongoDB connection error:', err.message);
     process.exit(1);

@@ -1,595 +1,611 @@
-import { useRef, useEffect, useCallback, useState } from 'react'
+import { useRef, useCallback, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion'
+import {
+  ArrowRight, Microscope, Leaf, Store, GraduationCap,
+  Brain, Zap, ShieldCheck, Users, Rocket, ChevronRight, BookOpen
+} from 'lucide-react'
 import logo from '../../assets/Logo.png'
+import Footer from '../../components/layout/Footer/Footer'
 import s from './HomePage.module.css'
 
-/* ── SVG Icon helpers ─────────────────────────────────── */
-const Ico = {
-  dna: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="#2054D4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2 12h20M2 6c3 0 5 2 5 6s2 6 5 6 5-2 5-6 2-6 5-6M2 18c3 0 5-2 5-6s2-6 5-6 5 2 5 6 2 6 5 6" />
-    </svg>
-  ),
-  protein: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="#6C3FD8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="3" /><circle cx="4" cy="6" r="2" /><circle cx="20" cy="6" r="2" /><circle cx="4" cy="18" r="2" /><circle cx="20" cy="18" r="2" />
-      <line x1="6" y1="6" x2="10" y2="10" /><line x1="18" y1="6" x2="14" y2="10" /><line x1="6" y1="18" x2="10" y2="14" /><line x1="18" y1="18" x2="14" y2="14" />
-    </svg>
-  ),
-  ai: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="#06B6A4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="2" width="8" height="8" rx="2" /><rect x="14" y="2" width="8" height="8" rx="2" /><rect x="2" y="14" width="8" height="8" rx="2" />
-      <path d="M14 18h8M18 14v8" />
-    </svg>
-  ),
-  brain: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="#2054D4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9.5 2C7 2 5 4 5 6.5c0 1-.3 2-.8 2.8C3.4 10.3 3 11.4 3 12.5 3 16.1 6 19 9.5 19H12v-1M14.5 2C17 2 19 4 19 6.5c0 1 .3 2 .8 2.8.8 1 1.2 2 1.2 3.2C21 16.1 18 19 14.5 19H12v-1" />
-      <path d="M12 19v3M9 22h6" />
-    </svg>
-  ),
-  speed: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="#6C3FD8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-    </svg>
-  ),
-  shield: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="#06B6A4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      <polyline points="9,12 11,14 15,10" />
-    </svg>
-  ),
-  check: (
-    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <polyline points="2,6 5,9 10,3" />
-    </svg>
-  ),
-  arrow: ' →',
-  globe: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <circle cx="12" cy="12" r="10" />
-      <line x1="2" y1="12" x2="22" y2="12" />
-      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-    </svg>
-  ),
-  linkedin: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-      <rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" />
-    </svg>
-  ),
-  twitter: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
-    </svg>
-  ),
-  activity: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="#06B6A4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-    </svg>
-  ),
+/* ── Animation variants ─────────────────────────────────── */
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+}
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
 }
 
-const SERVICES = [
-  {
-    id: 'ngs',
-    visClass: s.svcVisNgs,
-    visIcon: '🧬',
-    badgeColor: '#06B6A4',
-    dotColor: '#06B6A4',
-    title: 'NGS Data Analysis',
-    desc: 'Decode next-generation sequencing data with AI-driven pipelines that deliver variant calls, expression levels, and genome assemblies at clinical-grade accuracy.',
-    tags: ['Whole Genome Sequencing', 'RNA-Seq', 'Single-Cell', 'Metagenomics'],
-    linkColor: '#06B6A4',
-    reverse: false,
-  },
-  {
-    id: 'proteomics',
-    visClass: s.svcVisProt,
-    visIcon: '⚗️',
-    badgeColor: '#06B6A4',
-    dotColor: '#06B6A4',
-    title: 'Proteomics Analysis',
-    desc: 'Understand cellular function at the protein level. Our models predict 3D structure, protein–protein interactions, and post-translational modifications with high confidence.',
-    tags: ['Mass Spectrometry', 'Structural Prediction', 'PPI Networks', 'PTM Mapping'],
-    linkColor: '#06B6A4',
-    reverse: true,
-  },
-  {
-    id: 'ai-healthcare',
-    visClass: s.svcVisAI,
-    visIcon: '🏥',
-    badgeColor: '#06B6A4',
-    dotColor: '#06B6A4',
-    title: 'AI Healthcare',
-    desc: 'Optimize patient outcomes through machine learning powered personalized medicine and healthcare innovations. We integrate multi-omics and clinical datasets to deliver precise diagnostic insights and next-generation therapeutic strategies.',
-    tags: ['Predictive Diagnostics', 'Personalized Therapy', 'Clinical NLP', 'Precision Medicine'],
-    linkColor: '#06B6A4',
-    reverse: false,
-  },
-]
+/* ── The Ultimate Hyper-Advanced Sci-Fi AI Hub ────────────────
+   Features 3D perspective mouse parallax, PCB circuit traces, 
+   radar sweeps, floating hex codes, DNA ribbons, and 
+   a complex glowing polygonal core.
+──────────────────────────────────────────────────────────── */
+function AdvancedHeroAnimation() {
+  const NODES = [
+    { Icon: Microscope, color: '#38BDF8', angle: -90, r: 175, delay: 0 },
+    { Icon: Leaf, color: '#4ADE80', angle: -18, r: 175, delay: 0.15 },
+    { Icon: Store, color: '#FBBF24', angle: 54, r: 175, delay: 0.3 },
+    { Icon: BookOpen, color: '#A78BFA', angle: 126, r: 175, delay: 0.45 },
+    { Icon: Zap, color: '#F87171', angle: 198, r: 175, delay: 0.6 },
+  ]
+  const cx = 250, cy = 250
 
-const PILLARS = [
-  { icon: Ico.brain, bg: '#EEF3FF', title: 'AI-Powered', desc: 'Proprietary deep-learning architectures trained on curated genomic and proteomic datasets.' },
-  { icon: Ico.dna, bg: '#F3EEFF', title: 'Domain Expertise', desc: 'A multidisciplinary team of bioinformaticians, data scientists, and computational biologists.' },
-  { icon: Ico.speed, bg: '#ECFDF9', title: 'Fast Turnaround', desc: 'Scalable cloud infrastructure processes terabyte-scale multi-omics datasets in hours, not weeks.' },
-  { icon: Ico.shield, bg: '#FFF7ED', title: 'Validated Results', desc: 'Rigorous quality-control and reproducibility protocols aligned with clinical research standards.' },
-]
+  const toXY = (angleDeg, radius) => {
+    const a = (angleDeg * Math.PI) / 180
+    return { x: cx + Math.cos(a) * radius, y: cy + Math.sin(a) * radius }
+  }
 
-
-const BUBBLE_CFG = [
-  { left: 5, size: 28, dur: 6.0, delay: 0.0 }, { left: 13, size: 22, dur: 4.5, delay: 1.2 },
-  { left: 22, size: 38, dur: 7.2, delay: 0.4 }, { left: 31, size: 16, dur: 3.8, delay: 2.1 },
-  { left: 40, size: 34, dur: 5.5, delay: 0.7 }, { left: 49, size: 25, dur: 4.9, delay: 3.0 },
-  { left: 57, size: 45, dur: 6.8, delay: 1.5 }, { left: 65, size: 18, dur: 4.2, delay: 0.9 },
-  { left: 73, size: 32, dur: 5.8, delay: 2.4 }, { left: 80, size: 24, dur: 4.6, delay: 0.2 },
-  { left: 87, size: 42, dur: 7.0, delay: 1.8 }, { left: 93, size: 26, dur: 5.2, delay: 3.5 },
-  { left: 17, size: 18, dur: 4.0, delay: 4.1 }, { left: 35, size: 29, dur: 6.3, delay: 2.8 },
-  { left: 61, size: 35, dur: 5.0, delay: 1.0 }, { left: 76, size: 20, dur: 3.6, delay: 3.8 },
-  { left: 9, size: 30, dur: 5.3, delay: 0.5 }, { left: 27, size: 22, dur: 4.8, delay: 1.6 },
-  { left: 45, size: 40, dur: 6.5, delay: 2.3 }, { left: 53, size: 15, dur: 3.9, delay: 0.8 },
-  { left: 69, size: 28, dur: 5.1, delay: 2.9 }, { left: 84, size: 36, dur: 6.1, delay: 1.4 },
-  { left: 91, size: 19, dur: 4.4, delay: 0.3 }, { left: 97, size: 25, dur: 5.6, delay: 2.7 },
-  { left: 2, size: 33, dur: 6.9, delay: 1.9 }, { left: 19, size: 21, dur: 4.7, delay: 3.2 },
-  { left: 38, size: 48, dur: 7.5, delay: 0.6 }, { left: 59, size: 17, dur: 4.1, delay: 2.5 },
-]
-
-/* ── Service Section Canvas (DNA / Protein / Molecular) ─ */
-function SvcCanvas({ type }) {
-  const ref = useRef(null)
-  useEffect(() => {
-    const c = ref.current; if (!c) return
-    const ctx = c.getContext('2d'), W = c.width, H = c.height, cx = W / 2, cy = H / 2
-    let t = 0, raf
-    function frame() {
-      t += 0.014
-      ctx.clearRect(0, 0, W, H)
-      if (type === 'ngs') {
-        const R = 48, RUNGS = 14, sA = [], sB = []
-        for (let i = 0; i < RUNGS; i++) {
-          const fr = i / (RUNGS - 1), y = 16 + fr * (H - 32), a = fr * Math.PI * 3.5 + t
-          sA.push({ x: cx + Math.cos(a) * R, y, z: Math.sin(a) })
-          sB.push({ x: cx + Math.cos(a + Math.PI) * R, y, z: Math.sin(a + Math.PI) })
-        }
-        const draw = (pts, col) => {
-          ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y)
-          for (let i = 1; i < pts.length - 1; i++) { const mx = (pts[i].x + pts[i + 1].x) / 2, my = (pts[i].y + pts[i + 1].y) / 2; ctx.quadraticCurveTo(pts[i].x, pts[i].y, mx, my) }
-          ctx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y)
-          ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.shadowColor = col; ctx.shadowBlur = 12; ctx.stroke(); ctx.shadowBlur = 0
-        }
-        draw(sA, 'rgba(96,165,250,0.9)'); draw(sB, 'rgba(167,139,250,0.9)')
-        sA.forEach((a, i) => {
-          const b = sB[i], d = ((a.z + b.z) / 2 + 2) / 4
-          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y)
-          ctx.strokeStyle = `rgba(200,220,255,${0.2 + d * 0.5})`; ctx.lineWidth = 1 + d; ctx.stroke()
-            ;[a, b].forEach(p => {
-              const r = 4 + d * 3; ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
-              ctx.fillStyle = `rgba(147,197,253,${0.7 + d * 0.3})`; ctx.shadowColor = 'rgba(96,165,250,0.9)'; ctx.shadowBlur = 10; ctx.fill(); ctx.shadowBlur = 0
-            })
-        })
-      } else if (type === 'proteomics') {
-        const nodes = [{ x: cx, y: cy, r: 13 }, { x: cx - 58, y: cy - 48, r: 8 }, { x: cx + 54, y: cy - 44, r: 9 }, { x: cx - 52, y: cy + 54, r: 7 }, { x: cx + 54, y: cy + 48, r: 10 }, { x: cx, y: cy - 82, r: 6 }]
-        const cols = ['rgba(167,139,250,1)', 'rgba(96,165,250,0.9)', 'rgba(96,165,250,0.9)', 'rgba(52,211,153,0.9)', 'rgba(52,211,153,0.9)', 'rgba(251,146,60,0.9)']
-        const edges = [[0, 1], [0, 2], [0, 3], [0, 4], [1, 5], [2, 5]]
-        edges.forEach(([a, b]) => {
-          const na = nodes[a], nb = nodes[b], pulse = 0.3 + Math.sin(t + a) * 0.2
-          ctx.beginPath(); ctx.moveTo(na.x, na.y); ctx.lineTo(nb.x, nb.y)
-          ctx.strokeStyle = `rgba(148,163,184,${pulse})`; ctx.lineWidth = 1.5; ctx.stroke()
-          const pg = (Math.sin(t * 1.5 + a) + 1) / 2, px = na.x + (nb.x - na.x) * pg, py = na.y + (nb.y - na.y) * pg
-          ctx.beginPath(); ctx.arc(px, py, 2.5, 0, Math.PI * 2)
-          ctx.fillStyle = 'rgba(167,139,250,0.95)'; ctx.shadowColor = 'rgba(167,139,250,0.9)'; ctx.shadowBlur = 8; ctx.fill(); ctx.shadowBlur = 0
-        })
-        nodes.forEach((n, i) => {
-          const p = 1 + Math.sin(t * 1.2 + i) * 0.1
-          ctx.beginPath(); ctx.arc(n.x, n.y, n.r * p, 0, Math.PI * 2)
-          ctx.fillStyle = cols[i]; ctx.shadowColor = cols[i]; ctx.shadowBlur = 14; ctx.fill(); ctx.shadowBlur = 0
-          ctx.beginPath(); ctx.arc(n.x - n.r * .3, n.y - n.r * .3, n.r * .35, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.fill()
-        })
-      } else {
-        const orbits = [
-          { r: 58, spd: 0.7, off: 0, col: 'rgba(52,211,153,0.85)', sz: 7 },
-          { r: 58, spd: 0.7, off: Math.PI * 2 / 3, col: 'rgba(96,165,250,0.85)', sz: 6 },
-          { r: 58, spd: 0.7, off: Math.PI * 4 / 3, col: 'rgba(251,146,60,0.85)', sz: 8 },
-          { r: 92, spd: 0.4, off: 0, col: 'rgba(167,139,250,0.8)', sz: 5 },
-          { r: 92, spd: 0.4, off: Math.PI, col: 'rgba(52,211,153,0.8)', sz: 6 },
-        ]
-          ;[58, 92].forEach(r => {
-            ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2)
-            ctx.strokeStyle = 'rgba(148,163,184,0.12)'; ctx.lineWidth = 1; ctx.stroke()
-          })
-        const cg = ctx.createRadialGradient(cx - 6, cy - 6, 0, cx, cy, 20)
-        cg.addColorStop(0, 'rgba(255,255,255,0.9)'); cg.addColorStop(1, 'rgba(96,165,250,0.8)')
-        ctx.beginPath(); ctx.arc(cx, cy, 20, 0, Math.PI * 2)
-        ctx.fillStyle = cg; ctx.shadowColor = 'rgba(96,165,250,0.9)'; ctx.shadowBlur = 24; ctx.fill(); ctx.shadowBlur = 0
-        orbits.forEach(o => {
-          const ax = t * o.spd + o.off, x = cx + Math.cos(ax) * o.r, y = cy + Math.sin(ax) * o.r
-          ctx.beginPath(); ctx.arc(x, y, o.sz, 0, Math.PI * 2)
-          ctx.fillStyle = o.col; ctx.shadowColor = o.col; ctx.shadowBlur = 12; ctx.fill(); ctx.shadowBlur = 0
-          ctx.beginPath(); ctx.arc(x - o.sz * .3, y - o.sz * .3, o.sz * .35, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.fill()
-        })
-      }
-      raf = requestAnimationFrame(frame)
-    }
-    raf = requestAnimationFrame(frame)
-    return () => cancelAnimationFrame(raf)
-  }, [type])
-  return <canvas ref={ref} width={200} height={200} style={{ display: 'block' }} />
-}
-
-/* ── Interactive 3D DNA Canvas ───────────────────────── */
-function DNACanvas() {
-  const canvasRef = useRef(null)
-  const mouseRef = useRef({ x: 0, y: 0, over: false })
-  const stateRef = useRef({ speed: 0.008, targetSpeed: 0.008, glowIntensity: 0, hoveredRung: -1 })
-
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    const W = canvas.width, H = canvas.height, cx = W / 2
-    const RUNGS = 22, RADIUS = 72
-    let t = 0, raf
-
-    const onMouseMove = e => {
-      const rect = canvas.getBoundingClientRect()
-      mouseRef.current = {
-        x: (e.clientX - rect.left) * (W / rect.width),
-        y: (e.clientY - rect.top) * (H / rect.height),
-        over: true,
-      }
-    }
-    const onMouseLeave = () => { mouseRef.current.over = false }
-    const onClick = e => {
-      const rect = canvas.getBoundingClientRect()
-      const mx = (e.clientX - rect.left) * (W / rect.width)
-      const my = (e.clientY - rect.top) * (H / rect.height)
-      // Burst speed on click
-      stateRef.current.targetSpeed = 0.06
-      setTimeout(() => { stateRef.current.targetSpeed = 0.008 }, 600)
-    }
-
-    canvas.addEventListener('mousemove', onMouseMove)
-    canvas.addEventListener('mouseleave', onMouseLeave)
-    canvas.addEventListener('click', onClick)
-
-    function frame() {
-      const st = stateRef.current
-      const mo = mouseRef.current
-
-      // Smooth speed
-      st.speed += (st.targetSpeed - st.speed) * 0.08
-      // Slow down on hover
-      if (mo.over) st.speed = Math.max(st.speed * 0.92, 0.002)
-
-      t += st.speed
-      ctx.clearRect(0, 0, W, H)
-
-      // Build strand points
-      const strandA = [], strandB = []
-      for (let i = 0; i < RUNGS; i++) {
-        const frac = i / (RUNGS - 1)
-        const y = 18 + frac * (H - 36)
-        const angle = frac * Math.PI * 4 + t
-        strandA.push({ x: cx + Math.cos(angle) * RADIUS, y, z: Math.sin(angle), angle })
-        strandB.push({ x: cx + Math.cos(angle + Math.PI) * RADIUS, y, z: Math.sin(angle + Math.PI), angle: angle + Math.PI })
-      }
-
-      // Hit test — find closest rung to mouse
-      let hoveredRung = -1
-      if (mo.over) {
-        let minDist = 28
-        strandA.forEach((a, i) => {
-          const b = strandB[i]
-          const mx2 = (a.x + b.x) / 2, my2 = (a.y + b.y) / 2
-          const d = Math.hypot(mo.x - mx2, mo.y - my2)
-          if (d < minDist) { minDist = d; hoveredRung = i }
-        })
-      }
-      st.hoveredRung = hoveredRung
-
-      // Draw smooth strands
-      const drawStrand = (pts) => {
-        ctx.beginPath()
-        ctx.moveTo(pts[0].x, pts[0].y)
-        for (let i = 1; i < pts.length - 1; i++) {
-          const mx2 = (pts[i].x + pts[i + 1].x) / 2
-          const my2 = (pts[i].y + pts[i + 1].y) / 2
-          ctx.quadraticCurveTo(pts[i].x, pts[i].y, mx2, my2)
-        }
-        ctx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y)
-        ctx.strokeStyle = 'rgba(160,200,245,0.88)'
-        ctx.lineWidth = 4.5
-        ctx.lineCap = 'round'
-        ctx.shadowColor = 'rgba(80,160,240,0.4)'
-        ctx.shadowBlur = 14
-        ctx.stroke()
-        ctx.shadowBlur = 0
-      }
-      drawStrand(strandA)
-      drawStrand(strandB)
-
-      // Rungs + nodes — depth-sorted
-      strandA
-        .map((a, i) => ({ a, b: strandB[i], i }))
-        .sort((r1, r2) => (r1.a.z + r1.b.z) - (r2.a.z + r2.b.z))
-        .forEach(({ a, b, i }) => {
-          const depth = ((a.z + b.z) / 2 + 2) / 4           // 0..1
-          const alpha = 0.28 + depth * 0.6
-          const isHov = i === hoveredRung
-          const rungScale = isHov ? 1.35 : 1
-
-          // Rung highlight glow
-          if (isHov) {
-            const mx2 = (a.x + b.x) / 2, my2 = (a.y + b.y) / 2
-            const hg = ctx.createRadialGradient(mx2, my2, 0, mx2, my2, 44)
-            hg.addColorStop(0, 'rgba(58,143,212,0.28)')
-            hg.addColorStop(1, 'transparent')
-            ctx.fillStyle = hg
-            ctx.beginPath(); ctx.arc(mx2, my2, 44, 0, Math.PI * 2); ctx.fill()
-          }
-
-          // Rung line
-          ctx.beginPath()
-          ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y)
-          ctx.strokeStyle = isHov
-            ? `rgba(58,143,212,${alpha * 0.9})`
-            : `rgba(180,215,248,${alpha * 0.65})`
-          ctx.lineWidth = (1.5 + depth) * rungScale
-          ctx.stroke()
-
-            // Nodes
-            ;[a, b].forEach(pt => {
-              const r = (5 + depth * 4.5) * rungScale
-              const ng = ctx.createRadialGradient(pt.x - r * .3, pt.y - r * .3, 0, pt.x, pt.y, r)
-              if (isHov) {
-                ng.addColorStop(0, `rgba(255,255,255,${alpha})`)
-                ng.addColorStop(0.4, `rgba(140,200,255,${alpha * .95})`)
-                ng.addColorStop(1, `rgba(58,143,212,${alpha * .75})`)
-              } else {
-                ng.addColorStop(0, `rgba(240,250,255,${alpha})`)
-                ng.addColorStop(0.4, `rgba(190,225,252,${alpha * .9})`)
-                ng.addColorStop(1, `rgba(110,175,235,${alpha * .6})`)
-              }
-              ctx.shadowColor = isHov ? 'rgba(58,143,212,0.7)' : 'rgba(100,180,255,0.3)'
-              ctx.shadowBlur = isHov ? 18 + depth * 14 : 8 + depth * 10
-              ctx.beginPath(); ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2)
-              ctx.fillStyle = ng; ctx.fill()
-              ctx.shadowBlur = 0
-
-              // Specular highlight
-              ctx.beginPath()
-              ctx.arc(pt.x - r * .28, pt.y - r * .28, r * .35, 0, Math.PI * 2)
-              ctx.fillStyle = `rgba(255,255,255,${0.45 + depth * .45})`
-              ctx.fill()
-            })
-        })
-
-      // Tooltip label on hovered rung
-      if (hoveredRung >= 0) {
-        const a = strandA[hoveredRung], b = strandB[hoveredRung]
-        const mx2 = (a.x + b.x) / 2 + RADIUS + 10
-        const my2 = (a.y + b.y) / 2
-        const labels = ['A–T', 'G–C', 'T–A', 'C–G']
-        const label = labels[hoveredRung % 4]
-        ctx.font = 'bold 11px "Rajdhani", sans-serif'
-        ctx.fillStyle = 'rgba(26,58,92,0.85)'
-        ctx.fillText(label, mx2, my2 + 4)
-      }
-
-      raf = requestAnimationFrame(frame)
-    }
-    raf = requestAnimationFrame(frame)
-
-    return () => {
-      canvas.removeEventListener('mousemove', onMouseMove)
-      canvas.removeEventListener('mouseleave', onMouseLeave)
-      canvas.removeEventListener('click', onClick)
-      cancelAnimationFrame(raf)
-    }
-  }, [])
+  // Floating ambient particles removed as requested
 
   return (
-    <canvas
-      ref={canvasRef}
-      width={280}
-      height={560}
-      className={s.dnaCanvas}
-      title="Hover over base pairs · Click to spin"
-    />
+    <div 
+      className={s.hubWrap} 
+      style={{ 
+        width: '100%', maxWidth: '640px', margin: '0 auto', 
+        aspectRatio: '1/1', position: 'relative'
+      }}
+    >
+      <motion.div
+        style={{
+          width: '100%', height: '100%'
+        }}
+      >
+        <svg viewBox="0 0 500 500" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
+          <defs>
+            <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#FFC72C" stopOpacity="0.4" />
+              <stop offset="30%" stopColor="#3B82F6" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
+            </radialGradient>
+            <filter id="blurExt" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="15" />
+            </filter>
+            <filter id="glowLight" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+              <feComponentTransfer><feFuncA type="linear" slope="2" /></feComponentTransfer>
+              <feBlend mode="screen" in="SourceGraphic" />
+            </filter>
+          </defs>
+
+          {/* BACKGROUND LAYER */}
+          <motion.g style={{ translateZ: -50 }}>
+            {/* Ambient core glow */}
+            <motion.circle 
+              cx={cx} cy={cy} r="250" 
+              fill="url(#coreGlow)" filter="url(#blurExt)" 
+              animate={{ scale: [0.9, 1.2, 0.9], opacity: [0.4, 0.7, 0.4] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            />
+            {/* Hexagonal Grid Pattern overlay */}
+            <pattern id="hexGrid" width="40" height="69.282" patternUnits="userSpaceOnUse" patternTransform="scale(0.5)">
+              <path d="M40 17.32l-20 11.547L0 17.32V-5.774l20-11.547L40-5.774V17.32zm0 46.188l-20 11.548-20-11.548V40.414L20 28.867l20 11.547v23.094z" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="1"/>
+            </pattern>
+            <circle cx={cx} cy={cy} r="240" fill="url(#hexGrid)" />
+          </motion.g>
+
+          {/* MIDDLE LAYER (Rings and Data Codes) */}
+          <motion.g style={{ translateZ: 0 }}>
+            {/* Massive Outer Orbital Rings */}
+            <motion.circle
+              cx={cx} cy={cy} r="235"
+              fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeDasharray="1 12" strokeLinecap="round"
+              animate={{ rotate: 360 }} transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
+              style={{ transformOrigin: `${cx}px ${cy}px` }}
+            />
+            <motion.circle
+              cx={cx} cy={cy} r="185"
+              fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="3" strokeDasharray="20 60 4 60"
+              animate={{ rotate: -360 }} transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+              style={{ transformOrigin: `${cx}px ${cy}px` }}
+            />
+          </motion.g>
+
+          {/* FOREGROUND LAYER (Circuit Traces, DNA Ribbons, Core, Nodes) */}
+          <motion.g style={{ translateZ: 50 }}>
+            
+            {/* PCB Circuit Trace Connections */}
+            {NODES.map((node, i) => {
+              const pt = toXY(node.angle, node.r)
+              // Create a stepped circuit path instead of a straight line
+              const midX = (cx + pt.x) / 2
+              const path = `M ${cx} ${cy} L ${midX} ${cy} L ${midX} ${pt.y} L ${pt.x} ${pt.y}`
+              
+              return (
+                <g key={`circuit-${i}`}>
+                  {/* Circuit trace background */}
+                  <motion.path
+                    d={path} fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="3" strokeLinejoin="round"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+                    transition={{ duration: 2, delay: node.delay, ease: "easeOut" }}
+                  />
+                  {/* Glowing data packet traveling along circuit */}
+                  <motion.circle r="3" fill={node.color} filter="url(#glowLight)">
+                    <animateMotion dur="4s" repeatCount="indefinite" begin={`${node.delay}s`} path={path} keyPoints="0;1" keyTimes="0;1" calcMode="linear" />
+                  </motion.circle>
+                </g>
+              )
+            })}
+
+            {/* Rotating DNA Data Ribbons (Sine waves mapped to circles) */}
+            <motion.g animate={{ rotate: 360 }} transition={{ duration: 25, repeat: Infinity, ease: 'linear' }} style={{ transformOrigin: `${cx}px ${cy}px` }}>
+              <path d={`M ${cx-80} ${cy} Q ${cx-40} ${cy-40} ${cx} ${cy} T ${cx+80} ${cy}`} fill="none" stroke="#FFFFFF" strokeWidth="2" strokeOpacity="0.4" strokeDasharray="4 4" />
+              <path d={`M ${cx-80} ${cy} Q ${cx-40} ${cy+40} ${cx} ${cy} T ${cx+80} ${cy}`} fill="none" stroke="#FFFFFF" strokeWidth="2" strokeOpacity="0.4" strokeDasharray="4 4" />
+            </motion.g>
+
+            {/* Central Hyper-Core */}
+            <g>
+              {/* Outer Energy Shield */}
+              <motion.circle 
+                cx={cx} cy={cy} r="65" fill="none" stroke="#38BDF8" strokeWidth="2" strokeOpacity="0.3" strokeDasharray="2 10"
+                animate={{ scale: [1, 1.2], opacity: [0.6, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
+                style={{ transformOrigin: `${cx}px ${cy}px` }}
+              />
+              {/* Inner Dark Sphere */}
+              <circle cx={cx} cy={cy} r="58" fill="rgba(15,23,42,0.95)" stroke="rgba(255,199,44,0.8)" strokeWidth="2" filter="url(#glowLight)" />
+              {/* Spinning Octagon wireframes */}
+              <motion.polygon
+                points={`${cx},${cy-50} ${cx+35},${cy-35} ${cx+50},${cy} ${cx+35},${cy+35} ${cx},${cy+50} ${cx-35},${cy+35} ${cx-50},${cy} ${cx-35},${cy-35}`}
+                fill="none" stroke="#FFC72C" strokeWidth="1" strokeDasharray="8 4"
+                animate={{ rotate: 360 }} transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+                style={{ transformOrigin: `${cx}px ${cy}px` }}
+              />
+              <motion.polygon
+                points={`${cx},${cy-50} ${cx+35},${cy-35} ${cx+50},${cy} ${cx+35},${cy+35} ${cx},${cy+50} ${cx-35},${cy+35} ${cx-50},${cy} ${cx-35},${cy-35}`}
+                fill="none" stroke="#38BDF8" strokeWidth="1" strokeDasharray="4 8"
+                animate={{ rotate: -360 }} transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+                style={{ transformOrigin: `${cx}px ${cy}px` }}
+              />
+              {/* Glowing Brain Center */}
+              <g transform={`translate(${cx - 26}, ${cy - 26})`}>
+                <Brain size={52} color="#FFC72C" strokeWidth={1} filter="url(#glowLight)" />
+              </g>
+            </g>
+
+            {/* Orbiting Interactive Nodes */}
+            {NODES.map((node, i) => {
+              const pt = toXY(node.angle, node.r)
+              return (
+                <motion.g
+                  key={`node-${i}`}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: node.delay + 0.2, type: "spring", bounce: 0.5 }}
+                >
+                  <g>
+                    {/* Node glow aura */}
+                    <circle cx={pt.x} cy={pt.y} r="48" fill={`${node.color}20`} filter="url(#blurExt)" />
+                    {/* Outer Target Lock Ring */}
+                    <motion.circle
+                      cx={pt.x} cy={pt.y} r="40" fill="none" stroke={`${node.color}60`} strokeWidth="1.5" strokeDasharray="10 10"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 10 + i*2, repeat: Infinity, ease: 'linear' }}
+                      style={{ transformOrigin: `${pt.x}px ${pt.y}px` }}
+                    />
+                    <motion.circle
+                      cx={pt.x} cy={pt.y} r="34" fill="none" stroke={`${node.color}30`} strokeWidth="2" strokeDasharray="4 4"
+                      animate={{ rotate: -360 }}
+                      transition={{ duration: 8 + i*2, repeat: Infinity, ease: 'linear' }}
+                      style={{ transformOrigin: `${pt.x}px ${pt.y}px` }}
+                    />
+                    {/* Inner glass background */}
+                    <circle cx={pt.x} cy={pt.y} r="30" fill="rgba(2,6,23,0.9)" stroke={`${node.color}90`} strokeWidth="1.5" />
+                    {/* Node Icon */}
+                    <g transform={`translate(${pt.x - 16}, ${pt.y - 16})`}>
+                      <node.Icon size={32} color={node.color} strokeWidth={1.5} filter="url(#glowLight)" />
+                    </g>
+                  </g>
+                </motion.g>
+              )
+            })}
+          </motion.g>
+
+        </svg>
+      </motion.div>
+    </div>
   )
 }
 
-import { 
-  Zap, Users, Rocket, BarChart, CheckCircle, Globe, 
-  ArrowRight, Layers, Microscope, Sparkles, GraduationCap 
-} from 'lucide-react'
+/* ── Service area cards for homepage ──────────────────────── */
+const SERVICE_AREAS = [
+  {
+    emoji: '🏥',
+    color: '#FFC72C',
+    colorLight: 'rgba(255,199,44,0.12)',
+    label: 'Bio & Health AI',
+    desc: 'AI-powered research intelligence, data analysis, and grant support for researchers, clinics, and biotech startups.',
+    bullets: ['Literature & Research AI', 'Gene Expression Analysis', 'Grant & Proposal Support'],
+    link: '/services',
+  },
+  {
+    emoji: '🌱',
+    color: '#FFC72C',
+    colorLight: 'rgba(255,199,44,0.12)',
+    label: 'Agriculture AI',
+    desc: 'Smart crop and soil insights, AI farm decision dashboards, and government subsidy discovery for farmers.',
+    bullets: ['Soil & Crop Insight Reports', 'AI Farm Dashboard', 'Agri-Grant Finder'],
+    link: '/services',
+  },
+  {
+    emoji: '🤖',
+    color: '#FFC72C',
+    colorLight: 'rgba(255,199,44,0.12)',
+    label: 'AI for Businesses',
+    desc: 'Custom AI chatbots and automation tools that help local clinics, salons, realtors, and restaurants scale faster.',
+    bullets: ['WhatsApp & Web Chatbots', 'Appointment Booking AI', 'Customer Support Automation'],
+    link: '/services',
+  },
+  {
+    emoji: '🎓',
+    color: '#FFC72C',
+    colorLight: 'rgba(255,199,44,0.12)',
+    label: 'AI Education & Training',
+    desc: 'Practical AI literacy workshops for farmers, healthcare workers, and small business owners.',
+    bullets: ['AI for Farmers', 'AI for Healthcare Workers', 'AI for Small Business Owners'],
+    link: '/services',
+  },
+]
 
-export default function HomePage() {
-  const heroRef = useRef(null)
-  const bubbleRefs = useRef([])
-  const mousePos = useRef({ x: -9999, y: -9999 })
-  const vels = useRef(BUBBLE_CFG.map(() => ({ vx: 0, vy: 0, dx: 0, dy: 0 })))
-  const navigate = useNavigate()
+/* ── Why us pillars ─────────────────────────────────────── */
+const CLOCK_PILLARS = [
+  {
+    icon: <Brain size={32} />,
+    title: 'Practical AI',
+    desc: 'We build AI that works in the real world — no fluff, no jargon. Solutions designed for actual workflows and outcomes.',
+    color: '#FFC72C'
+  },
+  {
+    icon: <Leaf size={32} />,
+    title: 'Multi-Domain Expertise',
+    desc: 'From hospitals to farms to high-street shops, our team understands the unique data and challenges of every sector.',
+    color: '#FFC72C'
+  },
+  {
+    icon: <Zap size={32} />,
+    title: 'Fast & Affordable',
+    desc: 'We deliver enterprise-grade AI at accessible price points, so small teams and startups can compete with big organisations.',
+    color: '#FFC72C'
+  },
+  {
+    icon: <ShieldCheck size={32} />,
+    title: 'Data Security',
+    desc: 'Your privacy is our priority. We deploy secure, compliant models that protect your sensitive information at all times.',
+    color: '#FFC72C'
+  },
+  {
+    icon: <Rocket size={32} />,
+    title: 'Continuous Innovation',
+    desc: 'We constantly upgrade our systems with the latest AI breakthroughs, ensuring your solutions never become obsolete.',
+    color: '#FFC72C'
+  },
+  {
+    icon: <Users size={32} />,
+    title: 'End-to-End Support',
+    desc: 'From data analysis to deployment and training, we stay with you through every stage of your AI journey.',
+    color: '#FFC72C'
+  },
+]
 
-  const scrollToServices = (e) => {
-    e.preventDefault()
-    const el = document.getElementById('services-main')
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
+function WhyUsClock() {
+  const [active, setActive] = useState(0)
+  const cx = 200, cy = 200, r = 110
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActive((prev) => (prev + 1) % CLOCK_PILLARS.length)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [])
+
+  const nodes = CLOCK_PILLARS.map((p, i) => {
+    const angle = (i * 60) - 90
+    const aRad = (angle * Math.PI) / 180
+    return { ...p, x: cx + Math.cos(aRad) * r, y: cy + Math.sin(aRad) * r, angle }
+  })
+
+  // Generate 12 hour points only for the clock face
+  const ticks = Array.from({ length: 12 }).map((_, i) => {
+    const angle = (i * 30) - 90
+    const rad = (angle * Math.PI) / 180
+    const r1 = 175
+    const r2 = 158
+    return {
+      x1: cx + Math.cos(rad) * r1, y1: cy + Math.sin(rad) * r1,
+      x2: cx + Math.cos(rad) * r2, y2: cy + Math.sin(rad) * r2,
+    }
+  })
+
+  return (
+    <div className={s.clockWrap}>
+      <div className={s.clockLeft}>
+        <svg viewBox="0 0 400 400" style={{width:'100%', height:'auto', filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.4))'}}>
+          <defs>
+            <radialGradient id="clockGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor={nodes[active].color} stopOpacity="0.25" />
+              <stop offset="100%" stopColor={nodes[active].color} stopOpacity="0" />
+            </radialGradient>
+          </defs>
+          
+          {/* Clock Face / Bezel */}
+          <circle cx={cx} cy={cy} r="185" fill="rgba(15,23,42,0.9)" stroke="#FFFFFF" strokeWidth="3" />
+          <circle cx={cx} cy={cy} r="185" fill="url(#clockGlow)" />
+          <circle cx={cx} cy={cy} r="178" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
+
+          {/* Clock Ticks (Hour points only) */}
+          {ticks.map((t, i) => (
+             <line 
+               key={`tick-${i}`} x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2} 
+               stroke="rgba(255,255,255,0.6)" 
+               strokeWidth="3" 
+               strokeLinecap="round"
+             />
+          ))}
+
+          {/* Realistic Clock Hands */}
+          <g transform={`translate(${cx}, ${cy})`}>
+            {/* Hour Hand (Points to Active Node) */}
+            <motion.g
+              animate={{ rotate: nodes[active].angle + 90 }}
+              transition={{ type: "spring", bounce: 0.3, duration: 0.8 }}
+            >
+              <rect x="-150" y="-150" width="300" height="300" fill="transparent" />
+              <polygon points="-5,12 5,12 2.5,-90 -2.5,-90" fill="#FFC72C" />
+              {/* Inner accent line for 3D feel */}
+              <line x1="0" y1="8" x2="0" y2="-85" stroke="rgba(0,0,0,0.3)" strokeWidth="1" />
+            </motion.g>
+
+            {/* Ambient Sweeping Second Hand */}
+            <motion.g
+              animate={{ rotate: 360 }}
+              transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+            >
+              <rect x="-150" y="-150" width="300" height="300" fill="transparent" />
+              <rect x="-1" y="-150" width="2" height="185" fill="#3B82F6" rx="1" />
+              {/* Second hand counterbalance tail loop */}
+              <circle cx="0" cy="20" r="4" fill="none" stroke="#3B82F6" strokeWidth="2" />
+            </motion.g>
+          </g>
+
+
+          
+          {/* Center Pin Hub */}
+          <circle cx={cx} cy={cy} r="14" fill="#FFC72C" />
+          <circle cx={cx} cy={cy} r="6" fill="#1e3a8a" />
+
+          {/* Node Icons */}
+          {nodes.map((node, i) => {
+            const isActive = i === active
+            return (
+              <g key={i} onClick={() => setActive(i)} style={{cursor: 'pointer'}}>
+                {/* Background base for every icon so they are always visible */}
+                <circle 
+                  cx={node.x} cy={node.y} r="26" 
+                  fill={isActive ? "rgba(30,58,138,0.9)" : "rgba(15,23,42,0.95)"} 
+                  stroke={isActive ? "#FFC72C" : "rgba(255,255,255,0.15)"} 
+                  strokeWidth={isActive ? "2" : "1"} 
+                />
+                
+                {/* Expanding Ripple for Active Node */}
+                {isActive && (
+                  <motion.circle
+                    cx={node.x} cy={node.y} r="26"
+                    fill="none" stroke="#FFC72C" strokeWidth="2"
+                    initial={{ scale: 1, opacity: 0.8 }}
+                    animate={{ scale: 1.6, opacity: 0 }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
+                  />
+                )}
+
+                {/* Invisible hit area for easier clicking */}
+                <circle cx={node.x} cy={node.y} r="35" fill="transparent" />
+                
+                {/* Icon rendering dynamically with color */}
+                <g 
+                  transform={`translate(${node.x - 14}, ${node.y - 14})`} 
+                  style={{ filter: isActive ? 'drop-shadow(0 0 6px #FFC72C)' : 'none' }}
+                >
+                  <node.icon.type size={28} color={isActive ? "#FFC72C" : "#94a3b8"} strokeWidth={isActive ? 2 : 1.5} />
+                </g>
+              </g>
+            )
+          })}
+        </svg>
+      </div>
+
+      <div className={s.clockRight}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={active}
+            className={s.clockCard}
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -30 }}
+            transition={{ duration: 0.4 }}
+          >
+            <div className={s.clockIconWrap} style={{ color: nodes[active].color }}>
+              {nodes[active].icon}
+            </div>
+            <h3 className={s.clockTitle}>{nodes[active].title}</h3>
+            <p className={s.clockDesc}>{nodes[active].desc}</p>
+          </motion.div>
+        </AnimatePresence>
+        
+        {/* Pagination Dots */}
+        <div className={s.clockDots}>
+          {nodes.map((_, i) => (
+            <button 
+              key={i} 
+              onClick={() => setActive(i)}
+              className={`${s.clockDot} ${i === active ? s.clockDotActive : ''}`}
+              style={{ backgroundColor: i === active ? nodes[i].color : '' }}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ── INTERNSHIP DATA ────────────────────────────────────── */
+const INTERNSHIP_MODULES = [
+  {
+    icon: <BookOpen size={22} />,
+    title: 'Advanced Methodology',
+    desc: 'Master industry-standard pipelines including GATK, Nextflow, and customized Python/R frameworks.'
+  },
+  {
+    icon: <Rocket size={22} />,
+    title: 'Real-World Scale',
+    desc: 'Work on actual client datasets ranging from single samples to terabyte-scale population studies.'
+  },
+  {
+    icon: <Users size={22} />,
+    title: 'Expert Mentorship',
+    desc: 'Weekly sessions with PhD scientists and senior engineers to refine your research and technical skills.'
+  },
+  {
+    icon: <GraduationCap size={22} />,
+    title: 'Career Pathway',
+    desc: 'Top-performing interns receive priority consideration for full-time research and engineering roles.'
   }
+]
+
+/* ── Component ───────────────────────────────────────────── */
+export default function HomePage() {
+  const navigate = useNavigate()
 
   const handleOpenProjectCallClick = (e) => {
     e.preventDefault()
     const token = localStorage.getItem('token')
-    if (!token) {
-      navigate('/login')
-    } else {
-      navigate('/open-project-call')
-    }
+    if (!token) navigate('/login')
+    else navigate('/open-project-call')
   }
-
-  useEffect(() => {
-    const hero = heroRef.current
-    if (!hero) return
-    const onMove = e => { mousePos.current = { x: e.clientX, y: e.clientY } }
-    const onLeave = () => { mousePos.current = { x: -9999, y: -9999 } }
-    hero.addEventListener('mousemove', onMove)
-    hero.addEventListener('mouseleave', onLeave)
-    let raf
-    const tick = () => {
-      bubbleRefs.current.forEach((el, i) => {
-        if (!el) return
-        const r = el.getBoundingClientRect()
-        const bx = r.left + r.width / 2
-        const by = r.top + r.height / 2
-        const v = vels.current[i]
-        const ddx = bx - mousePos.current.x
-        const ddy = by - mousePos.current.y
-        const dist = Math.sqrt(ddx * ddx + ddy * ddy)
-        const REPEL = 110
-        if (dist < REPEL && dist > 0) {
-          const f = ((REPEL - dist) / REPEL) * 7
-          v.vx += (ddx / dist) * f
-          v.vy += (ddy / dist) * f
-        }
-        v.vx += -v.dx * 0.06; v.vy += -v.dy * 0.06
-        v.vx *= 0.80; v.vy *= 0.80
-        v.dx += v.vx; v.dy += v.vy
-        el.style.transform = `translate(${v.dx}px,${v.dy}px)`
-      })
-      raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-    return () => {
-      hero.removeEventListener('mousemove', onMove)
-      hero.removeEventListener('mouseleave', onLeave)
-      cancelAnimationFrame(raf)
-    }
-  }, [])
 
   return (
     <div className={s.page}>
 
-      {/* ── HERO ──────────────────────────────────────── */}
-      <section className={s.hero} aria-label="Hero" ref={heroRef}>
-        {BUBBLE_CFG.map((cfg, i) => (
-          <span
-            key={i}
-            ref={el => { bubbleRefs.current[i] = el }}
-            className={s.heroBubble}
-            style={{ left: cfg.left + '%', width: cfg.size + 'px', height: cfg.size + 'px', animationDuration: cfg.dur + 's', animationDelay: cfg.delay + 's' }}
-          />
-        ))}
+      {/* ══ HERO ══════════════════════════════════════════ */}
+      <section className={s.hero} aria-label="Hero">
+        <div className={s.inner}>
+          <div className={s.heroGrid}>
 
-        <div className={s.heroInner}>
-          {/* Left */}
-          <div className={s.heroLeft}>
-            <div className={s.pill}>
-              <span className={s.pillDot} aria-hidden />
-              Pioneering Genomic Intelligence
-            </div>
+            {/* Left copy */}
+            <motion.div
+              className={s.heroLeft}
+              variants={stagger}
+              initial="hidden"
+              animate="show"
+            >
+              <motion.div variants={fadeUp} className={s.pill}>
+                <span className={s.pillDot} />
+                Practical AI · Real-World Impact
+              </motion.div>
 
-            <h1 className={s.heroH1}>
-              Transforming Life Sciences with <span>AI</span>
-            </h1>
+              <motion.h1 variants={fadeUp} className={s.heroH1}>
+                AI Solutions for<br />
+                <span className={s.goldText}>Healthcare, Agriculture</span><br />
+                &amp; Modern Business
+              </motion.h1>
 
-            <p className={s.heroP}>
-              Accelerating drug discovery and precision genomics through
-              computational power. We analyse complex biological data with
-              unprecedented accuracy and speed.
-            </p>
+              <motion.p variants={fadeUp} className={s.heroP}>
+                We help organisations transform research, operations, and
+                decision-making using tailored AI — built for the people who
+                actually need it most.
+              </motion.p>
 
-            <div className={s.heroCtas}>
-              <a href="#services-main" onClick={scrollToServices} className={s.btnBlue} id="hero-explore-btn">
-                Explore Services {Ico.arrow}
-              </a>
-              <Link to="/contact" className={s.btnGhost} id="hero-contact-btn">
-                Contact Us
-              </Link>
-            </div>
+              <motion.div variants={fadeUp} className={s.heroCtas}>
+                <Link to="/services" className={s.btnGold}>
+                  Explore Our Services <ArrowRight size={18} />
+                </Link>
+                <Link to="/contact" className={s.btnGhost}>
+                  Talk to Us
+                </Link>
+              </motion.div>
 
-            <div className={s.heroTrust}>
-              <div className={s.trustAvatars}>
-                {['AI', 'NG', 'PR', 'DR'].map(l => (
-                  <div key={l} className={s.trustAvatar}>{l}</div>
-                ))}
-              </div>
-              <p className={s.trustText}>
-                <strong>50+ projects</strong> delivered for leading research institutions
-              </p>
-            </div>
-          </div>
+              <motion.div variants={fadeUp} className={s.heroTrust}>
+                <div className={s.trustAvatars}>
+                  {['A', 'B', 'C', 'D'].map(l => (
+                    <div key={l} className={s.trustAvatar}>{l}</div>
+                  ))}
+                </div>
+                <p className={s.trustText}>
+                  <strong>50+ projects</strong> delivered across healthcare, agriculture &amp; business
+                </p>
+              </motion.div>
+            </motion.div>
 
-          {/* Right — Interactive 3D DNA Canvas */}
-          <div className={s.heroRight} aria-hidden="true">
-            <div className={s.dnaWrap}>
-              <DNACanvas />
-              <div className={s.dnaGlow} />
-            </div>
+            {/* Right — Advanced Hero Animation */}
+            <motion.div
+              className={s.heroRight}
+              aria-hidden="true"
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.3 }}
+            >
+              <AdvancedHeroAnimation />
+            </motion.div>
+
           </div>
         </div>
       </section>
 
 
 
-      {/* ── STATS STRIP ───────────────────────────────── */}
-      <div className={s.statsStrip} aria-label="Statistics">
-        <div className={s.statsInner}>
-          {[
-            { num: '10,000+', label: 'Visitors', accent: false },
-            { num: '50+', label: 'Projects', accent: false },
-            { num: '99.9%', label: 'Accuracy Rate', accent: true },
-            { num: '3', label: 'Core Services', accent: false },
-          ].map(({ num, label, accent }) => (
-            <div key={label} className={s.statItem}>
-              <div className={`${s.statNum} ${accent ? s.statNumAccent : ''}`}>{num}</div>
-              <div className={s.statLabel}>{label}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── ABOUT ─────────────────────────────────────── */}
-      <section id="about-section" className={s.sectionBlue} aria-labelledby="about-h">
+      {/* ══ ABOUT ═════════════════════════════════════════ */}
+      <section className={s.sectionBlue} id="about-section" aria-labelledby="about-h">
         <div className={s.inner}>
           <div className={s.aboutGrid}>
+
+            {/* Left */}
             <div>
-              <div className={s.sectionLabel}>About Us</div>
+              <div className={s.sectionLabel}>About AI Infowave</div>
               <h2 id="about-h" className={s.sectionH2}>
-                Intelligence Applied to Biology
+                Making AI Accessible to <span className={s.goldText}>Everyone</span>
               </h2>
               <p className={s.sectionP}>
-                AI Infowave bridges the gap between massive biological datasets and
-                actionable medical insights. Our machine learning models are trained
-                specifically on genomic and proteomic structures, enabling researchers
-                to identify targets faster and with higher confidence.
+                AI Infowave was built on a simple belief: transformative AI shouldn't
+                be limited to tech giants. We bring practical, affordable AI solutions
+                to farmers, clinicians, researchers, and small business owners — helping
+                them make smarter decisions and unlock new opportunities.
               </p>
               <ul className={s.checkList} role="list">
                 {[
-                  'Advanced machine learning for predictive modelling',
-                  'Scalable infrastructure for multi-omics data pipelines',
-                  'Rigorous validation protocols for clinical relevance',
-                  'End-to-end delivery from raw data to clinical insight',
+                  'AI-powered insights for Bio & Health research',
+                  'Smart agriculture tools for crop and soil optimisation',
+                  'Custom chatbots and automation for local businesses',
+                  'Practical AI workshops and internship programmes',
                 ].map(item => (
                   <li key={item} className={s.checkItem}>
-                    <span className={s.checkDot} aria-hidden>{Ico.check}</span>
+                    <span className={s.checkDot}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                    </span>
                     {item}
                   </li>
                 ))}
               </ul>
-
+              <Link to="/about" className={s.aboutCta}>
+                Learn about our mission <ArrowRight size={16} />
+              </Link>
             </div>
 
-            <div className={s.aboutPanel}>
+            {/* Right — stat cards */}
+            <div className={s.aboutRight}>
               <div className={s.aboutBigCard}>
-                <div className={s.aboutBigNum}>10,000+</div>
-                <div className={s.aboutBigLabel}>Genomic samples processed to date</div>
+                <div className={s.aboutBigNum}>50+</div>
+                <div className={s.aboutBigLabel}>AI projects delivered</div>
+                <div className={s.aboutBigSub}>across healthcare, agri &amp; business sectors</div>
               </div>
               <div className={s.aboutSmallCards}>
                 {[
-                  { num: '50+', label: 'Research projects' },
-                  { num: '99.9%', label: 'Analysis accuracy' },
-                  { num: '3', label: 'Core service areas' },
-                  { num: '1M+', label: 'Genomic data points' },
+                  { num: '3', label: 'AI domains' },
+                  { num: '12wk', label: 'Internship' },
+                  { num: '1:1', label: 'Mentorship' },
+                  { num: '100%', label: 'Real use cases' },
                 ].map(({ num, label }) => (
                   <div key={label} className={s.aboutSmCard}>
                     <div className={s.aboutSmNum}>{num}</div>
@@ -598,99 +614,89 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      <div className={s.sectionSeparator} />
-
-      {/* ── SERVICES ──────────────────────────────────── */}
-      <section className={s.svcSection} id="services-main" aria-labelledby="services-h">
+      {/* ══ SERVICE AREAS ═════════════════════════════════ */}
+      <section className={s.sectionWhite} aria-labelledby="services-h">
         <div className={s.inner}>
-          <div className={s.svcHeaderRow}>
-            <div className={s.svcHeaderLeft}>
-              <div className={s.svcEyebrow}>Our Services</div>
-              <h2 id="services-h" className={s.svcMainH2}>Advanced Analytical<br />Capabilities</h2>
-            </div>
-            <div className={s.svcHeaderRight}>
-              <p className={s.svcHeaderDesc}>
-                We process massive multi-omics datasets to uncover patterns invisible to traditional methods — delivering clinical-grade results at scale.
-              </p>
-            </div>
-          </div>
-
-          <div className={s.svcListWrap}>
-            {SERVICES.map((svc, idx) => {
-              const letter = String.fromCharCode(65 + idx)  // A, B, C
-              const canvasType = svc.id === 'ngs' ? 'ngs' : svc.id === 'proteomics' ? 'proteomics' : 'drug'
-              return (
-                <article key={svc.id} className={s.svcListItem} style={{ '--svc-accent': svc.dotColor }}>
-                  {/* Giant letter label */}
-                  <div className={s.svcLetterCol}>
-                    <span className={s.svcLetter}>{letter}</span>
-                    {idx < SERVICES.length - 1 && <span className={s.svcLetterLine} />}
-                  </div>
-
-                  {/* Canvas visual */}
-                  <div className={s.svcItemCanvas}>
-                    <div className={s.svcCanvasRing}>
-                      <SvcCanvas type={canvasType} />
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className={s.svcItemContent}>
-                    <h3 className={s.svcItemH3}>{svc.title}</h3>
-                    <p className={s.svcItemDesc}>{svc.desc}</p>
-                    <div className={s.svcTagsRow}>
-                      {svc.tags.map(t => <span key={t} className={s.svcTag}>{t}</span>)}
-                    </div>
-                    <a href={`/${svc.id}`} className={s.svcItemLink} id={`service-${letter.toLowerCase()}-link`}>
-                      <span>Explore</span>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
-                  </div>
-                </article>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ── WHY US ────────────────────────────────────── */}
-      <section className={s.section} aria-labelledby="why-h">
-        <div className={s.inner}>
-          <div className={s.sectionHeaderCenter}>
-            <div className={s.sectionLabel}>Why Choose Us</div>
-            <h2 id="why-h" className={s.sectionH2}>Built for Researchers, by Researchers</h2>
-            <p className={s.sectionP}>
-              Every tool and pipeline is purpose-built for real-world bioinformatics — not adapted from generic ML frameworks.
+          <div className={s.sectionHeader}>
+            <div className={s.sectionLabelDark}>What We Do</div>
+            <h2 id="services-h" className={s.h2Dark}>Our Four AI Service Areas</h2>
+            <p className={s.sectionPDark}>
+              Every solution is built around real problems faced by real people.
+              No one-size-fits-all tech — just targeted AI that delivers results.
             </p>
           </div>
-          <div className={s.pillarGrid} role="list">
-            {PILLARS.map(p => (
-              <div key={p.title} className={s.pillar} role="listitem">
-                <div className={s.pillarIcon} style={{ background: p.bg }}>{p.icon}</div>
-                <h4 className={s.pillarH4}>{p.title}</h4>
-                <p className={s.pillarP}>{p.desc}</p>
-              </div>
+
+          <div className={s.serviceGrid}>
+            {SERVICE_AREAS.map((svc, i) => (
+              <motion.div
+                key={svc.label}
+                className={s.serviceCard}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                style={{ '--accent': svc.color, '--accent-light': svc.colorLight }}
+              >
+                <div className={s.scIconWrap}>
+                  <span style={{ fontSize: 28 }}>{svc.emoji}</span>
+                </div>
+                <h3 className={s.scTitle}>{svc.label}</h3>
+                <p className={s.scDesc}>{svc.desc}</p>
+                <ul className={s.scList}>
+                  {svc.bullets.map(b => (
+                    <li key={b} className={s.scListItem}>
+                      <span className={s.scDot}>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                      </span>
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+                <Link to={svc.link} className={s.scLink}>
+                  View services <ChevronRight size={14} />
+                </Link>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* ══ WHY US ════════════════════════════════════════ */}
+      <section className={s.sectionBlue} aria-labelledby="why-h">
+        <div className={s.inner}>
+          <div className={s.sectionHeaderCenter}>
+            <div className={s.sectionLabel}>Why AI Infowave</div>
+            <h2 id="why-h" className={s.sectionH2}>Built for Impact, Not Just Innovation</h2>
+            <p className={s.sectionP}>
+              We believe the best AI is the kind that solves real problems for real people —
+              regardless of budget, technical background, or industry.
+            </p>
+          </div>
+          <WhyUsClock />
+        </div>
+      </section>
 
-      {/* ── CTA BANNER ────────────────────────────────── */}
+      {/* ══ CTA BANNER ════════════════════════════════════ */}
       <div className={s.ctaBanner} aria-label="Call to action">
         <div className={s.ctaBannerInner}>
-          <h2 className={s.ctaBannerH2}>Ready to Accelerate Your Research?</h2>
+          <h2 className={s.ctaBannerH2}>Ready to Bring AI Into Your Work?</h2>
           <p className={s.ctaBannerP}>
-            Join leading research institutions and biotech companies already
-            harnessing AI Infowave's computational power to drive discoveries faster.
+            Whether you run a clinic, farm, or small business — or you're a researcher
+            chasing a breakthrough — we have an AI solution built for you.
           </p>
           <div className={s.ctaBtns}>
-            <a href="/open-project-call" onClick={handleOpenProjectCallClick} className={s.btnWhite} id="cta-project-btn">
-              Open Project Call {Ico.arrow}
+            <a
+              href="/open-project-call"
+              onClick={handleOpenProjectCallClick}
+              className={s.btnWhite}
+              id="cta-project-btn"
+            >
+              Open Project Call →
             </a>
             <Link to="/contact" className={s.btnWhiteOutline} id="cta-contact-btn">
               Contact Our Team
@@ -699,48 +705,73 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ── FOOTER ────────────────────────────────────── */}
-      <footer className={s.footer} role="contentinfo">
-        <div className={s.footerGrid}>
-          <div className={s.footerBrand}>
-            <Link to="/" className={s.footerLogoRow} aria-label="AI Infowave home">
-              <img src={logo} alt="AI Infowave Logo" style={{ height: 34, width: 'auto' }} />
-              <span className={s.footerLogoText}>AI <span>Infowave</span></span>
-            </Link>
-            <p className={s.footerDesc}>
-              Pioneering Genomic Intelligence. Bridging raw biological data and
-              clinical breakthroughs through advanced computational models.
-            </p>
-            <div className={s.footerSocRow}>
-              {[['globe', Ico.globe], ['linkedin', Ico.linkedin], ['twitter', Ico.twitter]].map(([key, icon]) => (
-                <a key={key} href="#" className={s.footerSoc} aria-label={key}>{icon}</a>
-              ))}
+      {/* ── INTERNSHIP (THE GROWTH LAB) ──────────────── */}
+      <section className={s.internshipSection}>
+        <div className={s.inner}>
+          <div className={s.growthLab}>
+            <div className={s.labLeft}>
+              <div className={s.sectionLabel}>Education & Training</div>
+              <h2 className={s.labH2}>Internship <span className={s.goldText}>Excellence</span> Program</h2>
+              <p className={s.labLead}>
+                Empowering the next generation of bioinformatics experts through immersion
+                in high-impact research and clinical data pipelines.
+              </p>
+
+              <div className={s.pathway}>
+                {INTERNSHIP_MODULES.map((m, i) => (
+                  <motion.div
+                    key={m.title}
+                    className={s.pathItem}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    <div className={s.pathNode}>
+                      <div className={s.nodeLine} />
+                      <div className={s.nodeCircle}>{i + 1}</div>
+                    </div>
+                    <div className={s.pathContent}>
+                      <h3 className={s.pathTitle}>{m.title}</h3>
+                      <p className={s.pathDesc}>{m.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            <div className={s.labRight}>
+              <div className={s.labGlass}>
+                <div className={s.glassHead}>
+                  <Rocket className={s.glassIcon} />
+                  <div>
+                    <h3 className={s.glassH3}>Ready to start?</h3>
+                    <p className={s.glassP}>Applications are now open for the exclusive 2026 internship program.</p>
+                  </div>
+                </div>
+                <div className={s.labStats}>
+                  <div className={s.labStat}>
+                     <span className={s.labStatVal}>12</span>
+                     <span className={s.labStatLabel}>Weeks Duration</span>
+                  </div>
+                  <div className={s.labStat}>
+                     <span className={s.labStatVal}>1:1</span>
+                     <span className={s.labStatLabel}>Expert Mentorship</span>
+                  </div>
+                </div>
+                <Link to="/internship" className={s.labBtn}>
+                  Apply for Internship <ArrowRight size={18} />
+                </Link>
+              </div>
+
+              <div className={s.labBlob} />
+              <div className={s.labGrid} />
             </div>
           </div>
-
-          {[
-            { head: 'Platform', links: [['Home', '/'], ['Services', '/services'], ['NGS Analysis', '/ngs'], ['Proteomics', '/proteomics']] },
-            { head: 'Company', links: [['About', '/about'], ['Research', '/research'], ['Careers', '/career'], ['Contact', '/contact']] },
-            { head: 'Legal', links: [['Privacy Policy', '/privacy'], ['Terms of Service', '/terms'], ['Cookies', '/cookies']] },
-          ].map(col => (
-            <div key={col.head} className={s.footerCol}>
-              <div className={s.footerColHead}>{col.head}</div>
-              {col.links.map(([label, path]) => (
-                <Link key={label} to={path} className={s.footerLink}>{label}</Link>
-              ))}
-            </div>
-          ))}
         </div>
+      </section>
 
-        <div className={s.footerBottom}>
-          <span className={s.footerCopy}>© 2024 AI Infowave. Pioneering Genomic Intelligence.</span>
-          <div className={s.footerBottomLinks}>
-            <a href="/privacy" className={s.footerBottomLink}>Privacy</a>
-            <a href="/terms" className={s.footerBottomLink}>Terms</a>
-            <a href="/cookies" className={s.footerBottomLink}>Cookies</a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
     </div>
   )

@@ -175,8 +175,8 @@ export default function ForgotPasswordPage() {
       >
         {/* Logo */}
         <div className={styles.logo}>
-          <img src={logo} alt="AI Infowaves Logo" style={{ height: 56, width: 'auto', objectFit: 'contain' }} />
-          <span className={styles.logoText}>AI <span>Infowaves</span></span>
+          <img src={logo} alt="AI Infowave Logo" style={{ height: 56, width: 'auto', objectFit: 'contain' }} />
+          <span className={styles.logoText}>AI <span>Infowave</span></span>
         </div>
 
         {/* Step indicators */}

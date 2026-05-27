@@ -1,7 +1,7 @@
 /**
  * User.js
  * ─────────────────────────────────────────────────────────────
- * Mongoose model for AI InfoWaves users.
+ * Mongoose model for AI InfoWave users.
  * Fields added for OTP verification & Google OAuth.
  * ─────────────────────────────────────────────────────────────
  */

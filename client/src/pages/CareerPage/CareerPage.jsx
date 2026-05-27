@@ -455,7 +455,7 @@ export default function CareerPage() {
             </motion.h1>
 
             <motion.p variants={fadeUp} className={s.heroLead}>
-              At AI Infowaves, we're decoding life at the molecular level.
+              At AI Infowave, we're decoding life at the molecular level.
               Join a team of scientists and engineers pushing the boundaries of
               bioinformatics, AI, and precision medicine — from Saskatoon to the world.
             </motion.p>
@@ -890,7 +890,7 @@ export default function CareerPage() {
                     <label>Cover Letter <span className={s.req}>*</span></label>
                     <textarea
                       rows="5"
-                      placeholder="Tell us why you're the perfect fit for this role and what excites you about AI InfoWaves..."
+                      placeholder="Tell us why you're the perfect fit for this role and what excites you about AI InfoWave..."
                       {...register('coverLetter', { required: 'Cover letter is required' })}
                     />
                     {errors.coverLetter && <span className={s.applyError}>{errors.coverLetter.message}</span>}
