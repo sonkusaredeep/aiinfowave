@@ -319,6 +319,27 @@ function WhyUsClock() {
     }
   })
 
+  // Jigsaw Puzzle Grid Paths (2x3) - Interlocking with gaps
+  const puzzlePaths = [
+    { px: 0, py: 0, gapX: 0, gapY: 0, path: "M 0 0 l 400 0 l 0 110 a 40 40 0 0 0 0 80 l 0 110 l -160 0 a 40 40 0 0 1 -80 0 l -160 0 l 0 -300 Z" },
+    { px: 400, py: 0, gapX: 20, gapY: 0, path: "M 400 0 l 400 0 l 0 300 l -160 0 a 40 40 0 0 0 -80 0 l -160 0 l 0 -110 a 40 40 0 0 1 0 -80 l 0 -110 Z" },
+    { px: 0, py: 300, gapX: 0, gapY: 20, path: "M 0 300 l 160 0 a 40 40 0 0 0 80 0 l 160 0 l 0 110 a 40 40 0 0 1 0 80 l 0 110 l -160 0 a 40 40 0 0 0 -80 0 l -160 0 l 0 -300 Z" },
+    { px: 400, py: 300, gapX: 20, gapY: 20, path: "M 400 300 l 160 0 a 40 40 0 0 1 80 0 l 160 0 l 0 300 l -160 0 a 40 40 0 0 1 -80 0 l -160 0 l 0 -110 a 40 40 0 0 0 0 -80 l 0 -110 Z" },
+    { px: 0, py: 600, gapX: 0, gapY: 40, path: "M 0 600 l 160 0 a 40 40 0 0 1 80 0 l 160 0 l 0 110 a 40 40 0 0 0 0 80 l 0 110 l -400 0 l 0 -300 Z" },
+    { px: 400, py: 600, gapX: 20, gapY: 40, path: "M 400 600 l 160 0 a 40 40 0 0 0 80 0 l 160 0 l 0 300 l -400 0 l 0 -110 a 40 40 0 0 1 0 -80 l 0 -110 Z" }
+  ]
+
+  // Render active node last so its SVG stroke/shadow overlaps others
+  const sortedNodes = CLOCK_PILLARS.map((p, i) => ({
+    ...p,
+    originalIndex: i,
+    ...puzzlePaths[i]
+  })).sort((a, b) => {
+    if (a.originalIndex === active) return 1
+    if (b.originalIndex === active) return -1
+    return 0
+  })
+
   return (
     <div className={s.clockWrap}>
       <div className={s.clockLeft}>
@@ -370,8 +391,6 @@ function WhyUsClock() {
             </motion.g>
           </g>
 
-
-          
           {/* Center Pin Hub */}
           <circle cx={cx} cy={cy} r="14" fill="#FFC72C" />
           <circle cx={cx} cy={cy} r="6" fill="#1e3a8a" />
@@ -417,35 +436,58 @@ function WhyUsClock() {
       </div>
 
       <div className={s.clockRight}>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            className={s.clockCard}
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -30 }}
-            transition={{ duration: 0.4 }}
-          >
-            <div className={s.clockIconWrap} style={{ color: nodes[active].color }}>
-              {nodes[active].icon}
-            </div>
-            <h3 className={s.clockTitle}>{nodes[active].title}</h3>
-            <p className={s.clockDesc}>{nodes[active].desc}</p>
-          </motion.div>
-        </AnimatePresence>
-        
-        {/* Pagination Dots */}
-        <div className={s.clockDots}>
-          {nodes.map((_, i) => (
-            <button 
-              key={i} 
-              onClick={() => setActive(i)}
-              className={`${s.clockDot} ${i === active ? s.clockDotActive : ''}`}
-              style={{ backgroundColor: i === active ? nodes[i].color : '' }}
-              aria-label={`Go to slide ${i + 1}`}
-            />
-          ))}
-        </div>
+        <svg viewBox="-20 -20 860 960" style={{ width: '100%', height: 'auto', filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.4))' }}>
+          {sortedNodes.map((node) => {
+            const isActive = node.originalIndex === active
+            return (
+              <motion.g
+                key={node.originalIndex}
+                onClick={() => setActive(node.originalIndex)}
+                style={{ cursor: 'pointer', transformOrigin: `${node.px + 200}px ${node.py + 150}px` }}
+                animate={{
+                  x: node.gapX,
+                  y: node.gapY,
+                  scale: isActive ? 1.05 : 1,
+                  filter: isActive ? 'drop-shadow(0 15px 30px rgba(0,0,0,0.6))' : 'none',
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                {/* Puzzle Piece Shape */}
+                <path 
+                  d={node.path} 
+                  fill={isActive ? "#1e3a8a" : "#ffffff"} 
+                  stroke={isActive ? "#FFC72C" : "#cbd5e1"} 
+                  strokeWidth={isActive ? "4" : "2"} 
+                />
+                
+                {/* Card Content using foreignObject */}
+                <foreignObject x={node.px} y={node.py} width="400" height="300">
+                  <div style={{ 
+                    padding: '40px 60px', 
+                    width: '100%', 
+                    height: '100%', 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    boxSizing: 'border-box'
+                  }}>
+                    <div style={{ color: isActive ? '#FFC72C' : '#3b82f6', marginBottom: '1rem', transition: 'color 0.3s ease' }}>
+                      <node.icon.type size={42} strokeWidth={isActive ? 2 : 1.5} />
+                    </div>
+                    <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.5rem', fontWeight: 600, color: isActive ? '#FFC72C' : '#0f172a', marginBottom: '0.75rem', transition: 'color 0.3s ease' }}>
+                      {node.title}
+                    </h3>
+                    <p style={{ color: isActive ? '#fff' : '#475569', fontSize: '1.05rem', lineHeight: 1.5, margin: 0, transition: 'color 0.3s ease' }}>
+                      {node.desc}
+                    </p>
+                  </div>
+                </foreignObject>
+              </motion.g>
+            )
+          })}
+        </svg>
       </div>
     </div>
   )
