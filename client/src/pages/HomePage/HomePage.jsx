@@ -1,6 +1,6 @@
 import { useRef, useCallback, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion'
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence, useInView } from 'framer-motion'
 import {
   ArrowRight, Microscope, Leaf, Store, GraduationCap,
   Brain, Zap, ShieldCheck, Users, Rocket, ChevronRight, BookOpen
@@ -17,6 +17,32 @@ const fadeUp = {
 const stagger = {
   hidden: {},
   show: { transition: { staggerChildren: 0.12 } },
+}
+
+function AnimatedCounter({ value, suffix = '' }) {
+  const [count, setCount] = useState(0)
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-50px" })
+  
+  const end = parseInt(value)
+  const isNumber = !isNaN(end)
+
+  useEffect(() => {
+    if (!isInView || !isNumber) return
+    const duration = 2000
+    const startTime = performance.now()
+    
+    const update = (currentTime) => {
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4)
+      setCount(Math.floor(easeOutQuart * end))
+      if (progress < 1) requestAnimationFrame(update)
+    }
+    requestAnimationFrame(update)
+  }, [isInView, end, isNumber])
+
+  return <span ref={ref}>{isNumber ? count : value}{suffix}</span>
 }
 
 /* ── The Ultimate Hyper-Advanced Sci-Fi AI Hub ────────────────
@@ -636,26 +662,32 @@ export default function HomePage() {
             </div>
 
             {/* Right — stat cards */}
-            <div className={s.aboutRight}>
-              <div className={s.aboutBigCard}>
-                <div className={s.aboutBigNum}>50+</div>
+            <motion.div 
+              className={s.aboutRight}
+              variants={stagger}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              <motion.div variants={fadeUp} className={s.aboutBigCard}>
+                <div className={s.aboutBigNum}><AnimatedCounter value="50" suffix="+" /></div>
                 <div className={s.aboutBigLabel}>AI projects delivered</div>
                 <div className={s.aboutBigSub}>across healthcare, agri &amp; business sectors</div>
-              </div>
+              </motion.div>
               <div className={s.aboutSmallCards}>
                 {[
-                  { num: '3', label: 'AI domains' },
-                  { num: '12wk', label: 'Internship' },
-                  { num: '1:1', label: 'Mentorship' },
-                  { num: '100%', label: 'Real use cases' },
-                ].map(({ num, label }) => (
-                  <div key={label} className={s.aboutSmCard}>
-                    <div className={s.aboutSmNum}>{num}</div>
+                  { num: '3', suffix: '', label: 'AI domains' },
+                  { num: '12', suffix: 'wk', label: 'Internship' },
+                  { num: '1:1', suffix: '', label: 'Mentorship' },
+                  { num: '100', suffix: '%', label: 'Real use cases' },
+                ].map(({ num, suffix, label }) => (
+                  <motion.div variants={fadeUp} key={label} className={s.aboutSmCard}>
+                    <div className={s.aboutSmNum}><AnimatedCounter value={num} suffix={suffix} /></div>
                     <div className={s.aboutSmLabel}>{label}</div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
           </div>
         </div>
