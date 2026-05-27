@@ -849,8 +849,8 @@
 .labGlass {
   width: 100%;
   max-width: 440px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid #ffffff;
+  background: #ffffff;
+  border: 2px solid #FFC72C;
   padding: 48px;
   border-radius: 32px;
   position: relative;
@@ -885,7 +885,7 @@
 
 .glassP {
   font-size: 14px;
-  color: #cbd5e1;
+  color: #475569;
   margin: 0;
 }
 
@@ -895,8 +895,8 @@
   gap: 24px;
   margin-bottom: 40px;
   padding: 32px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .labStat {
@@ -916,7 +916,7 @@
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: #94a3b8;
+  color: #475569;
   font-weight: 700;
 }
 
@@ -936,7 +936,7 @@
 
 .labBtn:hover {
   transform: scale(1.02) translateY(-4px);
-  background: #1d4ed8;
+  background: #FFC72C;
 }
 
 .labBlob {
