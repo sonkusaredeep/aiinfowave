@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   ChevronLeft, ArrowRight, Briefcase, MapPin, Clock,
@@ -32,10 +32,10 @@ function AtomicAnimation() {
 
     const drawNucleus = (cx, cy) => {
       const particles = [
-        { x: -12, y: -10, r: 28, col: '#3b82f6' },
-        { x: 15, y: -5, r: 26, col: '#8b5cf6' },
-        { x: -5, y: 18, r: 28, col: '#3b82f6' },
-        { x: 10, y: 12, r: 24, col: '#8b5cf6' },
+        { x: -12, y: -10, r: 28, col: '#2563eb' },
+        { x: 15, y: -5, r: 26, col: '#1e40af' },
+        { x: -5, y: 18, r: 28, col: '#1d4ed8' },
+        { x: 10, y: 12, r: 24, col: '#1e3a8a' },
         { x: 0, y: 0, r: 32, col: '#60a5fa' }
       ]
 
@@ -63,7 +63,7 @@ function AtomicAnimation() {
 
       ctx.beginPath()
       ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2)
-      ctx.strokeStyle = 'rgba(30, 58, 138, 0.08)'
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)'
       ctx.lineWidth = 3
       ctx.stroke()
 
@@ -84,9 +84,9 @@ function AtomicAnimation() {
 
       ctx.beginPath()
       ctx.ellipse(0, 0, rx, ry, 0, time - 0.5, time, false)
-      ctx.strokeStyle = electronCol
+      ctx.strokeStyle = '#ffffff'
       ctx.lineWidth = 5
-      ctx.globalAlpha = 0.3
+      ctx.globalAlpha = 0.55
       ctx.stroke()
 
       ctx.restore()
@@ -98,10 +98,10 @@ function AtomicAnimation() {
       const cx = W / 2
       const cy = H / 2
 
-      drawOrbit(cx, cy, 420, 160, Math.PI / 4, t, '#3b82f6')
-      drawOrbit(cx, cy, 420, 160, -Math.PI / 4, t * 1.2, '#6d28d9')
-      drawOrbit(cx, cy, 420, 160, Math.PI / 2, t * 0.8, '#0891b2')
-      drawOrbit(cx, cy, 480, 180, 0, t * 1.5, '#2563eb')
+      drawOrbit(cx, cy, 420, 160, Math.PI / 4, t, '#FFC72C')
+      drawOrbit(cx, cy, 420, 160, -Math.PI / 4, t * 1.2, '#FFE082')
+      drawOrbit(cx, cy, 420, 160, Math.PI / 2, t * 0.8, '#FFC72C')
+      drawOrbit(cx, cy, 480, 180, 0, t * 1.5, '#FFE082')
 
       drawNucleus(cx, cy)
       raf = requestAnimationFrame(animate)
@@ -148,7 +148,7 @@ const JOBS = [
     location: 'Saskatoon, SK',
     type: 'Full-time',
     level: 'Senior',
-    accent: '#2563eb',
+    accent: '#1e3a8a',
     icon: <Dna size={20} />,
     tags: ['Python', 'GATK', 'NGS', 'R'],
     desc: 'Lead the design and execution of multi-omics data analysis pipelines for genomics clients. You will develop novel approaches to variant calling, annotation, and clinical reporting.',
@@ -175,7 +175,7 @@ const JOBS = [
     location: 'Remote',
     type: 'Full-time',
     level: 'Mid-Senior',
-    accent: '#7c3aed',
+    accent: '#d97706',
     icon: <Cpu size={20} />,
     tags: ['PyTorch', 'scikit-learn', 'Docker', 'AWS'],
     desc: 'Build and scale ML models applied to genomic sequence classification, protein folding, and biomarker discovery. Collaborate with scientists on end-to-end model pipelines.',
@@ -202,7 +202,7 @@ const JOBS = [
     location: 'Saskatoon, SK',
     type: 'Full-time',
     level: 'Senior',
-    accent: '#06b6d4',
+    accent: '#1e3a8a',
     icon: <FlaskConical size={20} />,
     tags: ['WGS', 'scRNA-Seq', 'QIIME2', 'Seurat'],
     desc: 'Conduct cutting-edge research in single-cell genomics and functional annotation. Publish findings in top-tier journals and drive innovation in our core analysis platform.',
@@ -229,7 +229,7 @@ const JOBS = [
     location: 'Remote',
     type: 'Full-time',
     level: 'Mid',
-    accent: '#059669',
+    accent: '#d97706',
     icon: <BarChart3 size={20} />,
     tags: ['R', 'Python', 'DESeq2', 'Statistics'],
     desc: 'Apply advanced statistical models to large-scale genomic datasets. Develop robust QC metrics, power analyses, and differential expression frameworks for clinical research teams.',
@@ -256,7 +256,7 @@ const JOBS = [
     location: 'Remote',
     type: 'Full-time',
     level: 'Mid',
-    accent: '#d97706',
+    accent: '#1e3a8a',
     icon: <Cpu size={20} />,
     tags: ['React', 'Node.js', 'MongoDB', 'REST APIs'],
     desc: 'Build and improve the platform UI and backend services that researchers rely on. You will own features end-to-end, from interactive dashboards to data ingestion APIs.',
@@ -283,7 +283,7 @@ const JOBS = [
     location: 'Saskatoon, SK / Hybrid',
     type: 'Full-time',
     level: 'Mid-Senior',
-    accent: '#db2777',
+    accent: '#d97706',
     icon: <Briefcase size={20} />,
     tags: ['Agile', 'Jira', 'Genomics', 'Stakeholder Mgmt'],
     desc: 'Manage complex bioinformatics projects across multiple client accounts. Bridge communication between scientists, engineers, and external partners to deliver on time and on spec.',
@@ -333,6 +333,206 @@ const INTERNSHIP = {
 }
 
 const JOB_API_URL = 'http://localhost:5000/api/jobs';
+
+/* ── Puzzle Background Component ────────────────────────── */
+function PuzzleBackground() {
+  const cols = 20
+  const rows = 13
+
+  // Generate stable, interlocking vertical and horizontal edges
+  const horizontalEdges = useMemo(() => {
+    const edges = []
+    for (let r = 0; r < rows - 1; r++) {
+      const row = []
+      for (let c = 0; c < cols; c++) {
+        row.push(Math.random() > 0.5 ? 1 : -1)
+      }
+      edges.push(row)
+    }
+    return edges
+  }, [])
+
+  const verticalEdges = useMemo(() => {
+    const edges = []
+    for (let r = 0; r < rows; r++) {
+      const row = []
+      for (let c = 0; c < cols - 1; c++) {
+        row.push(Math.random() > 0.5 ? 1 : -1)
+      }
+      edges.push(row)
+    }
+    return edges
+  }, [])
+
+  // Soft light theme puzzle wall palette
+  const pieceShades = useMemo(() => {
+    const shades = []
+    const palette = [
+      { start: "#ffffff", end: "#fafafa" }, // Pure white to light gray
+      { start: "#ffffff", end: "#fcfdfd" }, // Soft off-white
+      { start: "#fcfdfd", end: "#f8fafc" }, // Faint slate white
+      { start: "#ffffff", end: "#fafbfb" }, // Glowing white
+      { start: "#fafafa", end: "#f5f5f5" }  // Soft gray
+    ]
+    for (let r = 0; r < rows; r++) {
+      const row = []
+      for (let c = 0; c < cols; c++) {
+        const index = Math.floor(Math.random() * palette.length)
+        row.push(palette[index])
+      }
+      shades.push(row)
+    }
+    return shades
+  }, [])
+
+  // Build the interlocking paths
+  const pieces = useMemo(() => {
+    const list = []
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const top = r === 0 ? 0 : -horizontalEdges[r - 1][c]
+        const right = c === cols - 1 ? 0 : verticalEdges[r][c]
+        const bottom = r === rows - 1 ? 0 : horizontalEdges[r][c]
+        const left = c === 0 ? 0 : -verticalEdges[r][c - 1]
+
+        const x = c * 100
+        const y = r * 100
+
+        let d = `M ${x} ${y} `
+
+        // 1. Top Edge
+        if (top === 0) {
+          d += `L ${x + 100} ${y} `
+        } else if (top === 1) {
+          d += `L ${x + 38} ${y} C ${x + 34} ${y - 15}, ${x + 42} ${y - 22}, ${x + 50} ${y - 22} C ${x + 58} ${y - 22}, ${x + 66} ${y - 15}, ${x + 62} ${y} L ${x + 100} ${y} `
+        } else if (top === -1) {
+          d += `L ${x + 38} ${y} C ${x + 34} ${y + 15}, ${x + 42} ${y + 22}, ${x + 50} ${y + 22} C ${x + 58} ${y + 22}, ${x + 66} ${y + 15}, ${x + 62} ${y} L ${x + 100} ${y} `
+        }
+
+        // 2. Right Edge
+        if (right === 0) {
+          d += `L ${x + 100} ${y + 100} `
+        } else if (right === 1) {
+          d += `L ${x + 100} ${y + 38} C ${x + 115} ${y + 34}, ${x + 122} ${y + 42}, ${x + 122} ${y + 50} C ${x + 122} ${y + 58}, ${x + 115} ${y + 66}, ${x + 100} ${y + 62} L ${x + 100} ${y + 100} `
+        } else if (right === -1) {
+          d += `L ${x + 100} ${y + 38} C ${x + 85} ${y + 34}, ${x + 78} ${y + 42}, ${x + 78} ${y + 50} C ${x + 78} ${y + 58}, ${x + 85} ${y + 66}, ${x + 100} ${y + 62} L ${x + 100} ${y + 100} `
+        }
+
+        // 3. Bottom Edge
+        if (bottom === 0) {
+          d += `L ${x} ${y + 100} `
+        } else if (bottom === 1) {
+          d += `L ${x + 62} ${y + 100} C ${x + 66} ${y + 115}, ${x + 58} ${y + 122}, ${x + 50} ${y + 122} C ${x + 42} ${y + 122}, ${x + 34} ${y + 115}, ${x + 38} ${y + 100} L ${x} ${y + 100} `
+        } else if (bottom === -1) {
+          d += `L ${x + 62} ${y + 100} C ${x + 66} ${y + 85}, ${x + 58} ${y + 78}, ${x + 50} ${y + 78} C ${x + 42} ${y + 78}, ${x + 34} ${y + 85}, ${x + 38} ${y + 100} L ${x} ${y + 100} `
+        }
+
+        // 4. Left Edge
+        if (left === 0) {
+          d += `L ${x} ${y} `
+        } else if (left === 1) {
+          d += `L ${x} ${y + 62} C ${x - 15} ${y + 66}, ${x - 22} ${y + 58}, ${x - 22} ${y + 50} C ${x - 22} ${y + 42}, ${x - 15} ${y + 34}, ${x} ${y + 38} L ${x} ${y} `
+        } else if (left === -1) {
+          d += `L ${x} ${y + 62} C ${x + 15} ${y + 66}, ${x + 22} ${y + 58}, ${x + 22} ${y + 50} C ${x + 22} ${y + 42}, ${x + 15} ${y + 34}, ${x} ${y + 38} L ${x} ${y} `
+        }
+
+        d += "Z"
+
+        list.push({
+          id: `${r}-${c}`,
+          d,
+          color: pieceShades[r][c]
+        })
+      }
+    }
+    return list
+  }, [horizontalEdges, verticalEdges, pieceShades])
+
+  return (
+    <div className={s.puzzleBackgroundContainer}>
+      <motion.svg
+        className={s.puzzleWallSvg}
+        viewBox={`0 0 ${cols * 100} ${rows * 100}`}
+        preserveAspectRatio="xMidYMid slice"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        animate={{
+          scale: [1, 1.03, 1],
+        }}
+        transition={{
+          duration: 25,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      >
+        <defs>
+          {pieces.map((p) => (
+            <linearGradient key={`grad-${p.id}`} id={`pieceGrad-${p.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor={p.color.start} stopOpacity="0.92" />
+              <stop offset="100%" stopColor={p.color.end} stopOpacity="0.98" />
+            </linearGradient>
+          ))}
+        </defs>
+        {pieces.map((p) => (
+          <path
+            key={p.id}
+            d={p.d}
+            fill={`url(#pieceGrad-${p.id})`}
+            stroke="#FFC72C"
+            strokeWidth="1.2"
+            strokeOpacity="0.45"
+            strokeLinejoin="round"
+            style={{ transition: 'fill 0.3s ease' }}
+          />
+        ))}
+      </motion.svg>
+    </div>
+  )
+}
+
+/* ── Genomic Background Component (Premium Stars & Grid Connection) ── */
+function GenomicBackground() {
+  return (
+    <div className={s.genomicBackground}>
+      <svg className={s.genomicSvg} viewBox="0 0 1440 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Fine tech grid */}
+        <defs>
+          <pattern id="gridPattern" width="60" height="60" patternUnits="userSpaceOnUse">
+            <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255, 255, 255, 0.03)" strokeWidth="1" />
+            <circle cx="60" cy="0" r="1.5" fill="rgba(255, 199, 44, 0.25)" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#gridPattern)" />
+        
+        {/* Floating clean star particles in golden yellow and white */}
+        <g opacity="0.4">
+          <circle cx="150" cy="200" r="3.5" fill="#ffffff" />
+          <circle cx="250" cy="150" r="2" fill="#FFC72C" />
+          <circle cx="350" cy="220" r="4" fill="#ffffff" />
+          <circle cx="420" cy="180" r="3" fill="#FFC72C" />
+          
+          <circle cx="1000" cy="150" r="3" fill="#FFC72C" />
+          <circle cx="1120" cy="250" r="4.5" fill="#ffffff" />
+          <circle cx="1250" cy="180" r="3.5" fill="#FFC72C" />
+
+          <circle cx="200" cy="500" r="3" fill="#ffffff" />
+          <circle cx="220" cy="510" r="2" fill="#FFC72C" />
+          <circle cx="240" cy="525" r="3.5" fill="#ffffff" />
+          
+          <circle cx="800" cy="600" r="2.5" fill="#ffffff" />
+          <circle cx="850" cy="620" r="3" fill="#FFC72C" />
+          <circle cx="900" cy="590" r="2" fill="#ffffff" />
+        </g>
+
+        {/* Large decorative glowing rings */}
+        <circle cx="1400" cy="100" r="180" stroke="rgba(255, 199, 44, 0.08)" strokeWidth="2" />
+        <circle cx="1400" cy="100" r="240" stroke="rgba(255, 255, 255, 0.03)" strokeWidth="1" strokeDasharray="8 8" />
+        
+        <circle cx="50" cy="700" r="120" stroke="rgba(255, 199, 44, 0.05)" strokeWidth="1.5" />
+      </svg>
+    </div>
+  )
+}
 
 /* ── Component ──────────────────────────────────────────── */
 export default function CareerPage() {
@@ -429,6 +629,7 @@ export default function CareerPage() {
 
       {/* ── HERO ─────────────────────────────────────── */}
       <section className={s.hero}>
+        <GenomicBackground />
         <div className={`${s.blob} ${s.blob1}`} />
         <div className={`${s.blob} ${s.blob2}`} />
         <div className={s.heroInner}>
@@ -505,7 +706,7 @@ export default function CareerPage() {
               <motion.div variants={fadeUp} className={s.sectionPill}>Opportunities</motion.div>
               <motion.h2 variants={fadeUp} className={s.h2Left}>
                 Find Your Role in<br />
-                <span className={s.gradientText}>Precision Science</span>
+                <span className={s.goldText}>Precision Science</span>
               </motion.h2>
             </motion.div>
 
@@ -736,7 +937,7 @@ export default function CareerPage() {
           <div className={s.growthLab}>
             <div className={s.labLeft}>
               <div className={s.pillLight}>Education & Training</div>
-              <h2 className={s.labH2}>Internship <span className={s.blackText}>Excellence</span> Program</h2>
+              <h2 className={s.labH2}>Internship <span className={s.goldText}>Excellence</span> Program</h2>
               <p className={s.labLead}>
                 Empowering the next generation of bioinformatics experts through immersion 
                 in high-impact research and clinical data pipelines.

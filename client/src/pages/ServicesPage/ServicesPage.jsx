@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Dna, Microscope, Activity,
@@ -347,6 +347,154 @@ const INTERNSHIP_MODULES = [
   }
 ]
 
+/* ── Puzzle Background Component ────────────────────────── */
+function PuzzleBackground() {
+  const cols = 50
+  const rows = 35
+
+  // Generate stable, interlocking vertical and horizontal edges
+  const horizontalEdges = useMemo(() => {
+    const edges = []
+    for (let r = 0; r < rows - 1; r++) {
+      const row = []
+      for (let c = 0; c < cols; c++) {
+        row.push(Math.random() > 0.5 ? 1 : -1)
+      }
+      edges.push(row)
+    }
+    return edges
+  }, [])
+
+  const verticalEdges = useMemo(() => {
+    const edges = []
+    for (let r = 0; r < rows; r++) {
+      const row = []
+      for (let c = 0; c < cols - 1; c++) {
+        row.push(Math.random() > 0.5 ? 1 : -1)
+      }
+      edges.push(row)
+    }
+    return edges
+  }, [])
+
+  // Dynamic royal blue palette variations to match the multicolored visual puzzle grid
+  const pieceShades = useMemo(() => {
+    const shades = []
+    const palette = [
+      { start: "#ffffff", end: "#fafafa" }, // Pure white to very light gray
+      { start: "#ffffff", end: "#fcfdfd" }, // Solid soft white
+      { start: "#fcfdfd", end: "#f8fafc" }, // Faint off-white
+      { start: "#ffffff", end: "#fafbfb" }, // Clear white glow
+      { start: "#fafafa", end: "#f5f5f5" }  // Very soft gray
+    ]
+    for (let r = 0; r < rows; r++) {
+      const row = []
+      for (let c = 0; c < cols; c++) {
+        const index = Math.floor(Math.random() * palette.length)
+        row.push(palette[index])
+      }
+      shades.push(row)
+    }
+    return shades
+  }, [])
+
+  // Build all the interlocking puzzle paths
+  const pieces = useMemo(() => {
+    const list = []
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const top = r === 0 ? 0 : -horizontalEdges[r - 1][c]
+        const right = c === cols - 1 ? 0 : verticalEdges[r][c]
+        const bottom = r === rows - 1 ? 0 : horizontalEdges[r][c]
+        const left = c === 0 ? 0 : -verticalEdges[r][c - 1]
+
+        const x = c * 100
+        const y = r * 100
+
+        let d = `M ${x} ${y} `
+
+        // 1. Top Edge (left to right)
+        if (top === 0) {
+          d += `L ${x + 100} ${y} `
+        } else if (top === 1) {
+          d += `L ${x + 38} ${y} C ${x + 34} ${y - 15}, ${x + 42} ${y - 22}, ${x + 50} ${y - 22} C ${x + 58} ${y - 22}, ${x + 66} ${y - 15}, ${x + 62} ${y} L ${x + 100} ${y} `
+        } else if (top === -1) {
+          d += `L ${x + 38} ${y} C ${x + 34} ${y + 15}, ${x + 42} ${y + 22}, ${x + 50} ${y + 22} C ${x + 58} ${y + 22}, ${x + 66} ${y + 15}, ${x + 62} ${y} L ${x + 100} ${y} `
+        }
+
+        // 2. Right Edge (top to bottom)
+        if (right === 0) {
+          d += `L ${x + 100} ${y + 100} `
+        } else if (right === 1) {
+          d += `L ${x + 100} ${y + 38} C ${x + 115} ${y + 34}, ${x + 122} ${y + 42}, ${x + 122} ${y + 50} C ${x + 122} ${y + 58}, ${x + 115} ${y + 66}, ${x + 100} ${y + 62} L ${x + 100} ${y + 100} `
+        } else if (right === -1) {
+          d += `L ${x + 100} ${y + 38} C ${x + 85} ${y + 34}, ${x + 78} ${y + 42}, ${x + 78} ${y + 50} C ${x + 78} ${y + 58}, ${x + 85} ${y + 66}, ${x + 100} ${y + 62} L ${x + 100} ${y + 100} `
+        }
+
+        // 3. Bottom Edge (right to left)
+        if (bottom === 0) {
+          d += `L ${x} ${y + 100} `
+        } else if (bottom === 1) {
+          d += `L ${x + 62} ${y + 100} C ${x + 66} ${y + 115}, ${x + 58} ${y + 122}, ${x + 50} ${y + 122} C ${x + 42} ${y + 122}, ${x + 34} ${y + 115}, ${x + 38} ${y + 100} L ${x} ${y + 100} `
+        } else if (bottom === -1) {
+          d += `L ${x + 62} ${y + 100} C ${x + 66} ${y + 85}, ${x + 58} ${y + 78}, ${x + 50} ${y + 78} C ${x + 42} ${y + 78}, ${x + 34} ${y + 85}, ${x + 38} ${y + 100} L ${x} ${y + 100} `
+        }
+
+        // 4. Left Edge (bottom to top)
+        if (left === 0) {
+          d += `L ${x} ${y} `
+        } else if (left === 1) {
+          d += `L ${x} ${y + 62} C ${x - 15} ${y + 66}, ${x - 22} ${y + 58}, ${x - 22} ${y + 50} C ${x - 22} ${y + 42}, ${x - 15} ${y + 34}, ${x} ${y + 38} L ${x} ${y} `
+        } else if (left === -1) {
+          d += `L ${x} ${y + 62} C ${x + 15} ${y + 66}, ${x + 22} ${y + 58}, ${x + 22} ${y + 50} C ${x + 22} ${y + 42}, ${x + 15} ${y + 34}, ${x} ${y + 38} L ${x} ${y} `
+        }
+
+        d += "Z"
+
+        list.push({
+          id: `${r}-${c}`,
+          d,
+          color: pieceShades[r][c]
+        })
+      }
+    }
+    return list
+  }, [horizontalEdges, verticalEdges, pieceShades])
+
+  return (
+    <div className={s.puzzleBackgroundContainer}>
+      <svg
+        className={s.puzzleWallSvg}
+        viewBox={`0 0 ${cols * 100} ${rows * 100}`}
+        preserveAspectRatio="xMidYMid slice"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          {pieces.map((p) => (
+            <linearGradient key={`grad-${p.id}`} id={`pieceGrad-${p.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor={p.color.start} stopOpacity="0.92" />
+              <stop offset="100%" stopColor={p.color.end} stopOpacity="0.98" />
+            </linearGradient>
+          ))}
+        </defs>
+        {pieces.map((p) => (
+          <path
+            key={p.id}
+            d={p.d}
+            fill={`url(#pieceGrad-${p.id})`}
+            stroke="#FFC72C"
+            strokeWidth="1.2"
+            strokeOpacity="0.45"
+            strokeLinejoin="round"
+            style={{ transition: 'fill 0.3s ease' }}
+          />
+        ))}
+      </svg>
+    </div>
+  )
+}
+
 /* ── Component ──────────────────────────────────────────── */
 export default function ServicesPage() {
   return (
@@ -385,6 +533,7 @@ export default function ServicesPage() {
 
       {/* ── ALL SERVICES ─────────────────────────────── */}
       <section className={s.sectionNoTop}>
+        <PuzzleBackground />
         <div className={s.inner}>
           <div className={s.sectionHeader}>
             <div className={s.sectionLabel}>What We Offer</div>
@@ -404,7 +553,7 @@ export default function ServicesPage() {
         <div className={s.inner}>
           <div className={s.growthLab}>
             <div className={s.labLeft}>
-              <div className={s.sectionLabel}>Education & Training</div>
+              <div className={s.pillLight}>Education & Training</div>
               <h2 className={s.labH2}>Internship <span className={s.goldText}>Excellence</span> Program</h2>
               <p className={s.labLead}>
                 Empowering the next generation of bioinformatics experts through immersion

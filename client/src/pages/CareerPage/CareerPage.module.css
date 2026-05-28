@@ -27,9 +27,49 @@
 /* ── HERO SECTION ────────────────────────────────── */
 .hero {
   padding: 160px 0 100px;
-  background: linear-gradient(to bottom, #f0f7ff, #e8f2ff);
+  background: linear-gradient(135deg, #0b1a40 0%, #1e3a8a 50%, #0d1e4a 100%);
   position: relative;
   overflow: hidden;
+}
+
+.genomicBackground {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.genomicSvg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Faint royal blue and golden yellow glows */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.blob1 {
+  top: -20%;
+  left: 5%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #2563eb 0%, transparent 70%);
+}
+
+.blob2 {
+  bottom: -20%;
+  right: 10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #FFC72C 0%, transparent 70%);
 }
 
 .heroInner {
@@ -40,6 +80,8 @@
   grid-template-columns: 1.1fr 0.9fr;
   gap: 64px;
   align-items: center;
+  position: relative;
+  z-index: 3;
 }
 
 .heroText { position: relative; z-index: 10; }
@@ -49,26 +91,29 @@
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   margin-bottom: 32px;
-  transition: color 0.2s;
+  transition: all 0.25s ease;
 }
-.backLink:hover { color: var(--blue); }
+.backLink:hover {
+  color: #FFC72C;
+  transform: translateX(-4px);
+}
 
 .pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 6px 14px;
-  background: rgba(255, 199, 44, 0.08);
-  border: 1px solid rgba(255, 199, 44, 0.35);
+  background: rgba(9, 13, 22, 0.6);
+  border: 1px solid rgba(255, 199, 44, 0.45);
   border-radius: 100px;
   font-size: 13px;
   font-weight: 700;
-  color: #c48c00;
+  color: #ffffff;
   margin-bottom: 24px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .pillDot {
@@ -76,7 +121,7 @@
   height: 6px;
   background: #FFC72C;
   border-radius: 50%;
-  box-shadow: 0 0 8px #FFC72C;
+  box-shadow: 0 0 10px #FFC72C;
 }
 
 @keyframes pulse {
@@ -92,18 +137,23 @@
   line-height: 1.1;
   letter-spacing: -2px;
   margin-bottom: 24px;
+  color: #ffffff;
 }
 
 .gradientText {
-  background: linear-gradient(90deg, var(--blue), var(--violet));
+  background: linear-gradient(90deg, #ffffff 0%, #FFC72C 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+.goldText {
+  color: gold;
+}
+
 .heroLead {
   font-size: 19px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.85);
   line-height: 1.6;
   margin-bottom: 40px;
   max-width: 540px;
@@ -119,48 +169,73 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: var(--blue);
-  color: #fff;
+  background: #FFC72C;
+  color: #090d16;
   padding: 14px 28px;
   border-radius: 12px;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
-  transition: all 0.2s;
+  transition: all 0.25s ease;
+  border: 1px solid #FFC72C;
+  box-shadow: 0 4px 15px rgba(255, 199, 44, 0.3);
 }
-.btnPrimary:hover { background: var(--blue-dark); transform: translateY(-2px); }
+.btnPrimary:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #090d16;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
+}
 
 .btnOutline {
   display: inline-flex;
   align-items: center;
   padding: 14px 28px;
   border-radius: 12px;
-  border: 1px solid var(--border);
-  background: #fff;
-  color: var(--ink);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  background: transparent;
+  color: #ffffff;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.2s;
+  transition: all 0.25s ease;
 }
-.btnOutline:hover { background: var(--surface); border-color: var(--muted); }
+.btnOutline:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #FFC72C;
+  color: #FFC72C;
+  transform: translateY(-2px);
+}
 
 .trustRow {
   display: flex;
   gap: 40px;
   padding-top: 40px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .trustStat { display: flex; flex-direction: column; gap: 4px; }
-.trustNum { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: var(--ink); }
-.trustLabel { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+.trustNum {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #FFC72C;
+  text-shadow: 0 2px 10px rgba(255, 199, 44, 0.2);
+}
+.trustLabel {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
 
-.heroVisual { position: relative; }
+.heroVisual { position: relative; z-index: 10; }
 .visualGlow {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   width: 100%; height: 100%;
-  background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(30, 58, 138, 0.15) 0%, transparent 70%);
   filter: blur(40px);
 }
 
@@ -168,7 +243,17 @@
 .atomicCanvas { width: 100%; height: 100%; }
 
 /* ── JOBS SECTION ───────────────────────────────── */
-.jobsSection { padding: 120px 0; background: #fff; }
+.jobsSection {
+  padding: 120px 0;
+  background-color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.jobsSection .inner {
+  position: relative;
+  z-index: 2;
+}
 
 .sectionHeaderSplit {
   display: flex;
@@ -223,16 +308,27 @@
 .filterBtn {
   padding: 10px 20px;
   border-radius: 100px;
-  border: 1px solid var(--border);
-  background: #fff;
-  color: var(--muted);
+  border: 1px solid #FFC72C;
+  background: #ffffff;
+  color: #1e3a8a;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.2s;
+  transition: all 0.25s ease;
 }
 
-.filterBtnActive { background: var(--ink); border-color: var(--ink); color: #fff; }
+.filterBtn:hover:not(.filterBtnActive) {
+  background: rgba(30, 58, 138, 0.05);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
+}
+
+.filterBtnActive {
+  background: #1e3a8a;
+  border-color: #1e3a8a;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+}
 
 .jobsList { 
   display: grid; 
@@ -241,8 +337,8 @@
 }
 
 .jobCard {
-  background: #fff;
-  border: 1px solid var(--border);
+  background: #ffffff;
+  border: 1.5px solid rgba(30, 58, 138, 0.08);
   border-radius: 20px;
   padding: 32px;
   display: flex;
@@ -254,6 +350,7 @@
   position: relative;
   overflow: hidden;
   height: 100%;
+  box-shadow: 0 4px 20px rgba(30, 58, 138, 0.03);
 }
 
 .jobCard::before {
@@ -261,15 +358,16 @@
   position: absolute;
   left: 0; right: 0; top: 0;
   height: 4px;
-  background: var(--accent, var(--blue));
+  background: var(--accent, #1e3a8a);
   opacity: 0;
   transition: opacity 0.3s;
 }
 
 .jobCard:hover {
-  border-color: var(--accent, var(--blue));
-  transform: translateY(-8px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  background: #ffffff;
+  border-color: var(--accent, #1e3a8a);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(30, 58, 138, 0.08);
 }
 .jobCard:hover::before { opacity: 1; }
 
@@ -644,7 +742,7 @@
   padding: 140px 0;
   position: relative;
   overflow: hidden;
-  color: #fff;
+  color: #ffffff;
   border-top: 3px solid #FFC72C;
 }
 
@@ -666,11 +764,11 @@
   letter-spacing: -2px;
 }
 
-.blackText { color: #020617; }
+.goldText { color: gold; }
 
 .labLead {
   font-size: 18px;
-  color: rgba(255, 255, 255, 0.7);
+  color: #94a3b8;
   line-height: 1.7;
   margin-bottom: 56px;
   max-width: 500px;
@@ -679,15 +777,15 @@
 .pillLight {
   display: inline-flex;
   padding: 6px 14px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background: rgba(255, 199, 44, 0.12);
+  color: #FFD700;
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
   border-radius: 100px;
   margin-bottom: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 199, 44, 0.35);
 }
 
 .pathway {
@@ -713,7 +811,7 @@
   top: 40px;
   bottom: -40px;
   width: 2px;
-  background: linear-gradient(to bottom, #3b82f6, transparent);
+  background: linear-gradient(to bottom, #2563eb, transparent);
 }
 
 .pathItem:last-child .nodeLine { display: none; }
@@ -721,41 +819,46 @@
 .nodeCircle {
   width: 36px;
   height: 36px;
-  background: #fff;
-  border: 4px solid #1e40af;
+  background: rgba(255, 199, 44, 0.1);
+  border: 4px solid #FFC72C;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
   font-weight: 800;
-  color: #1e40af;
+  color: #FFC72C;
   position: relative;
   z-index: 2;
+  box-shadow: 0 0 20px rgba(255, 199, 44, 0.3);
 }
 
 .pathTitle {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 20px;
   font-weight: 700;
-  color: #fff;
+  color: #FFC72C;
   margin: 0 0 8px;
 }
 
 .pathDesc {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
+  color: #e2e8f0;
   line-height: 1.6;
   margin: 0;
 }
 
-.labRight { position: relative; display: flex; justify-content: center; }
+.labRight {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
 
 .labGlass {
   width: 100%;
   max-width: 440px;
-  background: #fff;
-  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  border: 2px solid #FFC72C;
   padding: 48px;
   border-radius: 32px;
   position: relative;
@@ -764,10 +867,35 @@
   color: #020617;
 }
 
-.glassHead { display: flex; align-items: center; gap: 20px; margin-bottom: 40px; }
-.glassIcon { width: 72px; height: 72px; padding: 18px; background: #2563eb; border-radius: 20px; color: #fff; }
-.glassH3 { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: #020617; margin: 0 0 4px; }
-.glassP { font-size: 14px; color: #64748b; margin: 0; }
+.glassHead {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.glassIcon {
+  width: 72px;
+  height: 72px;
+  padding: 18px;
+  background: #FFC72C;
+  border-radius: 20px;
+  color: #1e3a8a;
+}
+
+.glassH3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #020617;
+  margin: 0 0 4px;
+}
+
+.glassP {
+  font-size: 14px;
+  color: #475569;
+  margin: 0;
+}
 
 .labStats {
   display: grid;
@@ -775,34 +903,57 @@
   gap: 24px;
   margin-bottom: 40px;
   padding: 32px 0;
-  border-top: 1px solid #f1f5f9;
-  border-bottom: 1px solid #f1f5f9;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.labStat { display: flex; flex-direction: column; gap: 4px; }
-.labStatVal { font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; color: #2563eb; }
-.labStatLabel { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; font-weight: 700; }
+.labStat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.labStatVal {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #FFC72C;
+}
+
+.labStatLabel {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #475569;
+  font-weight: 700;
+}
 
 .labBtn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  background: #2563eb;
-  color: #fff;
+  background: #FFC72C;
+  color: #1e3a8a;
   padding: 18px;
   border-radius: 16px;
   font-weight: 700;
   text-decoration: none;
-  transition: transform 0.3s;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.labBtn:hover { transform: translateY(-4px); background: #1d4ed8; }
+
+.labBtn:hover {
+  transform: scale(1.02) translateY(-4px);
+  background: #FFC72C;
+}
 
 .labBlob {
   position: absolute;
-  top: 50%; left: 50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  width: 600px; height: 600px;
+  width: 600px;
+  height: 600px;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
   filter: blur(80px);
   z-index: 1;

@@ -462,7 +462,7 @@ function WhyUsClock() {
       </div>
 
       <div className={s.clockRight}>
-        <svg viewBox="-20 -20 860 960" style={{ width: '100%', height: 'auto', filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.4))' }}>
+        <svg viewBox="-40 -40 900 1040" style={{ width: '100%', height: 'auto', filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.4))' }}>
           {sortedNodes.map((node) => {
             const isActive = node.originalIndex === active
             return (
