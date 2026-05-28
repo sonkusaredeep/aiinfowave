@@ -231,25 +231,7 @@ export default function OpenProjectCallPage() {
         </div>
       </section>
 
-      {/* ── FULL WIDTH STATS BAR ── */}
-      <div className={s.statsBar}>
-        <div className={s.statsInner}>
-          <div className={s.statItem}>
-            <span className={s.statNum}>99.9%</span>
-            <span className={s.statLabel}>Pipeline Accuracy</span>
-          </div>
-          <div className={s.statDivider} />
-          <div className={s.statItem}>
-            <span className={s.statNum}>50+</span>
-            <span className={s.statLabel}>Research Projects</span>
-          </div>
-          <div className={s.statDivider} />
-          <div className={s.statItem}>
-            <span className={s.statNum}>10,000+</span>
-            <span className={s.statLabel}>Genomic Samples</span>
-          </div>
-        </div>
-      </div>
+
 
       {/* ── 2. APPLICATION PORTAL (PRISTINE WHITE CARD) ── */}
       <section className={s.formSection} id="application-portal">
@@ -301,12 +283,18 @@ export default function OpenProjectCallPage() {
                   <div className={s.formSectionBlock}>
                     <div className={s.sectionLabel}>1. Analytical Domain</div>
                     <div className={s.fieldGroup}>
-                      <label className={s.label} htmlFor="researchArea">Analytical Domain / Area of Interest *</label>
-                      <input
-                        id="researchArea" name="researchArea" type="text" required
-                        className={s.input} placeholder="e.g. Genomics & NGS, Proteomics Analysis, AI Drug Discovery..."
+                      <label className={s.label} htmlFor="researchArea">Select Service Category / Domain of Interest *</label>
+                      <select
+                        id="researchArea" name="researchArea" required
+                        className={s.selectInput}
                         value={form.researchArea} onChange={handleChange}
-                      />
+                      >
+                        <option value="">-- Select a Category --</option>
+                        <option value="Bio & Health AI Services">Bio & Health AI Services</option>
+                        <option value="Agriculture AI Services">Agriculture AI Services</option>
+                        <option value="AI for Small Businesses">AI for Small Businesses</option>
+                        <option value="Education & Knowledge Products">Education & Knowledge Products</option>
+                      </select>
                     </div>
                   </div>
 

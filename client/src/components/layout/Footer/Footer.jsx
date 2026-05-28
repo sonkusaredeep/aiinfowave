@@ -33,8 +33,8 @@ export default function Footer() {
             <span className={s.footerLogoText}>AI <span>Infowave</span></span>
           </Link>
           <p className={s.footerDesc}>
-            Pioneering Genomic Intelligence. Bridging raw biological data and
-            clinical breakthroughs through advanced computational models.
+            AI Solutions for Healthcare, Agriculture & Modern Businesses.
+            Empowering organizations to transform research, operations, and decision-making for real-world impact.
           </p>
           <div className={s.footerSocRow}>
             {[['globe', Ico.globe], ['linkedin', Ico.linkedin], ['twitter', Ico.twitter]].map(([key, icon]) => (
@@ -44,7 +44,7 @@ export default function Footer() {
         </div>
 
         {[
-          { head: 'Platform', links: [['Home', '/'], ['AI News', '/news'], ['Services', '/services'], ['Open Projects', '/open-project-call']] },
+          { head: 'Platform', links: [['Home', '/'], ['Services', '/services'], ['Open Projects', '/open-project-call']] },
           { head: 'Company', links: [['About', '/about'], ['Internships', '/internship'], ['Careers', '/career'], ['Contact', '/contact']] },
           { head: 'Legal', links: [['Privacy Policy', '/privacy'], ['Terms of Service', '/terms'], ['Cookies', '/cookies']] },
         ].map(col => (
@@ -58,7 +58,7 @@ export default function Footer() {
       </div>
 
       <div className={s.footerBottom}>
-        <span className={s.footerCopy}>© 2024 AI Infowave. Pioneering Genomic Intelligence.</span>
+        <span className={s.footerCopy}>© 2024 AI Infowave.</span>
         <div className={s.footerBottomLinks}>
           <a href="/privacy" className={s.footerBottomLink}>Privacy</a>
           <a href="/terms" className={s.footerBottomLink}>Terms</a>

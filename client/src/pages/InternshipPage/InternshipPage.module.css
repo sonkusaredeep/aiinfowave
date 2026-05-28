@@ -16,7 +16,7 @@
   padding: 160px 0 100px;
   position: relative;
   overflow: hidden;
-  background: #fff;
+  background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,15 +27,15 @@
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.08) 0%, transparent 60%);
+    radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.25) 0%, transparent 60%);
   z-index: 0;
 }
 
 .heroGridBg {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(rgba(37, 99, 235, 0.15) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(37, 99, 235, 0.15) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
   mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
@@ -58,9 +58,9 @@
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: rgba(255, 199, 44, 0.08);
-  color: #c48c00;
-  border: 1px solid rgba(255, 199, 44, 0.35);
+  background: rgba(255, 199, 44, 0.12);
+  color: gold;
+  border: 1.5px solid rgba(255, 199, 44, 0.45);
   font-size: 13px;
   font-weight: 700;
   border-radius: 100px;
@@ -76,11 +76,11 @@
   line-height: 1.1;
   letter-spacing: -2px;
   margin-bottom: 24px;
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .gradientText {
-  background: linear-gradient(90deg, #2563eb, #7c3aed);
+  background: linear-gradient(90deg, gold 0%, #FFC72C 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -88,7 +88,7 @@
 
 .heroLeadCenter {
   font-size: 20px;
-  color: #64748b;
+  color: #cbd5e1;
   line-height: 1.6;
   margin-bottom: 48px;
   max-width: 600px;
@@ -123,25 +123,25 @@
   justify-content: center;
   width: 100%;
   gap: 8px;
-  background: #2563eb;
-  color: #fff;
-  font-family: 'Rajdhani', sans-serif;
+  background: #FFC72C;
+  color: #1e3a8a;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 15px;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
   padding: 18px 28px;
-  border-radius: 8px;
+  border-radius: 16px;
   text-decoration: none;
   border: none;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
+  box-shadow: 0 4px 15px rgba(255, 199, 44, 0.35);
 }
 .btnPrimaryBlock:hover {
-  background: #1d4ed8;
+  background: #FFC72C;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 8px 25px rgba(255, 199, 44, 0.5);
 }
 
 .btnOutline {
@@ -167,44 +167,54 @@
 }
 
 .glassStatCard {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(255, 199, 44, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   padding: 20px 32px;
   display: flex;
   align-items: center;
   gap: 16px;
   text-align: left;
+  transition: transform 0.3s ease;
+}
+
+.glassStatCard:hover {
+  transform: translateY(-4px);
+  border-color: gold;
 }
 
 .glassStatIconWrap {
-  width: 48px; height: 48px;
-  background: #fff;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 199, 44, 0.12);
+  border: 1px solid rgba(255, 199, 44, 0.35);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+  color: gold;
 }
 
 .glassStatText h4 {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 16px;
   font-weight: 700;
-  color: #0f172a;
+  color: #ffffff;
   margin-bottom: 2px;
 }
 
 .glassStatText p {
   font-size: 13px;
-  color: #64748b;
+  color: #cbd5e1;
   margin: 0;
 }
 
-.textBlue { color: #2563eb; }
-.textViolet { color: #7c3aed; }
+.textBlue { color: gold; }
+.textViolet { color: gold; }
 
 /* ── SECTIONS ── */
 .section { padding: 120px 0; background: #fff; }
@@ -778,13 +788,13 @@
 
 .benefitIconWrap {
   width: 56px; height: 56px;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #fff;
+  background: #ffffff;
+  border: 2.5px solid gold;
+  color: gold;
   border-radius: 16px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .benefitItem h4 {
@@ -792,7 +802,7 @@
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 8px;
-  color: #fff;
+  color: gold;
 }
 
 .benefitItem p {
@@ -804,6 +814,7 @@
 /* Right Col: Process */
 .processCard {
   background: #ffffff;
+  border: 2px solid #FFC72C;
   border-radius: 32px;
   padding: 48px;
   box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
@@ -812,13 +823,52 @@
 .h3Light { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; margin-bottom: 16px; color: #0f172a; }
 .processDesc { color: #64748b; font-size: 16px; line-height: 1.6; margin-bottom: 40px; }
 
-.stepsList { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 32px; margin-bottom: 48px;}
-.stepsList li { display: flex; gap: 24px; align-items: flex-start; }
-.stepNum { 
-  width: 40px; height: 40px; border-radius: 50%; background: #ebf2ff; 
-  border: 1px solid #bfdbfe; color: #2563eb; 
-  display: flex; align-items: center; justify-content: center; font-weight: 800; font-family: 'Space Grotesk', sans-serif; flex-shrink: 0;
+.stepsList {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-bottom: 48px;
+  position: relative;
 }
+
+.stepsList::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  left: 20px;
+  width: 2px;
+  background: linear-gradient(to bottom, gold 0%, rgba(255, 199, 44, 0.25) 100%);
+  z-index: 1;
+}
+
+.stepsList li {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  position: relative;
+  z-index: 2;
+}
+
+.stepNum { 
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ffffff; 
+  border: 2.5px solid gold;
+  color: #c48c00; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-family: 'Space Grotesk', sans-serif;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 3;
+}
+
 .stepsList strong { display: block; font-size: 18px; margin-bottom: 4px; color: #0f172a; }
 .stepsList span { color: #64748b; font-size: 14px; }
 
