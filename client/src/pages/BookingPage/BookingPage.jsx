@@ -198,7 +198,6 @@ export default function BookingPage() {
         <div className={s.blob1} />
         <div className={s.blob2} />
         <div className={s.blob3} />
-        <div className={s.bgGridPattern} />
       </div>
       
       <section className={s.hero} aria-label="Booking Consultation Page">

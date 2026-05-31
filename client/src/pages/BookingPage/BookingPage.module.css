@@ -5,7 +5,9 @@
    ══════════════════════════════════════════════════════════ */
 
 .page {
-  background: #0b1329; /* Darker space-themed background to make gradients pop */
+  background-color: #1e3a8a;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M0 0 L50 0 Q50 0 55 10 Q60 20 55 20 Q50 20 50 20 L50 50 L20 50 Q20 50 10 55 Q0 60 10 65 Q20 70 20 70 L50 70 L50 120 L0 120 Z' fill='none' stroke='rgba(255%2C199%2C44%2C0.18)' stroke-width='1.5'/%3E%3Cpath d='M50 0 L120 0 L120 50 L90 50 Q90 50 80 55 Q70 60 80 65 Q90 70 90 70 L120 70 L120 120 L50 120 L50 70 L70 70 Q70 70 75 60 Q80 50 75 45 Q70 40 70 50 L50 50 Z' fill='none' stroke='rgba(255%2C199%2C44%2C0.18)' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-size: 120px 120px;
   min-height: 100vh;
   font-family: 'DM Sans', sans-serif;
   position: relative;
@@ -58,17 +60,6 @@
   transform: translate(-50%, -50%);
   opacity: 0.12;
   animation: float3 28s ease-in-out infinite alternate;
-}
-
-.bgGridPattern {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse at 50% 0%, black 50%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse at 50% 0%, black 50%, transparent 100%);
-  opacity: 0.7;
 }
 
 @keyframes float1 {
