@@ -193,6 +193,14 @@ export default function BookingPage() {
   return (
     <div className={s.page}>
       
+      {/* Premium Animated Background */}
+      <div className={s.bgAnimations}>
+        <div className={s.blob1} />
+        <div className={s.blob2} />
+        <div className={s.blob3} />
+        <div className={s.bgGridPattern} />
+      </div>
+      
       <section className={s.hero} aria-label="Booking Consultation Page">
         <div className={s.inner}>
           
