@@ -733,3 +733,9 @@
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+.page footer {
+  position: relative;
+  z-index: 10;
+  background: #0B1120 !important;
+}
