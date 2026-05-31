@@ -423,6 +423,146 @@ const sendJobNotification = async ({ fullName, email, phone, jobTitle, departmen
 };
 
 // ─────────────────────────────────────────────────────────────
+// 8. CONSULTATION BOOKING CONFIRMATION (to client)
+// ─────────────────────────────────────────────────────────────
+const sendBookingConfirmation = async ({ email, name, service, date, timeSlot }) => {
+  const html = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8"/>
+    <style>
+      body { margin:0; padding:0; background:#f4f7ff; font-family:'Segoe UI',Arial,sans-serif; }
+      .wrap { max-width:560px; margin:40px auto; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(37,99,235,.10); }
+      .header { background:linear-gradient(135deg,#1e3a8a,#2563eb); padding:40px; text-align:center; }
+      .header h1 { margin:0; color:#fff; font-size:26px; font-weight:700; }
+      .header p { margin:8px 0 0; color:rgba(255,255,255,.8); font-size:15px; }
+      .body { padding:40px; }
+      .hi { font-size:18px; font-weight:600; color:#0f172a; margin:0 0 16px; }
+      .text { font-size:15px; color:#475569; line-height:1.7; margin:0 0 24px; }
+      .details-box { background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:24px; margin-bottom:24px; }
+      .detail-row { display:flex; margin-bottom:12px; border-bottom:1px solid #f1f5f9; padding-bottom:12px; }
+      .detail-row:last-child { margin-bottom:0; border-bottom:none; padding-bottom:0; }
+      .detail-label { width:120px; font-size:12px; font-weight:700; text-transform:uppercase; color:#94a3b8; letter-spacing:0.5px; }
+      .detail-val { flex:1; font-size:14px; color:#334155; font-weight:500; }
+      .note { background:#eff6ff; border-left:4px solid #2563eb; border-radius:4px; padding:14px 18px; font-size:13px; color:#1e40af; }
+      .footer { background:#f8fafc; border-top:1px solid #e2e8f0; padding:24px 40px; text-align:center; font-size:12px; color:#94a3b8; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="header">
+        <h1>Booking Confirmed! 🎉</h1>
+        <p>Your AI InfoWave Consultation</p>
+      </div>
+      <div class="body">
+        <p class="hi">Dear ${name},</p>
+        <p class="text">
+          Thank you for scheduling a free consultation with AI InfoWave. We are excited to connect and learn more about your needs. Here are your booking details:
+        </p>
+        <div class="details-box">
+          <div class="detail-row">
+            <div class="detail-label">Service</div>
+            <div class="detail-val">${service}</div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-label">Date</div>
+            <div class="detail-val">${date}</div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-label">Time Slot</div>
+            <div class="detail-val">${timeSlot} (IST)</div>
+          </div>
+        </div>
+        <div class="note">
+          💻 A video conference link will be sent to you shortly before the meeting. Please make sure to be on time.
+        </div>
+      </div>
+      <div class="footer">
+        &copy; ${new Date().getFullYear()} AI InfoWave. Saskatoon, SK, Canada.<br/>
+        Need to reschedule? Reply directly to this email.
+      </div>
+    </div>
+  </body>
+  </html>`;
+
+  await sendMail({
+    to: email,
+    subject: `Consultation Confirmed: ${service} — AI InfoWave`,
+    html,
+  });
+};
+
+// ─────────────────────────────────────────────────────────────
+// 9. CONSULTATION BOOKING NOTIFICATION (to admin)
+// ─────────────────────────────────────────────────────────────
+const sendBookingAdminNotification = async ({ name, email, phone, service, date, timeSlot, details }) => {
+  const html = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8"/>
+    <style>
+      body { margin:0; padding:0; background:#f4f7ff; font-family:'Segoe UI',Arial,sans-serif; }
+      .wrap { max-width:600px; margin:40px auto; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(37,99,235,.10); }
+      .header { background:linear-gradient(135deg,#0f172a,#1e3a8a); padding:32px 40px; }
+      .header h1 { margin:0; color:#fff; font-size:22px; font-weight:700; }
+      .header p { margin:6px 0 0; color:rgba(255,255,255,.65); font-size:13px; }
+      .body { padding:40px; }
+      .field { margin-bottom:18px; }
+      .label { font-size:11px; font-weight:700; text-transform:uppercase; color:#94a3b8; letter-spacing:1px; }
+      .value { font-size:15px; color:#0f172a; margin-top:4px; font-weight:500; }
+      .msg-box { background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin-top:20px; }
+      .msg-box .label { margin-bottom:8px; }
+      .msg-text { font-size:14px; color:#334155; line-height:1.6; white-space:pre-wrap; }
+      .footer { background:#f8fafc; border-top:1px solid #e2e8f0; padding:20px 40px; text-align:center; font-size:12px; color:#94a3b8; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="header">
+        <h1>🗓 New Consultation Booking</h1>
+        <p>AI InfoWave Website · ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST</p>
+      </div>
+      <div class="body">
+        <div class="field">
+          <div class="label">Client Name</div>
+          <div class="value">${name}</div>
+        </div>
+        <div class="field">
+          <div class="label">Contact Info</div>
+          <div class="value">Email: ${email} | Phone: ${phone}</div>
+        </div>
+        <div class="field">
+          <div class="label">Requested Service</div>
+          <div class="value">${service}</div>
+        </div>
+        <div class="field">
+          <div class="label">Date & Time</div>
+          <div class="value">${date} at ${timeSlot}</div>
+        </div>
+        ${details ? `
+        <div class="msg-box">
+          <div class="label">Client Message / Project Details</div>
+          <div class="msg-text">${details}</div>
+        </div>
+        ` : ''}
+      </div>
+      <div class="footer">
+        Reply to ${email} to communicate with the client.
+      </div>
+    </div>
+  </body>
+  </html>`;
+
+  await sendMail({
+    to: process.env.ADMIN_EMAIL,
+    subject: `[Booking] ${service} — ${name} (${date})`,
+    html,
+  });
+};
+
+// ─────────────────────────────────────────────────────────────
 // EXPORTS
 // ─────────────────────────────────────────────────────────────
 module.exports = {
@@ -433,4 +573,7 @@ module.exports = {
   sendInternshipNotification,
   sendJobConfirmation,
   sendJobNotification,
+  sendBookingConfirmation,
+  sendBookingAdminNotification,
 };
+

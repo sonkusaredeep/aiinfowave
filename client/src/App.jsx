@@ -14,6 +14,7 @@ import ServicesPage from './pages/ServicesPage/ServicesPage'
 import OpenProjectCallPage from './pages/OpenProjectCallPage/OpenProjectCallPage'
 import InternshipPage from './pages/InternshipPage/InternshipPage'
 import InternshipAdminPage from './pages/AdminDashboard/InternshipAdminPage'
+import BookingPage from './pages/BookingPage/BookingPage'
 import ScrollToTop from './components/ScrollToTop'
 
 export default function App() {
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="services" element={<ServicesPage />} />
           <Route path="open-project-call" element={<OpenProjectCallPage />} />
           <Route path="internship" element={<InternshipPage />} />
+          <Route path="book" element={<BookingPage />} />
           <Route path="admin/internships" element={<InternshipAdminPage />} />
         </Route>
       </Routes>

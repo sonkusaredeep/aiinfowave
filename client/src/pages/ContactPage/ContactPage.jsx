@@ -160,6 +160,23 @@ export default function ContactPage() {
                 </a>
               ))}
             </motion.div>
+
+            {/* Booking Consultation CTA Card */}
+            <motion.div variants={fadeUp} className={s.bookingCta}>
+              <div className={s.bookingCtaGlow} />
+              <div className={s.bookingCtaContent}>
+                <div className={s.bookingCtaHeader}>
+                  <div className={s.bookingCtaEmoji}>🗓</div>
+                  <div>
+                    <h4 className={s.bookingCtaTitle}>Book a Live Consultation</h4>
+                    <p className={s.bookingCtaDesc}>Prefer a live face-to-face video session? Choose a slot online instantly.</p>
+                  </div>
+                </div>
+                <Link to="/book" className={s.bookingCtaBtn}>
+                  Schedule Session <ArrowRight size={16} />
+                </Link>
+              </div>
+            </motion.div>
           </motion.div>
 
           {/* ── FORM ── */}
