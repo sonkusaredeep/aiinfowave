@@ -1182,3 +1182,177 @@
     padding: 60px 24px;
   }
 }
+
+/* ================================================================
+   BOOKING CTA CARD ON HOME PAGE — PREMIUM REDESIGN
+   ================================================================ */
+.bookingCta {
+  max-width: 540px;
+  margin: 48px auto 0;
+  background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 
+    0 20px 40px rgba(15, 23, 42, 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.1) inset;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.bookingCta:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 199, 44, 0.45);
+  box-shadow: 
+    0 30px 60px rgba(15, 23, 42, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.15) inset,
+    0 0 30px rgba(255, 199, 44, 0.08);
+}
+
+.bookingHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.bookingIconContainer {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 199, 44, 0.12);
+  border: 1px solid rgba(255, 199, 44, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFC72C;
+  flex-shrink: 0;
+}
+
+.bookingVideoIcon {
+  color: #FFC72C;
+  filter: drop-shadow(0 0 4px rgba(255, 199, 44, 0.4));
+}
+
+.bookingLiveBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #34d399;
+}
+
+.liveDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: livePulse 2s infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.9); }
+}
+
+.bookingContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bookingTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.bookingDesc {
+  font-size: 14px;
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.bookingFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 18px 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13.5px;
+  color: #e2e8f0;
+}
+
+.featureIcon {
+  color: #FFC72C;
+  flex-shrink: 0;
+}
+
+.bookingAction {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.bookingBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #FFC72C;
+  color: #1e3a8a;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 16px rgba(255, 199, 44, 0.25);
+}
+
+.bookingBtn:hover {
+  background: #ffd85c;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(255, 199, 44, 0.35);
+}
+
+.btnArrow {
+  transition: transform 0.2s ease;
+}
+
+.bookingBtn:hover .btnArrow {
+  transform: translateX(4px);
+}
+
+.bookingNote {
+  font-size: 11px;
+  color: rgba(203, 213, 225, 0.5);
+  text-align: center;
+  font-weight: 500;
+}

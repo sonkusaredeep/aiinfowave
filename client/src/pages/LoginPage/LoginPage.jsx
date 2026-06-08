@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import styles from './LoginPage.module.css'
 import logo from '../../assets/Logo.png'
 import authCollab from '../../assets/auth_collaborate.png'
+import { isSessionExpired } from '../../utils/sessionGuard'
 
 const API_BASE = 'http://localhost:5000/api/auth'
 
@@ -13,6 +14,18 @@ export default function LoginPage() {
   const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
+
+  // Show session-expired notice if redirected by SessionGuard
+  const sessionExpired = location.state?.sessionExpired === true
+
+  // ── Already logged in? Redirect away ─────────────────────
+  // Prevents showing the login form to a user who already has a valid session.
+  useEffect(() => {
+    if (!isSessionExpired()) {
+      navigate('/', { replace: true })
+    }
+  }, [])
 
   // Calculate dynamic Mon-Sun week dates around today
   const [currentDate, setCurrentDate] = useState(new Date())
@@ -57,6 +70,11 @@ export default function LoginPage() {
         return
       }
 
+      // ── Clear any existing session before saving new one ─────
+      // Prevents ghost-login where the old account token lingers.
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+
       localStorage.setItem('token', data.token)
       localStorage.setItem('user', JSON.stringify(data.user))
       setSuccess('Login successful! Redirecting...')
@@ -94,6 +112,25 @@ export default function LoginPage() {
           </div>
 
           <h1 className={styles.heading}>Welcome back</h1>
+
+          {/* Session expired notice */}
+          {sessionExpired && (
+            <div className={styles.errorBanner} style={{
+              background: 'linear-gradient(135deg, rgba(234,179,8,0.12), rgba(234,179,8,0.06))',
+              border: '1px solid rgba(234,179,8,0.4)',
+              color: '#92400e',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+              Your session has expired. Please log in again.
+            </div>
+          )}
 
           <AnimatePresence>
             {error && (

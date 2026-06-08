@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence, useInView } from 'framer-motion'
 import {
   ArrowRight, Microscope, Leaf, Store, GraduationCap,
-  Brain, Zap, ShieldCheck, Users, Rocket, ChevronRight, BookOpen
+  Brain, Zap, ShieldCheck, Users, Rocket, ChevronRight, BookOpen,
+  Video, Shield,
 } from 'lucide-react'
 import logo from '../../assets/Logo.png'
 import Footer from '../../components/layout/Footer/Footer'
@@ -775,6 +776,48 @@ export default function HomePage() {
             <Link to="/contact" className={s.btnWhiteOutline} id="cta-contact-btn">
               Contact Our Team
             </Link>
+          </div>
+
+          {/* Booking Consultation CTA Card */}
+          <div className={s.bookingCta}>
+            <div className={s.bookingHeader}>
+              <div className={s.bookingIconContainer}>
+                <Video size={20} className={s.bookingVideoIcon} />
+              </div>
+              <div className={s.bookingLiveBadge}>
+                <span className={s.liveDot} />
+                Live Sessions Available
+              </div>
+            </div>
+
+            <div className={s.bookingContent}>
+              <h4 className={s.bookingTitle}>Book a Live Consultation</h4>
+              <p className={s.bookingDesc}>
+                Face-to-face video call with our scientific experts — pick a time that works for you.
+              </p>
+            </div>
+
+            <div className={s.bookingFeatures}>
+              <div className={s.featureItem}>
+                <Zap size={14} className={s.featureIcon} />
+                <span>Instant confirmation</span>
+              </div>
+              <div className={s.featureItem}>
+                <Users size={14} className={s.featureIcon} />
+                <span>Expert team</span>
+              </div>
+              <div className={s.featureItem}>
+                <Shield size={14} className={s.featureIcon} />
+                <span>Free first session</span>
+              </div>
+            </div>
+
+            <div className={s.bookingAction}>
+              <Link to="/book" className={s.bookingBtn}>
+                Schedule Session <ArrowRight size={16} className={s.btnArrow} />
+              </Link>
+              <span className={s.bookingNote}>No credit card required</span>
+            </div>
           </div>
         </div>
       </div>

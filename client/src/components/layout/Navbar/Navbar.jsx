@@ -35,7 +35,8 @@ export default function Navbar() {
     localStorage.removeItem('user')
     setUser(null)
     setDropdownOpen(false)
-    window.location.reload()
+    // Navigate to login cleanly — no reload so React state is fully reset
+    navigate('/login', { replace: true })
   }
 
   const handleCtaClick = (e) => {

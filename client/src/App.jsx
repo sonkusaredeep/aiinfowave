@@ -16,11 +16,14 @@ import InternshipPage from './pages/InternshipPage/InternshipPage'
 import InternshipAdminPage from './pages/AdminDashboard/InternshipAdminPage'
 import BookingPage from './pages/BookingPage/BookingPage'
 import ScrollToTop from './components/ScrollToTop'
+import SessionGuard from './components/SessionGuard'
 
 export default function App() {
   return (
     <>
       <ScrollToTop />
+      {/* Enforces 1-hour session limit on every route change and tab focus */}
+      <SessionGuard />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
@@ -44,3 +47,4 @@ export default function App() {
     </>
   )
 }
+

@@ -21,10 +21,10 @@ const CONTACT_INFO = [
   {
     icon: <Mail size={22} />,
     label: 'Email Us',
-    value: 'princetandel947@gmail.com',
+    value: 'hrmanager@aiinfowave.com',
     sub: 'We reply within 24 hours',
     accent: '#2563eb',
-    href: 'https://mail.google.com/mail/?view=cm&fs=1&to=princetandel947@gmail.com&su=Inquiry%20from%20Website',
+    href: 'https://mail.google.com/mail/?view=cm&fs=1&to=hrmanager@aiinfowave.com&su=Inquiry%20from%20Website',
   },
   {
     icon: <Phone size={22} />,
@@ -162,20 +162,8 @@ export default function ContactPage() {
             </motion.div>
 
             {/* Booking Consultation CTA Card */}
-            <motion.div variants={fadeUp} className={s.bookingCta}>
-              <div className={s.bookingCtaGlow} />
-              <div className={s.bookingCtaContent}>
-                <div className={s.bookingCtaHeader}>
-                  <div className={s.bookingCtaEmoji}>🗓</div>
-                  <div>
-                    <h4 className={s.bookingCtaTitle}>Book a Live Consultation</h4>
-                    <p className={s.bookingCtaDesc}>Prefer a live face-to-face video session? Choose a slot online instantly.</p>
-                  </div>
-                </div>
-                <Link to="/book" className={s.bookingCtaBtn}>
-                  Schedule Session <ArrowRight size={16} />
-                </Link>
-              </div>
+            <motion.div variants={fadeUp} className={s.bookingCta} style={{ display: 'none' }}>
+              {/* Removed from Contact Page */}
             </motion.div>
           </motion.div>
 

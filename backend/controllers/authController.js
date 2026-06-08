@@ -31,9 +31,9 @@ const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
-// Sign a JWT token that expires in 1 day
+// Sign a JWT token that expires in 1 hour
 const signToken = (userId) =>
-  jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '1d' });
+  jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
 // ─────────────────────────────────────────────────────────────
 // @route  POST /api/auth/register
