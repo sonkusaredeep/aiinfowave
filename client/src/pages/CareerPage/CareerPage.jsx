@@ -915,7 +915,7 @@ export default function CareerPage() {
                   <div className={s.modalFooterRight}>
                     <div className={s.modalShareNote}>
                       <Send size={14} />
-                      <span>Direct Apply: <strong>princetandel947@gmail.com</strong></span>
+                      <span>Direct Apply: <strong>hrmanager@aiinfowave.com</strong></span>
                     </div>
                     <button
                       onClick={() => handleApplyClick(selectedJob)}
@@ -1068,13 +1068,12 @@ export default function CareerPage() {
                   {/* Row 2: Phone + LinkedIn */}
                   <div className={s.applyGrid2}>
                     <div className={s.applyInputGroup}>
-                      <label>Phone Number <span className={s.req}>*</span></label>
+                      <label>Phone Number <span style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 400 }}>(optional)</span></label>
                       <input
                         type="tel"
                         placeholder="+1 234 567 890"
-                        {...register('phone', { required: 'Phone is required' })}
+                        {...register('phone')}
                       />
-                      {errors.phone && <span className={s.applyError}>{errors.phone.message}</span>}
                     </div>
                     <div className={s.applyInputGroup}>
                       <label>LinkedIn URL</label>
