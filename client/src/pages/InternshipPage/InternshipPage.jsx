@@ -191,7 +191,7 @@ export default function InternshipPage() {
   const handleApplyClick = () => {
     const token = localStorage.getItem('token');
     if (!token) {
-      navigate('/login');
+      navigate('/login', { state: { from: '/internship' } });
     } else {
       setIsModalOpen(true);
     }
@@ -743,7 +743,7 @@ export default function InternshipPage() {
                   onClick={() => {
                     const token = localStorage.getItem('token');
                     if (!token) {
-                      navigate('/login');
+                      navigate('/login', { state: { from: '/internship' } });
                     } else {
                       setValue('internshipRole', selectedTrack.title);
                       setIsModalOpen(true);

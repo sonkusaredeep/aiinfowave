@@ -1,18 +1,19 @@
 import { useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { checkSession, msUntilExpiry, clearSession } from '../utils/sessionGuard'
+import { isSessionExpired, msUntilExpiry, clearSession } from '../utils/sessionGuard'
 
 /**
  * SessionGuard
  * ─────────────────────────────────────────────────────────────
  * Drop this component once inside your app tree (e.g., in Layout).
- * It does two things:
  *
- * 1. On every navigation (route change) it checks whether the
- *    stored JWT has expired.  If yes → clear storage → /login.
- *
- * 2. It schedules a precise timer to auto-logout the user exactly
- *    when the token expires, even if they sit idle on a page.
+ * Behaviour:
+ * - ALL pages are publicly accessible without login.
+ * - If a user IS logged in and their token expires, they are
+ *   auto-logged out and redirected to /login.
+ * - Unauthenticated visitors can browse freely; login is only
+ *   required when they attempt a protected ACTION (booking,
+ *   applying, etc.) — enforced inside those individual pages.
  * ─────────────────────────────────────────────────────────────
  */
 export default function SessionGuard() {
@@ -20,13 +21,12 @@ export default function SessionGuard() {
   const location = useLocation()
   const timerRef = useRef(null)
 
-  // ── Helper: set/reset the auto-logout timer ────────────────
+  // ── Helper: schedule auto-logout when token will expire ───
   const scheduleAutoLogout = () => {
-    // Clear any existing timer
     if (timerRef.current) clearTimeout(timerRef.current)
 
     const ms = msUntilExpiry()
-    if (ms <= 0) return // already expired — route-change check handles it
+    if (ms <= 0) return
 
     timerRef.current = setTimeout(() => {
       clearSession()
@@ -37,21 +37,37 @@ export default function SessionGuard() {
     }, ms)
   }
 
-  // ── Check session on every route change ───────────────────
+  // ── On every route change: only act if user IS logged in ──
   useEffect(() => {
-    const valid = checkSession(navigate, location.pathname)
-    if (valid) {
+    const token = localStorage.getItem('token')
+    if (!token) return // no session → nothing to guard
+
+    if (isSessionExpired()) {
+      // Session was active but has now expired
+      clearSession()
+      const authPaths = ['/login', '/register', '/verify-email', '/forgot-password', '/auth/google/callback']
+      const isAuthPage = authPaths.some(p => location.pathname.startsWith(p))
+      if (!isAuthPage) {
+        navigate('/login', { replace: true, state: { sessionExpired: true } })
+      }
+    } else {
       scheduleAutoLogout()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname])
 
   // ── Also check when the tab regains focus ─────────────────
-  // (covers the case where the user leaves the tab open for hours)
   useEffect(() => {
     const handleFocus = () => {
-      const valid = checkSession(navigate, location.pathname)
-      if (valid) scheduleAutoLogout()
+      const token = localStorage.getItem('token')
+      if (!token) return
+
+      if (isSessionExpired()) {
+        clearSession()
+        navigate('/login', { replace: true, state: { sessionExpired: true } })
+      } else {
+        scheduleAutoLogout()
+      }
     }
     window.addEventListener('focus', handleFocus)
     return () => window.removeEventListener('focus', handleFocus)

@@ -78,7 +78,9 @@ export default function LoginPage() {
       localStorage.setItem('token', data.token)
       localStorage.setItem('user', JSON.stringify(data.user))
       setSuccess('Login successful! Redirecting...')
-      setTimeout(() => navigate('/'), 1500)
+      // Redirect back to the page they were trying to access, or home
+      const redirectTo = location.state?.from || '/'
+      setTimeout(() => navigate(redirectTo, { replace: true }), 1500)
     } catch (err) {
       setError('Unable to connect to the server. Please try again later.')
     } finally {
@@ -88,6 +90,10 @@ export default function LoginPage() {
 
   // Redirect to backend Google OAuth flow
   const handleGoogleLogin = () => {
+    // Store the intended destination so the callback can redirect properly
+    if (location.state?.from) {
+      sessionStorage.setItem('loginRedirectTo', location.state.from)
+    }
     window.location.href = `${API_BASE}/google`
   }
 
