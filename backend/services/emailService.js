@@ -12,7 +12,7 @@ const { Resend } = require('resend');
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Who emails are sent FROM (set in .env)
-const FROM = process.env.RESEND_FROM || 'AI InfoWave <onboarding@resend.dev>';
+const FROM = process.env.RESEND_FROM || 'AI InfoWave <hrmanager@aiinfowave.com>';
 
 // ─────────────────────────────────────────────────────────────
 // HELPER: send a single email via Resend

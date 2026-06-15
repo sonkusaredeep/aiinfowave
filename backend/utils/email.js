@@ -18,7 +18,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const sendEmail = async (options) => {
   try {
     const { data, error } = await resend.emails.send({
-      from: process.env.RESEND_FROM || 'AI InfoWave <onboarding@resend.dev>',
+      from: process.env.RESEND_FROM || 'AI InfoWave <hrmanager@aiinfowave.com>',
       to: options.to,
       subject: options.subject,
       html: options.html,

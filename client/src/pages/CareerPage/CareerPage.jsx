@@ -551,7 +551,7 @@ export default function CareerPage() {
   const handleApplyClick = (job) => {
     const token = localStorage.getItem('token')
     if (!token) {
-      navigate('/login')
+      navigate('/login', { state: { from: '/career' } })
       return
     }
     setApplyingForJob(job)
