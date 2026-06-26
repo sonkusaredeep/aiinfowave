@@ -407,9 +407,9 @@ export default function BookingPage() {
                         </div>
 
                         <div className={s.fieldGroup}>
-                          <label className={s.label} htmlFor="phone">Phone Number *</label>
+                          <label className={s.label} htmlFor="phone">Phone Number</label>
                           <input
-                            id="phone" name="phone" type="tel" required
+                            id="phone" name="phone" type="tel"
                             className={s.input} placeholder="+1 (555) 019-2834"
                             value={form.phone} onChange={handleInputChange}
                           />
@@ -459,7 +459,7 @@ export default function BookingPage() {
                       <button 
                         className={s.btnNext} 
                         onClick={handleFormSubmit}
-                        disabled={submitLoading || !form.name || !form.email || !form.phone}
+                        disabled={submitLoading || !form.name || !form.email}
                         type="button"
                       >
                         {submitLoading ? 'Scheduling...' : 'Confirm Booking'}

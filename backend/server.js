@@ -21,7 +21,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'aiinfowave_session_fallback',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false }, // set to true in production with HTTPS
+  cookie: { secure: process.env.NODE_ENV === 'production' }, // true in prod (HTTPS), false in dev
 }));
 
 // ── Passport Setup ────────────────────────────────────────────
