@@ -546,6 +546,7 @@ export default function CareerPage() {
   const [applyingForJob, setApplyingForJob] = useState(null)
   const [resumeFile, setResumeFile] = useState(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showSuccessBox, setShowSuccessBox] = useState(false)
 
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm()
 
@@ -611,14 +612,20 @@ export default function CareerPage() {
       await axios.post(`${JOB_API_URL}/apply`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
-      toast.success('Application submitted! We\'ll be in touch soon.')
       closeApplyModal()
+      setShowSuccessBox(true)
+
+      // Auto-close success modal after 5 seconds
+      setTimeout(() => {
+        setShowSuccessBox(false)
+      }, 5000)
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to submit application.')
     } finally {
       setIsSubmitting(false)
     }
   }
+
 
   const filtered = activeDept === 'All'
     ? JOBS
@@ -1138,7 +1145,35 @@ export default function CareerPage() {
             </motion.div>
           </div>
         )}
+
+        {showSuccessBox && (
+          <div className={s.successModalOverlay} onClick={() => setShowSuccessBox(false)}>
+            <motion.div 
+              className={s.successModalBox}
+              onClick={e => e.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 30 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 250 }}
+            >
+              <button className={s.successCloseBtn} onClick={() => setShowSuccessBox(false)}>
+                <X size={20} />
+              </button>
+              <div className={s.successIconCircle}>
+                <CheckCircle2 size={36} />
+              </div>
+              <h2 className={s.successTitle}>Application Submitted!</h2>
+              <p className={s.successText}>
+                Your application has been received successfully. We have sent a confirmation email to you. Our engineering team will review it and get back to you shortly.
+              </p>
+              <button className={s.successOkBtn} onClick={() => setShowSuccessBox(false)}>
+                Great, thanks!
+              </button>
+            </motion.div>
+          </div>
+        )}
       </AnimatePresence>
     </div>
   )
 }
+
