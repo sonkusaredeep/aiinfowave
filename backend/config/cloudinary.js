@@ -34,22 +34,31 @@ const resolveFormat = (mimetype) => {
 // ── Internship resume storage (folder: internship_resumes) ──
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: async (req, file) => ({
-    folder: 'internship_resumes',
-    format: resolveFormat(file.mimetype),
-    public_id: `${Date.now()}-${file.originalname.replace(/\.[^/.]+$/, '')}`
-  }),
+  params: async (req, file) => {
+    const ext = resolveFormat(file.mimetype);
+    const baseName = file.originalname.replace(/\.[^/.]+$/, '');
+    return {
+      folder: 'internship_resumes',
+      public_id: `${Date.now()}-${baseName}.${ext}`,
+      resource_type: 'raw'
+    };
+  },
 });
 
 // ── Job application resume storage (folder: job_resumes) ──
 const jobStorage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: async (req, file) => ({
-    folder: 'job_resumes',
-    format: resolveFormat(file.mimetype),
-    public_id: `${Date.now()}-${file.originalname.replace(/\.[^/.]+$/, '')}`
-  }),
+  params: async (req, file) => {
+    const ext = resolveFormat(file.mimetype);
+    const baseName = file.originalname.replace(/\.[^/.]+$/, '');
+    return {
+      folder: 'job_resumes',
+      public_id: `${Date.now()}-${baseName}.${ext}`,
+      resource_type: 'raw'
+    };
+  },
 });
+
 
 // ── Multer instances (2 MB limit) ──────────────────────────
 const upload = multer({
