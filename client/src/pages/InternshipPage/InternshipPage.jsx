@@ -187,6 +187,7 @@ export default function InternshipPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState(null);
+  const [showSuccessBox, setShowSuccessBox] = useState(false);
 
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm();
 
@@ -243,16 +244,22 @@ export default function InternshipPage() {
       await axios.post(`${API_URL}/apply`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
-      toast.success('Application submitted successfully!');
+      setIsModalOpen(false);
       reset();
       removeFile();
-      setIsModalOpen(false);
+      setShowSuccessBox(true);
+      
+      // Auto-close success modal after 5 seconds
+      setTimeout(() => {
+        setShowSuccessBox(false);
+      }, 5000);
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to submit application.');
     } finally {
       setIsSubmitting(false);
     }
   };
+
 
   return (
     <div className={styles.page}>
@@ -759,7 +766,36 @@ export default function InternshipPage() {
             </motion.div>
           </div>
         )}
+
+        {showSuccessBox && (
+          <div className={styles.successModalOverlay} onClick={() => setShowSuccessBox(false)}>
+            <motion.div 
+              className={styles.successModalBox}
+              onClick={e => e.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 30 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 250 }}
+            >
+              <button className={styles.successCloseBtn} onClick={() => setShowSuccessBox(false)}>
+                <X size={20} />
+              </button>
+              <div className={styles.successIconCircle}>
+                <CheckCircle2 size={36} />
+              </div>
+              <h2 className={styles.successTitle}>Application Submitted!</h2>
+              <p className={styles.successText}>
+                Your application has been received successfully. We have sent a confirmation email to you. Our engineering team will review it and get back to you shortly.
+              </p>
+              <button className={styles.successOkBtn} onClick={() => setShowSuccessBox(false)}>
+                Great, thanks!
+              </button>
+            </motion.div>
+          </div>
+        )}
       </AnimatePresence>
+
     </div>
   );
 }
+
