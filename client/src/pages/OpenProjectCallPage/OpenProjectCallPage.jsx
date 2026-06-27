@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import Footer from '../../components/layout/Footer/Footer'
 import s from './OpenProjectCallPage.module.css'
+import { API_BASE_URL } from '../../config'
 
 /* ── Animation variants ── */
 const fadeUp = {
@@ -178,14 +179,34 @@ export default function OpenProjectCallPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    const token = localStorage.getItem('token')
+    if (!token) {
+      navigate('/login', { state: { from: '/open-project-call' } })
+      return
+    }
+
     setLoading(true)
     setErrorMsg('')
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 1200))
-      setSubmitted(true)
-    } catch {
-      setErrorMsg('Submission failed. Please contact support.')
+      const response = await fetch(`${API_BASE_URL}/api/project-call/submit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(form)
+      })
+
+      const data = await response.json()
+
+      if (response.ok && data.success) {
+        setSubmitted(true)
+      } else {
+        setErrorMsg(data.message || 'Submission failed. Please contact support.')
+      }
+    } catch (err) {
+      setErrorMsg('Unable to connect to the server. Please try again later.')
     } finally {
       setLoading(false)
     }

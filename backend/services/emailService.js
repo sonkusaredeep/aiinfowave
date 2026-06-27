@@ -563,6 +563,144 @@ const sendBookingAdminNotification = async ({ name, email, phone, service, date,
 };
 
 // ─────────────────────────────────────────────────────────────
+// 10. PROJECT CALL CONFIRMATION (to applicant)
+// ─────────────────────────────────────────────────────────────
+const sendProjectCallConfirmation = async ({ email, name, projectTitle }) => {
+  const html = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8"/>
+    <style>
+      body { margin:0; padding:0; background:#f4f7ff; font-family:'Segoe UI',Arial,sans-serif; }
+      .wrap { max-width:560px; margin:40px auto; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(37,99,235,.10); }
+      .header { background:linear-gradient(135deg,#2563eb,#7c3aed); padding:40px 40px 32px; text-align:center; }
+      .header h1 { margin:0; color:#fff; font-size:26px; font-weight:700; }
+      .header p { margin:8px 0 0; color:rgba(255,255,255,.8); font-size:14px; }
+      .body { padding:40px; }
+      .hi { font-size:18px; font-weight:600; color:#0f172a; margin:0 0 16px; }
+      .text { font-size:15px; color:#475569; line-height:1.7; margin:0 0 24px; }
+      .details-box { background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin-bottom:24px; }
+      .detail-row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #f1f5f9; }
+      .detail-row:last-child { border-bottom:none; }
+      .detail-label { font-weight:600; color:#64748b; font-size:13px; }
+      .detail-val { color:#0f172a; font-size:14px; font-weight:500; }
+      .note { background:#fff7ed; border-left:4px solid #f59e0b; border-radius:4px; padding:14px; font-size:13px; color:#92400e; }
+      .footer { background:#f8fafc; border-top:1px solid #e2e8f0; padding:24px 40px; text-align:center; font-size:12px; color:#94a3b8; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="header">
+        <h1>Project Application Received! 🚀</h1>
+        <p>AI InfoWave Open Project Call</p>
+      </div>
+      <div class="body">
+        <p class="hi">Dear ${name},</p>
+        <p class="text">
+          Thank you for submitting your research proposal to the AI InfoWave Open Project Call. Our scientific committee and computational infrastructure team will review your proposal under strict NDA guidelines.
+        </p>
+        <div class="details-box">
+          <div class="detail-row">
+            <div class="detail-label">Project Title</div>
+            <div class="detail-val">${projectTitle}</div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-label">Submission Status</div>
+            <div class="detail-val">Under Review</div>
+          </div>
+        </div>
+        <div class="note">
+          🔒 Our team will contact you within 3–5 business days to discuss potential alignment and infrastructure support.
+        </div>
+      </div>
+      <div class="footer">
+        &copy; ${new Date().getFullYear()} AI InfoWave. All rights reserved.<br/>
+        If you have any questions, please reply directly to this email.
+      </div>
+    </div>
+  </body>
+  </html>`;
+
+  await sendMail({
+    to: email,
+    subject: `Project Proposal Received: ${projectTitle} — AI InfoWave`,
+    html,
+  });
+};
+
+// ─────────────────────────────────────────────────────────────
+// 11. PROJECT CALL NOTIFICATION (to admin)
+// ─────────────────────────────────────────────────────────────
+const sendProjectCallNotification = async ({ name, email, institution, title, researchArea, summary, timeline }) => {
+  const html = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8"/>
+    <style>
+      body { margin:0; padding:0; background:#f4f7ff; font-family:'Segoe UI',Arial,sans-serif; }
+      .wrap { max-width:600px; margin:40px auto; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(37,99,235,.10); }
+      .header { background:linear-gradient(135deg,#0f172a,#1e3a8a); padding:32px 40px; }
+      .header h1 { margin:0; color:#fff; font-size:22px; font-weight:700; }
+      .header p { margin:6px 0 0; color:rgba(255,255,255,.65); font-size:13px; }
+      .body { padding:40px; }
+      .field { margin-bottom:18px; }
+      .label { font-size:11px; font-weight:700; text-transform:uppercase; color:#94a3b8; letter-spacing:1px; }
+      .value { font-size:15px; color:#0f172a; margin-top:4px; font-weight:500; }
+      .msg-box { background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin-top:20px; }
+      .msg-box .label { margin-bottom:8px; }
+      .msg-text { font-size:14px; color:#334155; line-height:1.6; white-space:pre-wrap; }
+      .footer { background:#f8fafc; border-top:1px solid #e2e8f0; padding:20px 40px; text-align:center; font-size:12px; color:#94a3b8; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="header">
+        <h1>🔬 New Project Call Submission</h1>
+        <p>AI InfoWave Website · ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST</p>
+      </div>
+      <div class="body">
+        <div class="field">
+          <div class="label">Researcher Name</div>
+          <div class="value">${name}</div>
+        </div>
+        <div class="field">
+          <div class="label">Contact Info</div>
+          <div class="value">Email: ${email} | Institution: ${institution}</div>
+        </div>
+        <div class="field">
+          <div class="label">Project Title</div>
+          <div class="value">${title}</div>
+        </div>
+        <div class="field">
+          <div class="label">Research Area</div>
+          <div class="value">${researchArea}</div>
+        </div>
+        <div class="field">
+          <div class="label">Proposed Timeline</div>
+          <div class="value">${timeline}</div>
+        </div>
+        <div class="msg-box">
+          <div class="label">Project Abstract & Infrastructure Requirements</div>
+          <div class="msg-text">${summary}</div>
+        </div>
+      </div>
+      <div class="footer">
+        Reply to ${email} to communicate with the researcher.
+      </div>
+    </div>
+  </body>
+  </html>`;
+
+  await sendMail({
+    to: process.env.ADMIN_EMAIL,
+    subject: `[Project Call] ${title} — ${name}`,
+    html,
+  });
+};
+
+// ─────────────────────────────────────────────────────────────
 // EXPORTS
 // ─────────────────────────────────────────────────────────────
 module.exports = {
@@ -575,5 +713,8 @@ module.exports = {
   sendJobNotification,
   sendBookingConfirmation,
   sendBookingAdminNotification,
+  sendProjectCallConfirmation,
+  sendProjectCallNotification,
 };
+
 

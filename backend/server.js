@@ -98,12 +98,15 @@ const contactRoutes = require('./routes/contact');
 const internshipRoutes = require('./routes/internships');
 const jobRoutes = require('./routes/jobs');
 const bookingRoutes = require('./routes/booking');
+const projectCallRoutes = require('./routes/projectCall');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/internships', internshipRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/project-call', projectCallRoutes);
+
 
 // ── MongoDB Atlas connection ───────────────────────────────────
 mongoose
