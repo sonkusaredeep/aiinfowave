@@ -10,8 +10,10 @@ import {
   Zap, Star, Target, Laptop, Server, Layers, Palette, Cpu, BarChart2, BookOpen, TrendingUp
 } from 'lucide-react';
 import styles from './InternshipPage.module.css';
+import { API_BASE_URL } from '../../config';
 
-const API_URL = 'http://localhost:5000/api/internships';
+const API_URL = `${API_BASE_URL}/api/internships`;
+
 
 const TRACKS = [
   {

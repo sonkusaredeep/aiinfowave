@@ -3,8 +3,10 @@ import axios from 'axios';
 import { toast, Toaster } from 'react-hot-toast';
 import { Search, Filter, Download, ExternalLink } from 'lucide-react';
 import styles from './InternshipAdminPage.module.css';
+import { API_BASE_URL } from '../../config';
 
-const API_URL = 'http://localhost:5000/api/internships';
+const API_URL = `${API_BASE_URL}/api/internships`;
+
 
 export default function InternshipAdminPage() {
   const [applications, setApplications] = useState([]);

@@ -7,6 +7,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom'
 import Footer from '../../components/layout/Footer/Footer'
 import s from './ContactPage.module.css'
+import { API_BASE_URL } from '../../config'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 32 },
@@ -75,7 +76,7 @@ export default function ContactPage() {
     setErrorMsg('')
     
     try {
-      const response = await fetch('http://localhost:5000/api/contact/submit', {
+      const response = await fetch(`${API_BASE_URL}/api/contact/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

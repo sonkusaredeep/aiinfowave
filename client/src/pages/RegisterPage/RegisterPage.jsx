@@ -4,8 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 import styles from './RegisterPage.module.css'
 import logo from '../../assets/Logo.png'
 import authCollab from '../../assets/auth_collaborate.png'
+import { API_BASE_URL } from '../../config'
 
-const API_BASE = 'http://localhost:5000/api/auth'
+const API_BASE = `${API_BASE_URL}/api/auth`
+
 
 export default function RegisterPage() {
   const [form, setForm] = useState({

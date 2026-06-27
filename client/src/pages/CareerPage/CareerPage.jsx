@@ -12,6 +12,7 @@ import axios from 'axios'
 import { toast, Toaster } from 'react-hot-toast'
 import Footer from '../../components/layout/Footer/Footer'
 import s from './CareerPage.module.css'
+import { API_BASE_URL } from '../../config'
 
 /* ── Atomic Animation Component ────────────────────── */
 function AtomicAnimation() {
@@ -332,7 +333,7 @@ const INTERNSHIP = {
   ]
 }
 
-const JOB_API_URL = 'http://localhost:5000/api/jobs';
+const JOB_API_URL = `${API_BASE_URL}/api/jobs`;
 
 /* ── Puzzle Background Component ────────────────────────── */
 function PuzzleBackground() {

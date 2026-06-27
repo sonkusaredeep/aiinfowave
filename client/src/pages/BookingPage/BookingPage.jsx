@@ -6,6 +6,7 @@ import logo from '../../assets/Logo.png'
 import authCollaborate from '../../assets/auth_collaborate.png'
 import Footer from '../../components/layout/Footer/Footer'
 import s from './BookingPage.module.css'
+import { API_BASE_URL } from '../../config'
 
 const SERVICES = [
   'Bio & Health AI Consultation',
@@ -74,7 +75,7 @@ export default function BookingPage() {
     const fetchBookedSlots = async () => {
       setLoadingSlots(true)
       try {
-        const response = await fetch(`http://localhost:5000/api/bookings/booked-slots?date=${form.date}`)
+        const response = await fetch(`${API_BASE_URL}/api/bookings/booked-slots?date=${form.date}`)
         const data = await response.json()
         if (response.ok && data.success) {
           setBookedSlots(data.bookedSlots || [])
@@ -166,7 +167,7 @@ export default function BookingPage() {
     setErrorMsg('')
     
     try {
-      const response = await fetch('http://localhost:5000/api/bookings/create', {
+      const response = await fetch(`${API_BASE_URL}/api/bookings/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

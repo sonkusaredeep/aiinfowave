@@ -3,8 +3,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import styles from './ForgotPasswordPage.module.css'
 import logo from '../../assets/Logo.png'
+import { API_BASE_URL } from '../../config'
 
-const API_BASE = 'http://localhost:5000/api/auth'
+const API_BASE = `${API_BASE_URL}/api/auth`
+
 const RESEND_COOLDOWN = 60
 
 export default function ForgotPasswordPage() {
