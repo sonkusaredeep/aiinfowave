@@ -13,20 +13,11 @@ const { sendBookingConfirmation, sendBookingAdminNotification } = require('../se
  */
 const createBooking = async (req, res) => {
   try {
-    const { name, email, phone, service, date, timeSlot, details } = req.body;
+    const { name, email, phone, service, date, timeSlot = '', details } = req.body;
 
     // Validation
-    if (!name || !email || !phone || !service || !date || !timeSlot) {
-      return res.status(400).json({ success: false, message: 'All fields (name, email, phone, service, date, timeSlot) are required.' });
-    }
-
-    // Check slot conflicts (optional safety before database insert)
-    const existing = await Booking.findOne({ service, date, timeSlot });
-    if (existing) {
-      return res.status(409).json({
-        success: false,
-        message: 'This time slot has already been booked. Please choose another slot.',
-      });
+    if (!name || !email || !phone || !service || !date) {
+      return res.status(400).json({ success: false, message: 'All fields (name, email, phone, service, date) are required.' });
     }
 
     // 1. Save booking to DB

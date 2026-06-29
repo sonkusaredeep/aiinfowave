@@ -35,7 +35,8 @@ const bookingSchema = new mongoose.Schema(
     },
     timeSlot: {
       type: String, // e.g. "10:30 AM"
-      required: true,
+      required: false,
+      default: '',
     },
     details: {
       type: String,
@@ -48,7 +49,7 @@ const bookingSchema = new mongoose.Schema(
   }
 );
 
-// Prevent double booking of the exact same slot on the same day for a service
-bookingSchema.index({ service: 1, date: 1, timeSlot: 1 }, { unique: true });
+// Index to support queries on service and date
+bookingSchema.index({ service: 1, date: 1 });
 
 module.exports = mongoose.model('Booking', bookingSchema);

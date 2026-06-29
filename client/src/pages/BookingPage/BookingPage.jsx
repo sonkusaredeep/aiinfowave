@@ -48,8 +48,6 @@ export default function BookingPage() {
   })
   
   const [currentMonthDate, setCurrentMonthDate] = useState(new Date())
-  const [bookedSlots, setBookedSlots] = useState([])
-  const [loadingSlots, setLoadingSlots] = useState(false)
   
   const [submitLoading, setSubmitLoading] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -67,31 +65,6 @@ export default function BookingPage() {
       }))
     }
   }, [])
-  
-  // ── Fetch Booked Slots when date changes ────────────────────
-  useEffect(() => {
-    if (!form.date) return
-    
-    const fetchBookedSlots = async () => {
-      setLoadingSlots(true)
-      try {
-        const response = await fetch(`${API_BASE_URL}/api/bookings/booked-slots?date=${form.date}`)
-        const data = await response.json()
-        if (response.ok && data.success) {
-          setBookedSlots(data.bookedSlots || [])
-        } else {
-          setBookedSlots([])
-        }
-      } catch (err) {
-        console.error('Failed to load booked slots', err)
-        setBookedSlots([])
-      } finally {
-        setLoadingSlots(false)
-      }
-    }
-    
-    fetchBookedSlots()
-  }, [form.date])
 
   // ── Calendar Helpers ────────────────────────────────────────
   const year = currentMonthDate.getFullYear()
@@ -133,7 +106,7 @@ export default function BookingPage() {
       monthName: MONTH_NAMES[m - 1].substring(0, 3).toUpperCase(),
       dayName: dateObj.toLocaleDateString('en-US', { weekday: 'long' }),
       fullString: dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
-      text: form.timeSlot ? `Consultation scheduled at ${form.timeSlot} ☀️` : 'Have a wonderful day! ☀️'
+      text: 'Have a wonderful day! ☀️'
     }
   }
   
@@ -146,7 +119,7 @@ export default function BookingPage() {
   
   const handleStepNext = () => {
     if (step === 1 && form.service) setStep(2)
-    else if (step === 2 && form.date && form.timeSlot) setStep(3)
+    else if (step === 2 && form.date) setStep(3)
   }
   
   const handleStepBack = () => {
@@ -218,12 +191,12 @@ export default function BookingPage() {
                   type="button"
                 >
                   <span className={s.stepNum}>Step 2</span>
-                  <span>Date & time</span>
+                  <span>Date</span>
                 </button>
                 <button 
                   className={`${s.stepButton} ${step === 3 ? s.stepButtonActive : ''}`}
-                  onClick={() => form.service && form.date && form.timeSlot && setStep(3)}
-                  disabled={!form.service || !form.date || !form.timeSlot}
+                  onClick={() => form.service && form.date && setStep(3)}
+                  disabled={!form.service || !form.date}
                   type="button"
                 >
                   <span className={s.stepNum}>Step 3</span>
@@ -270,7 +243,7 @@ export default function BookingPage() {
 
                     {step === 2 && (
                       <div className={s.calendarContainer}>
-                        <div className={s.stepHeader}>Step 2 · Date & Time</div>
+                        <div className={s.stepHeader}>Step 2 · Select Date</div>
                         
                         {/* Monthly Calendar View */}
                         <div>
@@ -340,38 +313,6 @@ export default function BookingPage() {
                             })}
                           </div>
                         </div>
-
-                        {/* Time Slot Picker */}
-                        {form.date && (
-                          <div className={s.slotsSection}>
-                            <div className={s.slotsTitle}>Available time slots</div>
-                            
-                            {loadingSlots ? (
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 0' }}>
-                                <span className={s.loadingSpinner} />
-                                <span style={{ fontSize: '13px', color: '#64748B' }}>Loading free slots...</span>
-                              </div>
-                            ) : (
-                              <div className={s.slotsGrid}>
-                                {TIME_SLOTS.map(slot => {
-                                  const isBooked = bookedSlots.includes(slot)
-                                  const isSelected = form.timeSlot === slot
-                                  return (
-                                    <button
-                                      key={slot}
-                                      className={`${s.slotBtn} ${isSelected ? s.slotBtnSelected : ''} ${isBooked ? s.slotBtnBooked : ''}`}
-                                      disabled={isBooked}
-                                      onClick={() => setForm(prev => ({ ...prev, timeSlot: slot }))}
-                                      type="button"
-                                    >
-                                      {slot}
-                                    </button>
-                                  )
-                                })}
-                              </div>
-                            )}
-                          </div>
-                        )}
                       </div>
                     )}
 
@@ -443,7 +384,7 @@ export default function BookingPage() {
                       <button 
                         className={s.btnNext} 
                         onClick={handleStepNext}
-                        disabled={step === 1 ? !form.service : (!form.date || !form.timeSlot)}
+                        disabled={step === 1 ? !form.service : !form.date}
                         type="button"
                       >
                         Next Step <ChevronRight size={16} />
