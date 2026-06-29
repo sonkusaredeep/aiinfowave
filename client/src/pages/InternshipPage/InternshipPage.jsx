@@ -192,12 +192,7 @@ export default function InternshipPage() {
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm();
 
   const handleApplyClick = () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/login', { state: { from: '/internship' } });
-    } else {
-      setIsModalOpen(true);
-    }
+    setIsModalOpen(true);
   };
 
   const handleFileChange = (e) => {
@@ -750,14 +745,9 @@ export default function InternshipPage() {
                 <button 
                   className={styles.btnDetailsApply}
                   onClick={() => {
-                    const token = localStorage.getItem('token');
-                    if (!token) {
-                      navigate('/login', { state: { from: '/internship' } });
-                    } else {
-                      setValue('internshipRole', selectedTrack.title);
-                      setIsModalOpen(true);
-                      setSelectedTrack(null);
-                    }
+                    setValue('internshipRole', selectedTrack.title);
+                    setIsModalOpen(true);
+                    setSelectedTrack(null);
                   }}
                 >
                   Apply for this Track <ArrowRight size={16} />

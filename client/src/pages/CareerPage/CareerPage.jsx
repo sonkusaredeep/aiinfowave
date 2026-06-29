@@ -551,11 +551,6 @@ export default function CareerPage() {
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm()
 
   const handleApplyClick = (job) => {
-    const token = localStorage.getItem('token')
-    if (!token) {
-      navigate('/login', { state: { from: '/career' } })
-      return
-    }
     setApplyingForJob(job)
     setValue('jobTitle', job.title)
     setValue('department', job.dept)

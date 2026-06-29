@@ -42,12 +42,7 @@ export default function Navbar() {
   const handleCtaClick = (e) => {
     e.preventDefault()
     closeMenu()
-    const token = localStorage.getItem('token')
-    if (!token) {
-      navigate('/login')
-    } else {
-      navigate('/open-project-call')
-    }
+    navigate('/open-project-call')
   }
 
   return (

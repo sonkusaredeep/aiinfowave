@@ -155,13 +155,6 @@ export default function BookingPage() {
   
   const handleFormSubmit = async (e) => {
     e.preventDefault()
-    
-    // Auth Check: Redirect to login if user is not authenticated (consistent with other features)
-    const token = localStorage.getItem('token')
-    if (!token) {
-      navigate('/login', { state: { from: '/book' } })
-      return
-    }
 
     setSubmitLoading(true)
     setErrorMsg('')
@@ -170,8 +163,7 @@ export default function BookingPage() {
       const response = await fetch(`${API_BASE_URL}/api/bookings/create`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(form)
       })

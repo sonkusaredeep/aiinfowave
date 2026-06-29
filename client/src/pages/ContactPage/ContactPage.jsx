@@ -64,13 +64,6 @@ export default function ContactPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
-    // Auth Check: Redirect to login if user is not authenticated
-    const token = localStorage.getItem('token')
-    if (!token) {
-      navigate('/login')
-      return
-    }
 
     setLoading(true)
     setErrorMsg('')

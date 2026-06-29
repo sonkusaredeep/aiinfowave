@@ -156,13 +156,6 @@ function NetworkCanvas() {
 export default function OpenProjectCallPage() {
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token) {
-      navigate('/login')
-    }
-  }, [navigate])
-
   const [form, setForm] = useState({
     name: '', email: '', institution: '', title: '',
     researchArea: '', summary: '', timeline: ''
@@ -179,11 +172,6 @@ export default function OpenProjectCallPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const token = localStorage.getItem('token')
-    if (!token) {
-      navigate('/login', { state: { from: '/open-project-call' } })
-      return
-    }
 
     setLoading(true)
     setErrorMsg('')
@@ -192,8 +180,7 @@ export default function OpenProjectCallPage() {
       const response = await fetch(`${API_BASE_URL}/api/project-call/submit`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(form)
       })

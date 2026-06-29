@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { submitProjectCall } = require('../controllers/projectCallController');
-const { protect } = require('../middleware/authMiddleware');
 
-// POST /api/project-call/submit (requires login)
-router.post('/submit', protect, submitProjectCall);
+// POST /api/project-call/submit (public endpoint)
+router.post('/submit', submitProjectCall);
 
 module.exports = router;

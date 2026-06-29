@@ -91,12 +91,7 @@ export default function ProteomicsPage() {
 
   const handleOpenProjectCallClick = (e) => {
     e.preventDefault()
-    const token = localStorage.getItem('token')
-    if (!token) {
-      navigate('/login')
-    } else {
-      navigate('/open-project-call')
-    }
+    navigate('/open-project-call')
   }
 
   useEffect(() => {
